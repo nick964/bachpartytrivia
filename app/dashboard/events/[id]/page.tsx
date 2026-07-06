@@ -16,6 +16,7 @@ import { QuestionEditor } from "@/components/editor/QuestionEditor";
 import { SendCard } from "@/components/editor/SendCard";
 import { EventSettings } from "@/components/editor/EventSettings";
 import { PremiumPoller } from "@/components/editor/PremiumPoller";
+import { DownloadVideos } from "@/components/dashboard/DownloadVideos";
 
 export const dynamic = "force-dynamic";
 
@@ -103,6 +104,11 @@ export default async function EventPage({
         <QuestionEditor event={event} questions={questions} samples={samples} />
 
         <SendCard event={event} questionCount={questions.length} />
+
+        {questions.some((q) =>
+          q.responses.some((r) => r.status === "ready")
+        ) &&
+          !event.videos_deleted_at && <DownloadVideos eventId={event.id} />}
 
         <EventSettings event={event} />
 
