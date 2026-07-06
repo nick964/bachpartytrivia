@@ -1,26 +1,89 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/*
+ * Theme tokens. Two palettes ("blush" bride edition, "navy" groom edition)
+ * are scoped by [data-theme] so any subtree can switch editions. Tailwind
+ * utilities (bg-bg, text-ink, border-line, text-primary, font-script, …)
+ * resolve through these vars.
+ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--th-bg);
+  --color-surface: var(--th-surface);
+  --color-raised: var(--th-raised);
+  --color-ink: var(--th-ink);
+  --color-soft: var(--th-soft);
+  --color-primary: var(--th-primary);
+  --color-primary-deep: var(--th-primary-deep);
+  --color-on-primary: var(--th-on-primary);
+  --color-accent: var(--th-accent);
+  --color-line: var(--th-line);
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-script: var(--font-script-var), cursive;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root,
+[data-theme="blush"] {
+  --th-bg: #fbf6f2;
+  --th-surface: #ffffff;
+  --th-raised: #fdf1ee;
+  --th-ink: #43303a;
+  --th-soft: #97808b;
+  --th-primary: #b76e79;
+  --th-primary-deep: #9d5560;
+  --th-on-primary: #ffffff;
+  --th-accent: #f2d3d8;
+  --th-line: #eedde0;
+}
+
+[data-theme="navy"] {
+  --th-bg: #0e1626;
+  --th-surface: #172440;
+  --th-raised: #1d2c4d;
+  --th-ink: #f3efe6;
+  --th-soft: #9da8bc;
+  --th-primary: #c9a24b;
+  --th-primary-deep: #b08a35;
+  --th-on-primary: #1a1508;
+  --th-accent: #22334f;
+  --th-line: #263a5c;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--th-bg);
+  color: var(--th-ink);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Tasteful micro-animation for reveal moments */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-rise {
+  animation: rise-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  60% {
+    transform: scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-pop {
+  animation: pop-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
