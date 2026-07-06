@@ -1,6 +1,8 @@
 import "server-only";
-import { SignJWT, importPKCS8 } from "jose";
+import { createPrivateKey, type KeyObject } from "node:crypto";
+import { SignJWT } from "jose";
 import { supabaseAdmin } from "@/lib/db/server";
+import { embeddedRows } from "@/lib/db/types";
 
 const API_BASE = "https://api.cloudflare.com/client/v4";
 
@@ -81,19 +83,38 @@ export async function enableDownload(
   return streamFetch(`/stream/${uid}/downloads`, { method: "POST" });
 }
 
-let signingKey: Promise<CryptoKey> | null = null;
+let signingConfig: { kid: string; key: KeyObject } | null = null;
 
-function getSigningKey(): Promise<CryptoKey> {
-  if (!signingKey) {
-    const raw = process.env.CLOUDFLARE_STREAM_SIGNING_KEY_PEM;
-    if (!raw) throw new StreamError("Stream signing key is not configured.");
-    // Cloudflare returns the key base64-encoded; accept raw PEM too.
-    const pem = raw.includes("-----BEGIN")
-      ? raw
-      : Buffer.from(raw, "base64").toString("utf-8");
-    signingKey = importPKCS8(pem.replace(/\\n/g, "\n"), "RS256");
+function getSigningConfig(): { kid: string; key: KeyObject } {
+  if (signingConfig) return signingConfig;
+
+  const rawId = process.env.CLOUDFLARE_STREAM_SIGNING_KEY_ID;
+  const rawPem = process.env.CLOUDFLARE_STREAM_SIGNING_KEY_PEM;
+  if (!rawId || !rawPem) {
+    throw new StreamError("Stream signing key is not configured.");
   }
-  return signingKey;
+
+  // Cloudflare's key-creation API returns `id`, a base64 `pem`, and a
+  // base64 `jwk`. Accept either the bare hex id or the whole JWK blob in
+  // the ID variable.
+  let kid = rawId;
+  if (!/^[a-f0-9]{16,64}$/i.test(rawId)) {
+    try {
+      const jwk = JSON.parse(Buffer.from(rawId, "base64").toString("utf-8"));
+      if (typeof jwk.kid === "string") kid = jwk.kid;
+    } catch {
+      throw new StreamError("Unrecognized Stream signing key id format.");
+    }
+  }
+
+  const pem = rawPem.includes("-----BEGIN")
+    ? rawPem
+    : Buffer.from(rawPem, "base64").toString("utf-8");
+  // createPrivateKey handles both PKCS1 (Cloudflare's format) and PKCS8.
+  const key = createPrivateKey(pem.replace(/\\n/g, "\n"));
+
+  signingConfig = { kid, key };
+  return signingConfig;
 }
 
 /**
@@ -104,15 +125,13 @@ export async function signPlaybackToken(
   uid: string,
   opts: { downloadable?: boolean; ttlSeconds?: number } = {}
 ): Promise<string> {
-  const keyId = process.env.CLOUDFLARE_STREAM_SIGNING_KEY_ID;
-  if (!keyId) throw new StreamError("Stream signing key id is not configured.");
-  const key = await getSigningKey();
+  const { kid, key } = getSigningConfig();
   return new SignJWT({
     sub: uid,
-    kid: keyId,
+    kid,
     ...(opts.downloadable ? { downloadable: true } : {}),
   })
-    .setProtectedHeader({ alg: "RS256", kid: keyId })
+    .setProtectedHeader({ alg: "RS256", kid })
     .setExpirationTime(
       Math.floor(Date.now() / 1000) + (opts.ttlSeconds ?? 60 * 60 * 6)
     )
@@ -136,14 +155,17 @@ export async function deleteEventVideos(eventId: string): Promise<number> {
     .from("questions")
     .select("id, responses(stream_video_uid)")
     .eq("event_id", eventId);
-  const uids =
-    (questions ?? [])
-      .flatMap(
-        (q: { responses: Array<{ stream_video_uid: string | null }> }) =>
-          q.responses
-      )
-      .map((r) => r.stream_video_uid)
-      .filter((u): u is string => !!u) ?? [];
+  const uids = (questions ?? [])
+    .flatMap(
+      (q: {
+        responses:
+          | { stream_video_uid: string | null }
+          | Array<{ stream_video_uid: string | null }>
+          | null;
+      }) => embeddedRows(q.responses)
+    )
+    .map((r) => r.stream_video_uid)
+    .filter((u): u is string => !!u);
   for (const uid of uids) {
     await deleteVideo(uid);
   }

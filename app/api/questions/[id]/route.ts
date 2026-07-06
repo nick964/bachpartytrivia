@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/db/server";
 import { updateQuestionSchema } from "@/lib/validation";
 import { getOwnedEvent, jsonError, requireUser } from "@/lib/api/guards";
-import type { QuestionRow, ResponseRow } from "@/lib/db/types";
+import {
+  embeddedRows,
+  type QuestionRow,
+  type ResponseRow,
+} from "@/lib/db/types";
 
 async function getOwnedQuestion(questionId: string, userId: string) {
   const { data, error } = await supabaseAdmin()
@@ -13,7 +17,12 @@ async function getOwnedQuestion(questionId: string, userId: string) {
   if (error || !data) {
     return { error: jsonError("Question not found.", 404) };
   }
-  const question = data as QuestionRow & { responses: ResponseRow[] };
+  const question = {
+    ...(data as QuestionRow),
+    responses: embeddedRows(
+      (data as { responses: ResponseRow | ResponseRow[] | null }).responses
+    ),
+  };
   const owned = await getOwnedEvent(question.event_id, userId);
   if ("error" in owned) return { error: jsonError("Question not found.", 404) };
   return { question };

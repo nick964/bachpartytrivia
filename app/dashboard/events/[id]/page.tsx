@@ -2,10 +2,12 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
 import { supabaseAdmin } from "@/lib/db/server";
-import type {
-  EventRow,
-  QuestionWithResponse,
-  SampleQuestionRow,
+import {
+  embeddedRows,
+  type EventRow,
+  type QuestionWithResponse,
+  type ResponseRow,
+  type SampleQuestionRow,
 } from "@/lib/db/types";
 import { normalizeTheme } from "@/lib/theme";
 import { ThemeScope } from "@/components/theme/ThemeContext";
@@ -51,7 +53,10 @@ export default async function EventPage({
       .order("sort_hint", { ascending: true }),
   ]);
 
-  const questions = (questionRows ?? []) as QuestionWithResponse[];
+  const questions: QuestionWithResponse[] = (questionRows ?? []).map((row) => ({
+    ...(row as QuestionWithResponse),
+    responses: embeddedRows(row.responses as ResponseRow | ResponseRow[] | null),
+  }));
   const samples = (sampleRows ?? []) as SampleQuestionRow[];
 
   return (

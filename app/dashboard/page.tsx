@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
 import { supabaseAdmin } from "@/lib/db/server";
-import type { EventRow } from "@/lib/db/types";
+import { embeddedRows, type EventRow } from "@/lib/db/types";
 import { EventStatusBadge } from "@/components/dashboard/EventStatusBadge";
 import { CreateEventForm } from "@/components/dashboard/CreateEventForm";
 
@@ -33,11 +33,13 @@ async function getEvents(userId: string) {
   for (const q of (questions ?? []) as Array<{
     id: string;
     event_id: string;
-    responses: Array<{ status: string }>;
+    responses: { status: string } | Array<{ status: string }> | null;
   }>) {
     const p = (progress[q.event_id] ??= { questionIds: [], readyIds: [] });
     p.questionIds.push(q.id);
-    if (q.responses.some((r) => r.status === "ready")) p.readyIds.push(q.id);
+    if (embeddedRows(q.responses).some((r) => r.status === "ready")) {
+      p.readyIds.push(q.id);
+    }
   }
   return { rows, progress };
 }

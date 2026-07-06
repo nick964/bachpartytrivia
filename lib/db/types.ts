@@ -74,3 +74,13 @@ export interface SampleQuestionRow {
 export type QuestionWithResponse = QuestionRow & {
   responses: ResponseRow[];
 };
+
+/**
+ * responses.question_id is UNIQUE, so PostgREST embeds `responses` as a
+ * to-one object (or null) rather than an array. Normalize to an array so
+ * app code has one shape.
+ */
+export function embeddedRows<T>(value: T | T[] | null | undefined): T[] {
+  if (value == null) return [];
+  return Array.isArray(value) ? value : [value];
+}
