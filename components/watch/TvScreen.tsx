@@ -170,7 +170,7 @@ export function TvSlides({
               Bach Party Trivia
             </span>
             <span className="label-caps block text-[10px] text-soft">
-              A modern heirloom experience
+              Party Games For The Bach!
             </span>
           </span>
         </div>

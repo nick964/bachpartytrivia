@@ -34,6 +34,30 @@ const steps = [
   },
 ];
 
+/** CTA that sends new visitors to sign-up and signed-in hosts to their events. */
+function AuthCta({
+  className,
+  children,
+}: {
+  className: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <Show when="signed-out">
+        <Link href="/sign-up" className={className}>
+          {children}
+        </Link>
+      </Show>
+      <Show when="signed-in">
+        <Link href="/dashboard" className={className}>
+          {children}
+        </Link>
+      </Show>
+    </>
+  );
+}
+
 function Sparkle({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
@@ -123,12 +147,9 @@ export default function LandingPage() {
             </em>
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-4">
-            <Link
-              href="/sign-up"
-              className="label-caps bg-primary px-10 py-4 text-xs text-on-primary shadow-md transition hover:bg-primary-deep active:scale-95"
-            >
+            <AuthCta className="label-caps bg-primary px-10 py-4 text-xs text-on-primary shadow-md transition hover:bg-primary-deep active:scale-95">
               Create your game
-            </Link>
+            </AuthCta>
             <span className="text-sm italic text-soft">
               5 questions free · no card needed
             </span>
@@ -228,12 +249,9 @@ export default function LandingPage() {
                   host
                 </li>
               </ul>
-              <Link
-                href="/sign-up"
-                className="label-caps mt-10 block border border-primary px-6 py-3.5 text-center text-[11px] text-primary transition hover:bg-primary hover:text-on-primary"
-              >
+              <AuthCta className="label-caps mt-10 block border border-primary px-6 py-3.5 text-center text-[11px] text-primary transition hover:bg-primary hover:text-on-primary">
                 Start free
-              </Link>
+              </AuthCta>
             </div>
             {/* Premium */}
             <div className="double-keyline relative flex h-full flex-col p-8 shadow-xl sm:p-10">
@@ -267,12 +285,9 @@ export default function LandingPage() {
                   <span className="text-gold">✓</span> One less thing to plan ✨
                 </li>
               </ul>
-              <Link
-                href="/sign-up"
-                className="label-caps mt-10 block bg-primary px-6 py-3.5 text-center text-[11px] text-on-primary transition hover:bg-primary-deep"
-              >
+              <AuthCta className="label-caps mt-10 block bg-primary px-6 py-3.5 text-center text-[11px] text-on-primary transition hover:bg-primary-deep">
                 Get premium
-              </Link>
+              </AuthCta>
             </div>
           </div>
         </div>
@@ -315,7 +330,7 @@ export default function LandingPage() {
           </span>
         </span>
         <p className="mt-5 text-xs italic text-soft">
-          A modern heirloom experience · videos auto-delete 30 days after the
+          Party Games For The Bach! · videos auto-delete 30 days after the
           party · made with love ♡
         </p>
       </footer>

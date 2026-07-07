@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import type { EventRow } from "@/lib/db/types";
 import { TvSlides } from "@/components/watch/TvScreen";
 import {
@@ -10,13 +10,11 @@ import {
 } from "@/components/watch/useLivePlayback";
 import { usePlaybackControl } from "@/components/watch/usePlaybackControl";
 
-const HIDE_AFTER_MS = 4000;
-
 /**
  * Solo / cast mode: one phone mirrored to the TV runs the whole show.
  * Renders the full TV presentation with a game-master control bar overlaid;
- * the controls fade out after a few seconds so guests only see the show,
- * and any tap brings them back.
+ * the controls stay pinned so right/wrong/skip are reachable at any moment
+ * of the video.
  */
 export function SoloScreen({
   event,
@@ -36,33 +34,10 @@ export function SoloScreen({
     state
   );
 
-  const [visible, setVisible] = useState(true);
-  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
   const onTitle = view.index <= 0 || questions.length === 0;
   const onEnd = !onTitle && view.index > questions.length;
   const question = !onTitle && !onEnd ? questions[view.index - 1] : null;
   const verdict = question ? view.tally[question.id] : undefined;
-
-  const poke = useCallback(() => {
-    setVisible(true);
-    if (hideTimer.current) clearTimeout(hideTimer.current);
-    hideTimer.current = setTimeout(() => setVisible(false), HIDE_AFTER_MS);
-  }, []);
-
-  // Controls start visible, then fade; the title slide keeps them pinned
-  // since nothing is playing yet.
-  useEffect(() => {
-    if (onTitle) {
-      if (hideTimer.current) clearTimeout(hideTimer.current);
-      setVisible(true);
-    } else {
-      poke();
-    }
-    return () => {
-      if (hideTimer.current) clearTimeout(hideTimer.current);
-    };
-  }, [onTitle, poke]);
 
   // Keep the phone awake while it's driving the TV.
   useEffect(() => {
@@ -86,7 +61,7 @@ export function SoloScreen({
   }, []);
 
   return (
-    <div className="fixed inset-0" onPointerDown={poke}>
+    <div className="fixed inset-0">
       <TvSlides
         event={event}
         questions={questions}
@@ -94,11 +69,9 @@ export function SoloScreen({
         playbackToken={playbackToken}
       />
 
-      {/* control bar */}
+      {/* control bar — always in view so the host can tally or skip mid-video */}
       <div
-        className={`fixed inset-x-0 bottom-0 z-10 pb-[max(env(safe-area-inset-bottom),0.75rem)] pt-10 transition-opacity duration-500 ${
-          visible ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
+        className="fixed inset-x-0 bottom-0 z-10 pb-[max(env(safe-area-inset-bottom),0.75rem)] pt-10"
         style={{
           background:
             "linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0))",
@@ -190,7 +163,7 @@ export function SoloScreen({
         {onTitle && (
           <p className="mt-2 text-center text-[11px] italic text-white/85">
             Mirror this phone to the TV (AirPlay / Cast), rotate to landscape,
-            then hit start — controls fade out on their own.
+            then hit start.
           </p>
         )}
       </div>

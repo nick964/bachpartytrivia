@@ -41,7 +41,8 @@ export default async function WatchChooserPage({
           </p>
           <p className="mt-1 text-xs text-soft">
             Mirror this phone to the TV (AirPlay / Cast). You run the show and
-            control it from the same screen — the buttons fade out for guests.
+            control it from the same screen — the buttons stay in reach the
+            whole time.
           </p>
         </Link>
 

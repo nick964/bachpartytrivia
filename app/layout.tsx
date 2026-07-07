@@ -21,12 +21,29 @@ const label = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL ?? "https://www.bachpartytrivia.com"
+  ),
   title: {
     default: "Bach Party Trivia — the bachelorette & bachelor party game",
     template: "%s · Bach Party Trivia",
   },
   description:
     "You may now quiz the bride: he answers on video before the party, she guesses live at the bachelorette. The easiest party game you'll ever run.",
+  // Link previews (iMessage, Slack, socials) read these — brand-first.
+  openGraph: {
+    title: "Bach Party Trivia",
+    description:
+      "The bachelorette & bachelor party game — they answer on video before the party, the guessing happens live.",
+    siteName: "Bach Party Trivia",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bach Party Trivia",
+    description:
+      "The bachelorette & bachelor party game — they answer on video before the party, the guessing happens live.",
+  },
 };
 
 export default function RootLayout({
