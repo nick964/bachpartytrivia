@@ -39,6 +39,29 @@ export function TvScreen({
   playbackToken: string;
 }) {
   const state = useLivePlayback(event.id, playbackToken, initial);
+  return (
+    <TvSlides
+      event={event}
+      questions={questions}
+      state={state}
+      playbackToken={playbackToken}
+    />
+  );
+}
+
+/** The presentation itself, driven by whatever state the caller supplies —
+ * live Realtime state in TV mode, optimistic local state in solo/cast mode. */
+export function TvSlides({
+  event,
+  questions,
+  state,
+  playbackToken,
+}: {
+  event: EventRow;
+  questions: WatchQuestion[];
+  state: LivePlaybackState;
+  playbackToken: string;
+}) {
   const urlCache = useRef(new Map<string, string>());
   const [, forceRender] = useState(0);
 

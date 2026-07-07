@@ -28,12 +28,26 @@ export default async function WatchChooserPage({
           {event.title}
         </p>
         <p className="mt-3 text-sm italic text-soft">
-          Two screens, one game: the TV shows the show, your phone drives it.
+          One phone casted to the TV, or two screens — your call.
         </p>
 
         <Link
-          href={`/watch/${token}/tv`}
+          href={`/watch/${token}/solo`}
           className="double-keyline mt-8 p-6 shadow-lg transition hover:scale-[1.01]"
+        >
+          <p className="text-4xl">📱→📺</p>
+          <p className="mt-2 font-display text-2xl text-primary">
+            One device — cast it
+          </p>
+          <p className="mt-1 text-xs text-soft">
+            Mirror this phone to the TV (AirPlay / Cast). You run the show and
+            control it from the same screen — the buttons fade out for guests.
+          </p>
+        </Link>
+
+        <Link
+          href={`/watch/${token}/tv`}
+          className="keyline mt-4 p-6 transition hover:scale-[1.01]"
         >
           <p className="text-4xl">📺</p>
           <p className="mt-2 font-display text-2xl text-primary">
@@ -41,7 +55,7 @@ export default async function WatchChooserPage({
           </p>
           <p className="mt-1 text-xs text-soft">
             Open this link on a smart TV browser or a laptop plugged into the
-            TV. Full-screen it.
+            TV, then drive it with the remote below.
           </p>
         </Link>
 
@@ -63,15 +77,15 @@ export default async function WatchChooserPage({
           <p className="label-caps text-[10px] text-ink">Casting tips</p>
           <ul className="mt-1 space-y-1">
             <li>
-              • Best: open the TV link directly in a smart-TV browser, or use
-              a laptop on HDMI.
+              • One device: use Screen Mirroring (iPhone Control Center →
+              Screen Mirroring, or Android Cast) — not the AirPlay button
+              inside the video — so the whole show reaches the TV. Landscape
+              looks best.
             </li>
             <li>
-              • iPhone: AirPlay works from Safari once a video is playing —
-              but the question slides stay on the phone, so HDMI/TV browser
-              beats it.
+              • Two screens: open the TV link in a smart-TV browser or a
+              laptop on HDMI — same wifi not required.
             </li>
-            <li>• Same wifi not required — any two screens work.</li>
           </ul>
         </div>
       </div>

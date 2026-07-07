@@ -38,7 +38,8 @@ export async function POST(request: NextRequest) {
     });
     if (!session.url) return jsonError("Stripe didn't return a checkout URL.", 502);
     return NextResponse.json({ url: session.url });
-  } catch {
+  } catch (e) {
+    console.error("Stripe checkout session failed:", e);
     return jsonError("Couldn't open checkout — try again in a moment.", 502);
   }
 }

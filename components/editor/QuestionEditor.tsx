@@ -332,16 +332,21 @@ export function QuestionEditor({
               You&apos;ve used every idea in the library — impressive.
             </p>
           ) : (
-            <ul className="mt-4 flex flex-wrap gap-2">
+            <ul className="mt-2 divide-y divide-line">
               {availableSamples.map((s) => (
                 <li key={s.id}>
                   <button
                     onClick={() => addQuestion(s.text, "sample")}
                     disabled={busy}
-                    className="rounded-full border border-accent bg-raised px-3.5 py-2 text-left font-display text-sm italic text-primary transition hover:border-primary hover:bg-accent disabled:opacity-50"
+                    className="group flex w-full items-baseline gap-2.5 px-1 py-3 text-left transition hover:bg-accent/60 disabled:opacity-50"
+                    title="Add to your list"
                   >
-                    <span className="mr-1 not-italic">+</span>
-                    {s.text}
+                    <span className="shrink-0 text-sm font-semibold leading-none text-primary transition group-hover:scale-110">
+                      +
+                    </span>
+                    <span className="font-display text-[17px] italic leading-snug text-ink transition group-hover:text-primary">
+                      {s.text}
+                    </span>
                   </button>
                 </li>
               ))}

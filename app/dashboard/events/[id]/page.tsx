@@ -16,6 +16,7 @@ import { SendCard } from "@/components/editor/SendCard";
 import { EventSettings } from "@/components/editor/EventSettings";
 import { PremiumPoller } from "@/components/editor/PremiumPoller";
 import { DownloadVideos } from "@/components/dashboard/DownloadVideos";
+import { PlayBanner } from "@/components/dashboard/PlayBanner";
 
 export const dynamic = "force-dynamic";
 
@@ -104,6 +105,10 @@ export default async function EventPage({
             </span>
             Unlimited questions unlocked for this event. ✨
           </p>
+        )}
+
+        {(event.status === "ready" || event.status === "completed") && (
+          <PlayBanner event={event} />
         )}
 
         <QuestionEditor event={event} questions={questions} samples={samples} />
