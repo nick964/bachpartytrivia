@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { EventRow } from "@/lib/db/types";
+import { responderRoleOf } from "@/lib/theme";
 import { StreamPlayer } from "@/components/video/StreamPlayer";
 import {
   useLivePlayback,
@@ -102,7 +103,7 @@ export function TvSlides({
     (v) => v === "wrong"
   ).length;
 
-  const responder = event.honoree_role === "bride" ? "groom" : "bride";
+  const responder = responderRoleOf(event);
 
   /* title slide */
   if (state.index <= 0 || questions.length === 0) {

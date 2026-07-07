@@ -9,6 +9,7 @@ import {
   type ResponseRow,
   type SampleQuestionRow,
 } from "@/lib/db/types";
+import { responderRoleOf } from "@/lib/theme";
 import { EventStatusBadge } from "@/components/dashboard/EventStatusBadge";
 import { QuestionEditor } from "@/components/editor/QuestionEditor";
 import { GreetingCard } from "@/components/editor/GreetingCard";
@@ -50,7 +51,8 @@ export default async function EventPage({
     db
       .from("sample_questions")
       .select("*")
-      .or(`role.is.null,role.eq.${event.honoree_role}`)
+      // Role-tagged samples are questions asked TO that role (the recorder).
+      .or(`role.is.null,role.eq.${responderRoleOf(event)}`)
       .order("sort_hint", { ascending: true }),
   ]);
 
@@ -83,7 +85,7 @@ export default async function EventPage({
                 .filter((q) => q.responses.some((r) => r.status === "ready"))
                 .map((q) => q.id)}
               eventId={event.id}
-              honoreeRole={event.honoree_role}
+              responderRole={responderRoleOf(event)}
             />
           </div>
           <p className="mt-1.5 text-sm italic text-soft">

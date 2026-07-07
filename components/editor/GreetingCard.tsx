@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { EventRow } from "@/lib/db/types";
+import { responderRoleOf } from "@/lib/theme";
 import { useRecorder } from "@/lib/recorder/useRecorder";
 import { uploadToStream } from "@/lib/recorder/upload";
 import { StreamPlayer } from "@/components/video/StreamPlayer";
@@ -39,7 +40,7 @@ export function GreetingCard({ event }: { event: EventRow }) {
     stopCamera,
   } = useRecorder(GREETING_MAX_SECONDS);
 
-  const responder = event.honoree_role === "bride" ? "he" : "she";
+  const responder = responderRoleOf(event) === "groom" ? "he" : "she";
 
   async function saveGreeting() {
     if (!blob) return;

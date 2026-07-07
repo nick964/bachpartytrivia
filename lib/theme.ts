@@ -22,9 +22,19 @@ export function normalizeTheme(theme: string | null | undefined): ThemeName {
   return theme === "navy" ? "navy" : "blush";
 }
 
-/** The person who records answers, given the honoree who guesses. */
-export function responderNoun(role: HonoreeRole): string {
-  return role === "bride" ? "groom" : "bride";
+/**
+ * The role of the person who records the answers. Falls back to the
+ * opposite of the guest of honor for events created before responder_role
+ * existed (and for two-bride/two-groom parties the host sets it explicitly).
+ */
+export function responderRoleOf(event: {
+  honoree_role: HonoreeRole;
+  responder_role?: HonoreeRole | null;
+}): HonoreeRole {
+  return (
+    event.responder_role ??
+    (event.honoree_role === "bride" ? "groom" : "bride")
+  );
 }
 
 export function partyNoun(role: HonoreeRole): string {

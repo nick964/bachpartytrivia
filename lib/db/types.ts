@@ -16,6 +16,7 @@ export interface EventRow {
   title: string;
   honoree_name: string;
   honoree_role: HonoreeRole;
+  responder_role: HonoreeRole | null;
   theme: string;
   party_date: string; // ISO date
   status: EventStatus;

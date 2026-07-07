@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { LivePlaybackState } from "@/components/watch/useLivePlayback";
 
 /**
@@ -15,13 +15,14 @@ export function usePlaybackControl(
 ) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [optimistic, setOptimistic] = useState<LivePlaybackState | null>(null);
-  const view = optimistic ?? state;
-
-  // Any fresh server state (our echo or another remote) wins over the overlay.
-  useEffect(() => {
-    setOptimistic(null);
-  }, [state]);
+  // The overlay remembers which server state it was layered on; any fresh
+  // server state (our echo or another remote) makes it stale, no effect needed.
+  const [optimistic, setOptimistic] = useState<{
+    base: LivePlaybackState;
+    view: LivePlaybackState;
+  } | null>(null);
+  const view =
+    optimistic && optimistic.base === state ? optimistic.view : state;
 
   async function post(body: Record<string, unknown>) {
     setBusy(true);
@@ -47,14 +48,14 @@ export function usePlaybackControl(
 
   function goto(index: number, phase: "question" | "reveal" = "question") {
     const clamped = Math.max(0, Math.min(questionCount + 1, index));
-    setOptimistic({ ...view, index: clamped, phase });
+    setOptimistic({ base: state, view: { ...view, index: clamped, phase } });
     void post({ op: "goto", index: clamped, phase });
   }
 
   function tally(questionId: string, result: "right" | "wrong") {
     setOptimistic({
-      ...view,
-      tally: { ...view.tally, [questionId]: result },
+      base: state,
+      view: { ...view, tally: { ...view.tally, [questionId]: result } },
     });
     void post({ op: "tally", question_id: questionId, result });
   }

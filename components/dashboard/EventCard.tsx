@@ -11,7 +11,7 @@ export function EventCard({
   honoreeName,
   partyDate,
   status,
-  honoreeRole,
+  responderRole,
   questionIds,
   readyIds,
 }: {
@@ -20,7 +20,7 @@ export function EventCard({
   honoreeName: string;
   partyDate: string;
   status: EventStatus;
-  honoreeRole: HonoreeRole;
+  responderRole: HonoreeRole;
   questionIds: string[];
   readyIds: string[];
 }) {
@@ -44,7 +44,7 @@ export function EventCard({
           status={status}
           done={recorded}
           total={total}
-          honoreeRole={honoreeRole}
+          responderRole={responderRole}
         />
       </div>
       <h2 className="mt-4 font-display text-2xl leading-snug text-primary">

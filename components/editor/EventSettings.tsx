@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { EventRow, HonoreeRole, ThemeName } from "@/lib/db/types";
-import { THEMES, normalizeTheme } from "@/lib/theme";
+import { THEMES, normalizeTheme, responderRoleOf } from "@/lib/theme";
 
 export function EventSettings({ event }: { event: EventRow }) {
   const router = useRouter();
@@ -11,6 +11,9 @@ export function EventSettings({ event }: { event: EventRow }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [role, setRole] = useState<HonoreeRole>(event.honoree_role);
+  const [responder, setResponder] = useState<HonoreeRole>(
+    responderRoleOf(event)
+  );
   const [theme, setTheme] = useState<ThemeName>(normalizeTheme(event.theme));
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -27,6 +30,7 @@ export function EventSettings({ event }: { event: EventRow }) {
           honoree_name: form.get("honoree_name"),
           party_date: form.get("party_date"),
           honoree_role: role,
+          responder_role: responder,
           theme,
         }),
       });
@@ -133,7 +137,7 @@ export function EventSettings({ event }: { event: EventRow }) {
               />
             </label>
             <label className="block text-sm font-medium">
-              {role === "bride" ? "Groom's" : "Bride's"} first name
+              {responder === "groom" ? "Groom's" : "Bride's"} first name
               <input
                 name="honoree_name"
                 defaultValue={event.honoree_name}
@@ -143,7 +147,7 @@ export function EventSettings({ event }: { event: EventRow }) {
               />
             </label>
             <div className="text-sm font-medium">
-              Guest of honor
+              Guest of honor (guesses at the party)
               <div className="mt-1.5 grid grid-cols-2 gap-2">
                 {(
                   [
@@ -157,6 +161,30 @@ export function EventSettings({ event }: { event: EventRow }) {
                     onClick={() => setRole(value)}
                     className={`border px-3 py-2.5 text-sm transition ${
                       role === value
+                        ? "border-primary bg-raised font-semibold text-primary"
+                        : "border-line bg-surface hover:border-primary/50"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="text-sm font-medium">
+              Who is being interviewed? (records the answers)
+              <div className="mt-1.5 grid grid-cols-2 gap-2">
+                {(
+                  [
+                    ["bride", "Bride 👰"],
+                    ["groom", "Groom 🤵"],
+                  ] as const
+                ).map(([value, label]) => (
+                  <button
+                    key={value}
+                    type="button"
+                    onClick={() => setResponder(value)}
+                    className={`border px-3 py-2.5 text-sm transition ${
+                      responder === value
                         ? "border-primary bg-raised font-semibold text-primary"
                         : "border-line bg-surface hover:border-primary/50"
                     }`}

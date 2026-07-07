@@ -8,6 +8,8 @@ import { THEMES, defaultThemeForRole } from "@/lib/theme";
 export function CreateEventForm() {
   const router = useRouter();
   const [role, setRole] = useState<HonoreeRole>("bride");
+  const [responder, setResponder] = useState<HonoreeRole>("groom");
+  const [responderTouched, setResponderTouched] = useState(false);
   const [theme, setTheme] = useState<ThemeName>("blush");
   const [themeTouched, setThemeTouched] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -16,6 +18,8 @@ export function CreateEventForm() {
   function pickRole(next: HonoreeRole) {
     setRole(next);
     if (!themeTouched) setTheme(defaultThemeForRole(next));
+    // Assume the classic pairing until the host says otherwise.
+    if (!responderTouched) setResponder(next === "bride" ? "groom" : "bride");
   }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -31,6 +35,7 @@ export function CreateEventForm() {
           title: form.get("title"),
           honoree_name: form.get("honoree_name"),
           honoree_role: role,
+          responder_role: responder,
           party_date: form.get("party_date"),
           theme,
         }),
@@ -85,12 +90,14 @@ export function CreateEventForm() {
           />
         </label>
         <div>
-          <span className={labelCls}>Who&apos;s the guest of honor?</span>
+          <span className={labelCls}>
+            Who&apos;s the guest of honor? (guesses at the party)
+          </span>
           <div className="mt-2 grid grid-cols-2 gap-2">
             {(
               [
-                ["bride", "Bride 👰 (groom records)"],
-                ["groom", "Groom 🤵 (bride records)"],
+                ["bride", "Bride 👰"],
+                ["groom", "Groom 🤵"],
               ] as const
             ).map(([value, label]) => (
               <button
@@ -108,15 +115,44 @@ export function CreateEventForm() {
             ))}
           </div>
         </div>
+        <div>
+          <span className={labelCls}>
+            Who is being interviewed? (records the answers)
+          </span>
+          <div className="mt-2 grid grid-cols-2 gap-2">
+            {(
+              [
+                ["bride", "Bride 👰"],
+                ["groom", "Groom 🤵"],
+              ] as const
+            ).map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => {
+                  setResponder(value);
+                  setResponderTouched(true);
+                }}
+                className={`border px-3 py-2.5 text-sm transition ${
+                  responder === value
+                    ? "border-primary bg-raised font-semibold text-primary"
+                    : "border-line bg-surface hover:border-primary/50"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
         <label className="block">
           <span className={labelCls}>
-            {role === "bride" ? "Groom's" : "Bride's"} first name
+            {responder === "groom" ? "Groom's" : "Bride's"} first name
           </span>
           <input
             name="honoree_name"
             required
             maxLength={60}
-            placeholder={role === "bride" ? "Mike" : "Sarah"}
+            placeholder={responder === "groom" ? "Mike" : "Sarah"}
             className={`mt-2 ${inputCls}`}
           />
         </label>

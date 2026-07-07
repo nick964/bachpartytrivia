@@ -4,6 +4,7 @@ export const createEventSchema = z.object({
   title: z.string().trim().min(1, "Give the event a name").max(120),
   honoree_name: z.string().trim().min(1, "Who's recording?").max(60),
   honoree_role: z.enum(["bride", "groom"]),
+  responder_role: z.enum(["bride", "groom"]).optional(),
   party_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Pick a party date"),
   theme: z.enum(["blush", "navy"]),
 });

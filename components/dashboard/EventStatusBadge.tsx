@@ -8,12 +8,13 @@ export function StatusChip({
   status,
   done,
   total,
-  honoreeRole,
+  responderRole,
 }: {
   status: EventStatus;
   done: number;
   total: number;
-  honoreeRole: HonoreeRole;
+  /** Role of the person recording — drives the "waiting on him/her" copy. */
+  responderRole: HonoreeRole;
 }) {
   const base =
     "label-caps inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[10px]";
@@ -27,7 +28,7 @@ export function StatusChip({
     case "awaiting_responses":
       return (
         <span className={`${base} border-accent bg-raised text-primary`}>
-          🕐 Waiting on {honoreeRole === "bride" ? "him" : "her"} · {done}/
+          🕐 Waiting on {responderRole === "groom" ? "him" : "her"} · {done}/
           {total}
         </span>
       );
@@ -57,13 +58,13 @@ export function EventStatusBadge({
   questionIds,
   readyIds,
   eventId,
-  honoreeRole,
+  responderRole,
 }: {
   status: EventStatus;
   questionIds: string[];
   readyIds: string[];
   eventId: string;
-  honoreeRole: HonoreeRole;
+  responderRole: HonoreeRole;
 }) {
   // Live "X of N" while we're waiting on recordings.
   const done = useReadyCount(
@@ -79,7 +80,7 @@ export function EventStatusBadge({
       status={status}
       done={Math.min(done, total)}
       total={total}
-      honoreeRole={honoreeRole}
+      responderRole={responderRole}
     />
   );
 }

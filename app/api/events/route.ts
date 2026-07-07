@@ -19,7 +19,14 @@ export async function POST(request: NextRequest) {
   const db = supabaseAdmin();
   const { data: event, error } = await db
     .from("events")
-    .insert({ ...parsed.data, owner_clerk_id: user.userId })
+    .insert({
+      ...parsed.data,
+      // Recorder defaults to the honoree's opposite unless the host says so.
+      responder_role:
+        parsed.data.responder_role ??
+        (parsed.data.honoree_role === "bride" ? "groom" : "bride"),
+      owner_clerk_id: user.userId,
+    })
     .select("*")
     .single();
   if (error) return jsonError("Could not create the event.", 500);

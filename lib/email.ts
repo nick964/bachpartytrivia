@@ -2,7 +2,7 @@ import "server-only";
 import { Resend } from "resend";
 import { clerkClient } from "@clerk/nextjs/server";
 import type { EventRow } from "@/lib/db/types";
-import { partyNoun, responderNoun } from "@/lib/theme";
+import { partyNoun, responderRoleOf } from "@/lib/theme";
 
 function resend(): Resend {
   const key = process.env.RESEND_API_KEY;
@@ -57,7 +57,8 @@ export async function sendCompletionEmail(event: EventRow): Promise<void> {
   const to = await ownerEmail(event);
   if (!to) return;
   const primary = event.theme === "navy" ? "#c9a24b" : "#b76e79";
-  const pronounDid = event.honoree_role === "bride" ? "He did it" : "She did it";
+  const pronounDid =
+    responderRoleOf(event) === "groom" ? "He did it" : "She did it";
   await resend().emails.send({
     from: FROM(),
     to,
@@ -111,9 +112,9 @@ export async function sendDeletionWarningEmail(event: EventRow): Promise<void> {
       "7 days left on the videos.",
       `<p style="margin:12px 0 0;font-size:15px;line-height:1.6;">The videos from <strong>${event.title}</strong> are deleted 30 days after the ${partyNoun(
         event.honoree_role
-      )}. If you want to keep ${responderNoun(
-        event.honoree_role
-      ) === "groom" ? "his" : "her"} answers forever, download them this week.</p>` +
+      )}. If you want to keep ${
+        responderRoleOf(event) === "groom" ? "his" : "her"
+      } answers forever, download them this week.</p>` +
         button(
           `${APP()}/dashboard/events/${event.id}`,
           "Download the videos",

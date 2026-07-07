@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { EventRow } from "@/lib/db/types";
-import { partyNoun, responderNoun } from "@/lib/theme";
+import { partyNoun, responderRoleOf } from "@/lib/theme";
 
 function CopyButton({ text, label }: { text: string; label: string }) {
   const [copied, setCopied] = useState(false);
@@ -57,7 +57,8 @@ export function SendCard({
   const watchUrl = `${appUrl}/watch/${event.playback_token}`;
   const sent = event.status !== "draft" && event.status !== "expired";
 
-  const pronoun = event.honoree_role === "bride" ? "His" : "Her";
+  const responderRole = responderRoleOf(event);
+  const pronoun = responderRole === "groom" ? "His" : "Her";
   // The honoree is the one guessing at the party.
   const guesser = event.honoree_role;
 
@@ -123,7 +124,7 @@ export function SendCard({
       ) : (
         <>
           <p className="mx-auto mt-3 max-w-md text-center text-sm leading-relaxed text-soft">
-            Share this link with the {responderNoun(event.honoree_role)} to
+            Share this link with the {responderRole} to
             start the game. {pronoun} answers will be kept secret until the{" "}
             {guesser}&apos;s big reveal.
           </p>
@@ -168,7 +169,7 @@ export function SendCard({
             <div className="engraved-divider mt-9" />
             <p className="mt-5 text-center text-sm italic text-soft">
               ✉ We&apos;ll email you the moment{" "}
-              {event.honoree_role === "bride" ? "he" : "she"} finishes.
+              {responderRole === "groom" ? "he" : "she"} finishes.
             </p>
           </div>
         </>

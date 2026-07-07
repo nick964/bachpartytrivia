@@ -2,6 +2,7 @@ import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
 import { supabaseAdmin } from "@/lib/db/server";
 import { embeddedRows, type EventRow } from "@/lib/db/types";
+import { responderRoleOf } from "@/lib/theme";
 import { EventCard } from "@/components/dashboard/EventCard";
 import { CreateEventForm } from "@/components/dashboard/CreateEventForm";
 
@@ -114,7 +115,7 @@ export default async function DashboardPage() {
                   honoreeName={event.honoree_name}
                   partyDate={event.party_date}
                   status={event.status}
-                  honoreeRole={event.honoree_role}
+                  responderRole={responderRoleOf(event)}
                   questionIds={p.questionIds}
                   readyIds={p.readyIds}
                 />
