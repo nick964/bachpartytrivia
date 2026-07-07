@@ -1,18 +1,69 @@
 "use client";
 
-import type { EventStatus } from "@/lib/db/types";
+import type { EventStatus, HonoreeRole } from "@/lib/db/types";
 import { useReadyCount } from "@/lib/realtime/useReadyCount";
+
+/** Presentational status chip — heirloom pill with a hairline border. */
+export function StatusChip({
+  status,
+  done,
+  total,
+  honoreeRole,
+}: {
+  status: EventStatus;
+  done: number;
+  total: number;
+  honoreeRole: HonoreeRole;
+}) {
+  const base =
+    "label-caps inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[10px]";
+  switch (status) {
+    case "draft":
+      return (
+        <span className={`${base} border-line bg-surface text-soft`}>
+          Draft
+        </span>
+      );
+    case "awaiting_responses":
+      return (
+        <span className={`${base} border-accent bg-raised text-primary`}>
+          🕐 Waiting on {honoreeRole === "bride" ? "him" : "her"} · {done}/
+          {total}
+        </span>
+      );
+    case "ready":
+      return (
+        <span className={`${base} border-primary bg-accent text-primary`}>
+          🎉 Ready to play
+        </span>
+      );
+    case "completed":
+      return (
+        <span className={`${base} border-line bg-surface text-soft`}>
+          ✓ Played
+        </span>
+      );
+    case "expired":
+      return (
+        <span className={`${base} border-line bg-surface text-soft`}>
+          Expired
+        </span>
+      );
+  }
+}
 
 export function EventStatusBadge({
   status,
   questionIds,
   readyIds,
   eventId,
+  honoreeRole,
 }: {
   status: EventStatus;
   questionIds: string[];
   readyIds: string[];
   eventId: string;
+  honoreeRole: HonoreeRole;
 }) {
   // Live "X of N" while we're waiting on recordings.
   const done = useReadyCount(
@@ -23,26 +74,12 @@ export function EventStatusBadge({
   );
   const total = questionIds.length;
 
-  const base =
-    "inline-flex shrink-0 items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold";
-  switch (status) {
-    case "draft":
-      return <span className={`${base} bg-raised text-soft`}>Draft</span>;
-    case "awaiting_responses":
-      return (
-        <span className={`${base} bg-accent text-ink`}>
-          Waiting 🕐 {Math.min(done, total)}/{total}
-        </span>
-      );
-    case "ready":
-      return (
-        <span className={`${base} bg-primary text-on-primary`}>
-          Ready to play 🎉
-        </span>
-      );
-    case "completed":
-      return <span className={`${base} bg-raised text-soft`}>Played</span>;
-    case "expired":
-      return <span className={`${base} bg-raised text-soft`}>Expired</span>;
-  }
+  return (
+    <StatusChip
+      status={status}
+      done={Math.min(done, total)}
+      total={total}
+      honoreeRole={honoreeRole}
+    />
+  );
 }

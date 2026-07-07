@@ -12,7 +12,7 @@ import { RespondFlow } from "@/components/respond/RespondFlow";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "You have homework 🍾",
+  title: "You have homework ✨",
   robots: { index: false },
 };
 
@@ -40,13 +40,15 @@ export default async function RespondPage({
 
   return (
     <ThemeScope theme={normalizeTheme(event.theme)} className="flex-1">
-      <div className="min-h-screen bg-bg">
+      <div className="bg-ticking min-h-screen">
         {expired ? (
           <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center px-6 text-center">
-            <p className="font-script text-5xl text-primary">The party's over</p>
+            <p className="font-display text-5xl italic text-primary">
+              The party&apos;s over
+            </p>
             <p className="mt-4 text-soft">
               This event has wrapped up and its videos are gone. Nice work if
-              you were part of it. 🥂
+              you were part of it. ✨
             </p>
           </div>
         ) : (

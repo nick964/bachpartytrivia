@@ -22,7 +22,20 @@ export function QuestionRecorder({
   locked: boolean;
   onSaved: (questionId: string, uid: string, duration: number) => void;
 }) {
-  const rec = useRecorder(60);
+  const {
+    phase,
+    error: recError,
+    secondsLeft,
+    blob,
+    playbackUrl,
+    durationSeconds,
+    attachPreview,
+    startCamera,
+    beginRecording,
+    stopRecording,
+    discardTake,
+    stopCamera,
+  } = useRecorder(60);
   const [save, setSave] = useState<SaveState>({ kind: "idle" });
   const [rerecording, setRerecording] = useState(false);
 
@@ -30,7 +43,7 @@ export function QuestionRecorder({
   const showRecorder = !answered || rerecording;
 
   async function saveAnswer() {
-    if (!rec.blob) return;
+    if (!blob) return;
     setSave({ kind: "uploading", progress: 0 });
     try {
       const urlRes = await fetch("/api/stream/upload-url", {
@@ -48,7 +61,7 @@ export function QuestionRecorder({
       const { uploadURL, uid } = urlData as { uploadURL: string; uid: string };
 
       try {
-        await uploadToStream(uploadURL, rec.blob, (f) =>
+        await uploadToStream(uploadURL, blob, (f) =>
           setSave({ kind: "uploading", progress: f })
         );
       } catch (uploadErr) {
@@ -73,7 +86,7 @@ export function QuestionRecorder({
           respond_token: respondToken,
           question_id: question.id,
           uid,
-          duration_seconds: rec.durationSeconds,
+          duration_seconds: durationSeconds,
         }),
       });
       if (!doneRes.ok) {
@@ -81,10 +94,10 @@ export function QuestionRecorder({
         throw new Error(d.error ?? "Couldn't confirm the upload.");
       }
 
-      rec.stopCamera();
+      stopCamera();
       setSave({ kind: "idle" });
       setRerecording(false);
-      onSaved(question.id, uid, rec.durationSeconds);
+      onSaved(question.id, uid, durationSeconds);
     } catch (e) {
       setSave({ kind: "error", message: (e as Error).message });
     }
@@ -92,7 +105,7 @@ export function QuestionRecorder({
 
   if (locked) {
     return (
-      <div className="rounded-3xl border border-line bg-surface p-6 text-center">
+      <div className="keyline p-6 text-center">
         <p className="text-3xl">🔒</p>
         <p className="mt-2 text-sm font-semibold">
           This one&apos;s locked in.
@@ -106,7 +119,7 @@ export function QuestionRecorder({
 
   if (!showRecorder) {
     return (
-      <div className="rounded-3xl border border-line bg-surface p-6 text-center">
+      <div className="keyline p-6 text-center">
         <p className="text-3xl">✅</p>
         <p className="mt-2 text-sm font-semibold">Answered!</p>
         <p className="mt-1 text-xs text-soft">
@@ -115,9 +128,9 @@ export function QuestionRecorder({
         <button
           onClick={() => {
             setRerecording(true);
-            void rec.startCamera();
+            void startCamera();
           }}
-          className="mt-4 rounded-full border border-line bg-bg px-5 py-2.5 text-sm font-bold"
+          className="label-caps mt-4 border border-primary px-5 py-3 text-[10px] text-primary"
         >
           Re-record this answer
         </button>
@@ -130,9 +143,10 @@ export function QuestionRecorder({
   return (
     <div>
       <div className="relative aspect-[3/4] w-full overflow-hidden rounded-3xl bg-black">
-        {rec.phase === "reviewing" && rec.playbackUrl ? (
+        {phase === "reviewing" && playbackUrl ? (
           <video
-            src={rec.playbackUrl}
+            key="playback"
+            src={playbackUrl}
             controls
             autoPlay
             playsInline
@@ -140,7 +154,8 @@ export function QuestionRecorder({
           />
         ) : (
           <video
-            ref={rec.attachPreview}
+            key="preview"
+            ref={attachPreview}
             muted
             playsInline
             autoPlay
@@ -148,19 +163,19 @@ export function QuestionRecorder({
           />
         )}
 
-        {rec.phase === "recording" && (
+        {phase === "recording" && (
           <span
             className={`absolute left-4 top-4 rounded-full px-3 py-1 text-sm font-bold text-white ${
-              rec.secondsLeft <= 10 ? "bg-red-600" : "bg-black/60"
+              secondsLeft <= 10 ? "bg-red-600" : "bg-black/60"
             }`}
           >
-            ● 0:{String(rec.secondsLeft).padStart(2, "0")}
+            ● 0:{String(secondsLeft).padStart(2, "0")}
           </span>
         )}
 
-        {rec.phase === "idle" && !rec.error && (
+        {phase === "idle" && !recError && (
           <button
-            onClick={() => void rec.startCamera()}
+            onClick={() => void startCamera()}
             className="absolute inset-0 flex items-center justify-center text-sm font-bold text-white"
           >
             Tap to turn on the camera
@@ -187,10 +202,10 @@ export function QuestionRecorder({
         )}
       </div>
 
-      {rec.error && (
+      {recError && (
         <div className="mt-3 rounded-2xl bg-accent p-4 text-sm">
-          <p className="font-bold">{rec.error.message}</p>
-          {rec.error.kind === "denied" && (
+          <p className="font-bold">{recError.message}</p>
+          {recError.kind === "denied" && (
             <p className="mt-1 text-soft">
               Allow camera &amp; mic in your browser settings, then reload.
             </p>
@@ -211,31 +226,31 @@ export function QuestionRecorder({
       )}
 
       <div className="mt-4">
-        {rec.phase === "live" && (
+        {phase === "live" && (
           <button
-            onClick={() => rec.beginRecording()}
+            onClick={() => beginRecording()}
             className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border-4 border-line bg-surface"
             aria-label="Start recording"
           >
             <span className="h-14 w-14 rounded-full bg-red-600" />
           </button>
         )}
-        {rec.phase === "recording" && (
+        {phase === "recording" && (
           <button
-            onClick={rec.stopRecording}
+            onClick={stopRecording}
             className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border-4 border-red-600 bg-surface"
             aria-label="Stop recording"
           >
             <span className="h-8 w-8 rounded bg-red-600" />
           </button>
         )}
-        {rec.phase === "starting" && (
+        {phase === "starting" && (
           <p className="text-center text-sm text-soft">Starting camera…</p>
         )}
-        {rec.phase === "reviewing" && !uploading && save.kind !== "error" && (
+        {phase === "reviewing" && !uploading && save.kind !== "error" && (
           <div className="grid grid-cols-2 gap-2">
             <button
-              onClick={rec.discardTake}
+              onClick={discardTake}
               className="rounded-full border border-line bg-surface px-4 py-3.5 text-sm font-bold"
             >
               Re-record

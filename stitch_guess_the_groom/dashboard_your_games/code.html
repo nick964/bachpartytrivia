@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guess the Groom | Dashboard</title>
+<!-- Google Fonts: Playfair Display for Headings, DM Sans for Body -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#a8c9f4",
+                    "surface-container-low": "#f4f3f7",
+                    "on-secondary-fixed-variant": "#474744",
+                    "on-secondary-fixed": "#1b1c19",
+                    "tertiary-fixed-dim": "#edbf7b",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#43474e",
+                    "sky-blue": "#A9C5E3",
+                    "primary-container": "#56779d",
+                    "surface-container-highest": "#e3e2e5",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#936e32",
+                    "secondary-fixed": "#e4e2dd",
+                    "background": "#faf9fc",
+                    "champagne-gold": "#D4AF37",
+                    "inverse-on-surface": "#f1f0f4",
+                    "on-background": "#1a1c1e",
+                    "surface-dim": "#dadadd",
+                    "outline-variant": "#c3c6cf",
+                    "outline": "#73777f",
+                    "surface-container": "#eeedf1",
+                    "error": "#ba1a1a",
+                    "primary": "#3d5e83",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#26496d",
+                    "surface-variant": "#e3e2e5",
+                    "secondary": "#5e5e5b",
+                    "on-primary-container": "#fdfcff",
+                    "on-surface": "#1a1c1e",
+                    "on-tertiary-fixed": "#281800",
+                    "on-tertiary-fixed-variant": "#604106",
+                    "surface-tint": "#3f6186",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#001d36",
+                    "surface-bright": "#faf9fc",
+                    "tertiary-fixed": "#ffddaf",
+                    "inverse-surface": "#2f3033",
+                    "deep-slate": "#2C3E50",
+                    "secondary-container": "#e1dfdb",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#63635f",
+                    "secondary-fixed-dim": "#c8c6c2",
+                    "tertiary": "#78561c",
+                    "surface-container-high": "#e8e8eb",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-container": "#fffbff",
+                    "primary-fixed": "#d1e4ff",
+                    "surface": "#faf9fc",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#a8c9f4"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "1.5rem",
+                    "stack-md": "1rem",
+                    "stack-lg": "2.5rem",
+                    "stack-sm": "0.5rem",
+                    "margin-mobile": "1.25rem",
+                    "margin-page": "2rem"
+            },
+            "fontFamily": {
+                    "label-caps": ["DM Sans"],
+                    "body-lg": ["DM Sans"],
+                    "headline-lg": ["Playfair Display"],
+                    "headline-md": ["Playfair Display"],
+                    "headline-lg-mobile": ["Playfair Display"],
+                    "headline-xl": ["Playfair Display"],
+                    "body-md": ["DM Sans"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Letterpress effect for inputs/pressed elements */
+        .pressed-shadow {
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05), inset -1px -1px 3px rgba(255,255,255,0.8);
+        }
+        /* Double keyline border */
+        .double-keyline {
+            position: relative;
+            border: 1px solid rgba(44, 62, 80, 0.15);
+        }
+        .double-keyline::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            right: 3px;
+            bottom: 3px;
+            border: 1px solid rgba(44, 62, 80, 0.05);
+            pointer-events: none;
+        }
+        /* Scalloped edge for hero cards */
+        .scalloped-top {
+            mask-image: radial-gradient(circle at 10px 0, transparent 10px, black 10.5px);
+            mask-size: 20px 100%;
+        }
+        /* Custom ivory-like background for stationery */
+        .stationery-bg {
+            background-color: #FCFBF9;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex">
+<!-- Sidebar Navigation -->
+<aside class="hidden lg:flex flex-col h-screen w-64 border-r border-outline-variant/20 bg-surface-container-lowest py-stack-lg sticky top-0">
+<div class="px-6 mb-stack-lg flex items-center gap-3">
+<img alt="Wax-seal brand logo" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLuGXRkD5Hh_UttePoZQMb5pMbBu22F4cC3zCnK0SbnZANr5FODdiL0vkiAKfP1-4Zq2_L7IWONwtFNSAxV_jOh_Iu-OqY90y7R_9-iDKSSEYCJzPOM5hirCJpnCT3IdMSwpenNpF2tF40Fx62uBo9dcVUEIB6npnXA-RPjBVvJCiq1uVTQi8AdhyBYXu0uMXjH4vKZKKOiG6iAiCvNrbMF6P6Q-Oks0cLQi-L2aNE5KKmyyX21OtiIlzMs"/>
+<div>
+<h2 class="font-headline-md text-headline-md text-primary tracking-tight leading-none">The Celebration</h2>
+<p class="font-label-caps text-label-caps text-secondary opacity-70">Modern Heirloom</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 bg-sky-blue/20 text-primary border-r-4 border-primary font-bold transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined">style</span>
+<span class="font-label-caps text-label-caps">My Games</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-high transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-label-caps">Templates</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-high transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-caps text-label-caps">Guest List</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-high transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-[#5E7FA6] text-on-primary py-3 px-4 rounded-lg font-label-caps text-label-caps hover:bg-[#4E6D8F] transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                + New Game
+            </button>
+<div class="mt-6 border-t border-outline-variant/10 pt-4">
+<a class="flex items-center gap-3 px-4 py-2 text-secondary hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-caps text-label-caps">Support</span>
+</a>
+</div>
+</div>
+</aside>
+<div class="flex-1 flex flex-col min-h-screen">
+<!-- Top App Bar -->
+<header class="flex justify-between items-center w-full px-margin-page py-4 max-w-7xl mx-auto border-b border-outline-variant/30 bg-background sticky top-0 z-10">
+<div class="flex items-center gap-4">
+<span class="lg:hidden">
+<img alt="Wax-seal brand logo" class="w-8 h-8" src="https://lh3.googleusercontent.com/aida/AP1WRLuGXRkD5Hh_UttePoZQMb5pMbBu22F4cC3zCnK0SbnZANr5FODdiL0vkiAKfP1-4Zq2_L7IWONwtFNSAxV_jOh_Iu-OqY90y7R_9-iDKSSEYCJzPOM5hirCJpnCT3IdMSwpenNpF2tF40Fx62uBo9dcVUEIB6npnXA-RPjBVvJCiq1uVTQi8AdhyBYXu0uMXjH4vKZKKOiG6iAiCvNrbMF6P6Q-Oks0cLQi-L2aNE5KKmyyX21OtiIlzMs"/>
+</span>
+<nav class="hidden md:flex gap-8">
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-primary font-bold transition-colors" href="#">Dashboard</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">How It Works</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Pricing</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full border border-outline-variant p-0.5">
+<img class="w-full h-full object-cover rounded-full" data-alt="A professional user profile portrait of a woman with a warm smile, set against a soft, creamy studio background. The lighting is elegant and soft, matching a refined wedding planning aesthetic. Her attire is sophisticated but approachable, with jewelry that glints subtly under high-key lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZaISf9dr1FNm9-hfG6QDLUmgx9ejbqSBz6OPEsf1I7ORvGpxjLxIIO6s1s5xmZNkdi2kHf4EqeAN3AFWbKVO_Nvb2IpYYLY4hc19C_njTGKlZe3TStzLIoBY47vmCg2TZBfEXAvYATp-b-qR6Lr8YHRkr5lu2yOhV0lNGc1TEPrB4uFqXoS7MPp6gmNSd8rthr-h4fAxHyEyx0Wy9rkwUrXUcMYmmV-WSIL-ViyIb8f_7U4_N3IKTT4-83gdLnpvKLRd1lq5lFqU"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 max-w-7xl mx-auto w-full px-margin-page py-stack-lg">
+<div class="flex flex-col md:flex-row justify-between items-baseline mb-stack-lg gap-4">
+<h1 class="font-headline-xl text-headline-xl text-deep-slate">Your Games</h1>
+<p class="font-body-md text-body-md text-secondary opacity-70">3 active celebrations</p>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Card 1: Waiting on him -->
+<div class="stationery-bg double-keyline p-8 flex flex-col h-full min-h-[320px] transition-transform hover:-translate-y-1 hover:shadow-sm">
+<div class="flex justify-between items-start mb-6">
+<div class="bg-surface-container-low px-3 py-1 rounded-full border border-sky-blue/30 flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-primary">schedule</span>
+<span class="font-label-caps text-[10px] text-primary">Waiting on him</span>
+</div>
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<h3 class="font-headline-md text-headline-md text-deep-slate mb-2">Sarah &amp; James' Shower</h3>
+<p class="font-label-caps text-label-caps text-secondary mb-8">June 14, 2024</p>
+<div class="mt-auto">
+<div class="flex justify-between items-end mb-2">
+<span class="font-label-caps text-[11px] text-on-surface-variant">7 of 12 recorded</span>
+<span class="font-label-caps text-[11px] text-primary">58%</span>
+</div>
+<div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-sky-blue rounded-full" style="width: 58%;"></div>
+</div>
+</div>
+</div>
+<!-- Card 2: Ready to Play -->
+<div class="stationery-bg double-keyline p-8 flex flex-col h-full min-h-[320px] transition-transform hover:-translate-y-1 hover:shadow-sm">
+<div class="flex justify-between items-start mb-6">
+<div class="bg-primary/10 px-3 py-1 rounded-full border border-primary/20 flex items-center gap-2">
+<span class="text-[14px]">🎉</span>
+<span class="font-label-caps text-[10px] text-primary">Ready to play</span>
+</div>
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<h3 class="font-headline-md text-headline-md text-deep-slate mb-2">The Miller Rehearsal</h3>
+<p class="font-label-caps text-label-caps text-secondary mb-8">August 02, 2024</p>
+<div class="mt-auto">
+<button class="w-full bg-[#5E7FA6] text-on-primary py-3 rounded-lg font-label-caps text-label-caps hover:bg-[#4E6D8F] transition-colors">
+                            Launch Game
+                        </button>
+</div>
+</div>
+<!-- Card 3: Draft -->
+<div class="stationery-bg double-keyline p-8 flex flex-col h-full min-h-[320px] transition-transform hover:-translate-y-1 hover:shadow-sm">
+<div class="flex justify-between items-start mb-6">
+<div class="border border-outline-variant px-3 py-1 rounded-full flex items-center gap-2">
+<span class="font-label-caps text-[10px] text-secondary">Draft</span>
+</div>
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<h3 class="font-headline-md text-headline-md text-deep-slate mb-2">Elena's Bridal Brunch</h3>
+<p class="font-label-caps text-label-caps text-secondary mb-8">September 19, 2024</p>
+<div class="mt-auto">
+<button class="w-full border border-primary text-primary py-3 rounded-lg font-label-caps text-label-caps hover:bg-primary/5 transition-colors">
+                            Continue Editing
+                        </button>
+</div>
+</div>
+<!-- Card 4: Played -->
+<div class="stationery-bg double-keyline p-8 flex flex-col h-full min-h-[320px] opacity-60 transition-transform hover:-translate-y-1 hover:shadow-sm">
+<div class="flex justify-between items-start mb-6">
+<div class="bg-surface-container-highest px-3 py-1 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-secondary">check_circle</span>
+<span class="font-label-caps text-[10px] text-secondary">Played</span>
+</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-deep-slate mb-2">Winter Wedding Expo</h3>
+<p class="font-label-caps text-label-caps text-secondary mb-8">January 05, 2024</p>
+<div class="mt-auto">
+<button class="w-full text-primary underline underline-offset-4 font-label-caps text-label-caps hover:opacity-70 transition-opacity">
+                            View Results
+                        </button>
+</div>
+</div>
+<!-- Empty State / New Card Prompt -->
+<div class="border-2 border-dashed border-outline-variant/30 rounded-lg p-8 flex flex-col items-center justify-center h-full min-h-[320px] bg-surface-container-lowest/30 group hover:border-primary/30 transition-colors">
+<div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center text-outline group-hover:text-primary group-hover:bg-sky-blue/20 transition-all duration-300">
+<span class="material-symbols-outlined text-[32px]">add</span>
+</div>
+<p class="font-label-caps text-label-caps text-secondary mt-4 group-hover:text-primary">Create New Game</p>
+</div>
+</div>
+<!-- Empty State Section (Alt View Example) -->
+<section class="mt-stack-lg border-t border-outline-variant/10 pt-stack-lg flex flex-col items-center text-center py-20">
+<div class="mb-6 opacity-80 scale-125">
+<img alt="Champagne coupe illustration" class="w-24 h-24 object-contain mx-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLtmQcFACSuS8oKqZgM3zJPw8o5x1h3r7YofkBh_NPL1ZjvCNmDWfOjgk3zGyY2iKUBWE1DtfCwJp1rppDYpA8gz1fszxpukKQvP4H4RARWwPqwYtObEaUv8UZYgEoo6wq-ztWtf7ZKfuHeNQnCqqAj-MYf4vYvVGjn-QnpJanlUt6D838F1Qz2YB-RKxo1YUQKyS0X_FOntNYgTL0FZauoS_NPGf20qO2AhOrUlVCwF01nLfSuQtHhjZe0"/>
+</div>
+<h2 class="font-headline-md text-headline-md text-deep-slate mb-4">Ready to start the celebration?</h2>
+<p class="font-body-md text-body-md text-secondary max-w-md mb-8">Create your first game to engage guests and capture hilarious memories before the big day.</p>
+<button class="bg-[#5E7FA6] text-on-primary py-4 px-10 rounded-lg font-label-caps text-label-caps hover:bg-[#4E6D8F] transition-all transform active:scale-95 shadow-sm">
+                    Begin Your Heirloom Game
+                </button>
+</section>
+</main>
+<!-- Footer -->
+<footer class="flex flex-col items-center gap-stack-md w-full px-margin-page mt-stack-lg py-stack-lg border-t border-outline-variant/10 bg-background">
+<div class="flex gap-8 mb-4">
+<a class="font-label-caps text-[11px] text-secondary hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-caps text-[11px] text-secondary hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-caps text-[11px] text-secondary hover:text-primary transition-colors" href="#">Contact Us</a>
+</div>
+<p class="font-body-md text-body-md text-secondary opacity-60 text-center">
+                © 2024 Guess the Groom. A Modern Heirloom Experience.
+            </p>
+<div class="mt-4 flex gap-4 text-outline">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">favorite</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">share</span>
+</div>
+</footer>
+</div>
+<!-- Floating Action Button (FAB) - Only shown on mobile for quick access -->
+<button class="lg:hidden fixed bottom-6 right-6 w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center z-50 transform hover:scale-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<script>
+        // Simple micro-interaction for cards
+        document.querySelectorAll('.stationery-bg').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.borderColor = 'rgba(61, 94, 131, 0.4)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.borderColor = 'rgba(44, 62, 80, 0.15)';
+            });
+        });
+    </script>
+</body></html>

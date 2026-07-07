@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { EventRow } from "@/lib/db/types";
-import { partyNoun } from "@/lib/theme";
+import { partyNoun, responderNoun } from "@/lib/theme";
 
 function CopyButton({ text, label }: { text: string; label: string }) {
   const [copied, setCopied] = useState(false);
@@ -14,10 +14,30 @@ function CopyButton({ text, label }: { text: string; label: string }) {
         setCopied(true);
         setTimeout(() => setCopied(false), 1500);
       }}
-      className="shrink-0 rounded-full border border-line bg-surface px-4 py-2 text-xs font-bold transition hover:border-primary"
+      className="label-caps shrink-0 px-3 py-2 text-[10px] text-primary transition hover:text-primary-deep"
     >
-      {copied ? "Copied ✓" : label}
+      {copied ? "Copied ✓" : `⧉ ${label}`}
     </button>
+  );
+}
+
+/** Fine-line bunting garland flourish. */
+function Bunting() {
+  return (
+    <svg
+      viewBox="0 0 160 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      className="mx-auto h-6 w-40 text-primary/70"
+      aria-hidden
+    >
+      <path d="M4 6c30 10 62 10 76 4 14-6 46-6 76-4" />
+      <circle cx="30" cy="11" r="1.6" fill="currentColor" stroke="none" />
+      <circle cx="66" cy="12.5" r="1.6" fill="currentColor" stroke="none" />
+      <circle cx="100" cy="11.5" r="1.6" fill="currentColor" stroke="none" />
+      <circle cx="132" cy="8.5" r="1.6" fill="currentColor" stroke="none" />
+    </svg>
   );
 }
 
@@ -37,7 +57,11 @@ export function SendCard({
   const watchUrl = `${appUrl}/watch/${event.playback_token}`;
   const sent = event.status !== "draft" && event.status !== "expired";
 
-  const funnyText = `${event.honoree_name}, you have homework 🍾 It's for ${
+  const pronoun = event.honoree_role === "bride" ? "His" : "Her";
+  // The honoree is the one guessing at the party.
+  const guesser = event.honoree_role;
+
+  const funnyText = `${event.honoree_name}, you have homework ✨ It's for ${
     event.title
   } — answer a few questions on video before the ${partyNoun(
     event.honoree_role
@@ -64,73 +88,105 @@ export function SendCard({
   }
 
   return (
-    <section className="rounded-3xl border border-line bg-surface p-6 sm:p-8">
-      <h2 className="text-lg font-bold">
-        {sent ? `${event.honoree_name}'s link` : `Send to ${event.honoree_name}`}
+    <section className="double-keyline p-6 sm:p-10">
+      <Bunting />
+      <h2 className="mt-4 text-center font-display text-3xl italic text-primary">
+        {sent
+          ? `It's in ${event.honoree_name}'s hands now`
+          : `Send it to ${event.honoree_name}`}
       </h2>
 
       {!sent ? (
         <>
-          <p className="mt-1 text-sm text-soft">
+          <p className="mx-auto mt-3 max-w-md text-center text-sm leading-relaxed text-soft">
             Ready? This reveals {event.honoree_name}&apos;s private recording
-            link. You can still edit questions after sending.
+            link. {pronoun} answers stay secret until the big reveal — and you
+            can still edit questions after sending.
           </p>
-          <button
-            onClick={send}
-            disabled={busy || questionCount === 0}
-            className="mt-4 rounded-full bg-primary px-6 py-2.5 text-sm font-bold text-on-primary transition hover:bg-primary-deep disabled:opacity-50"
-          >
-            {busy
-              ? "One sec…"
-              : questionCount === 0
-                ? "Add a question first"
-                : `Get ${event.honoree_name}'s link`}
-          </button>
+          <div className="mt-7 text-center">
+            <button
+              onClick={send}
+              disabled={busy || questionCount === 0}
+              className="label-caps bg-primary px-8 py-3.5 text-[11px] text-on-primary transition hover:bg-primary-deep disabled:opacity-50"
+            >
+              {busy
+                ? "One sec…"
+                : questionCount === 0
+                  ? "Add a question first"
+                  : `Get ${event.honoree_name}'s link`}
+            </button>
+          </div>
         </>
       ) : (
-        <div className="mt-4 space-y-4">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-soft">
-              Recording link — text it to {event.honoree_name}
+        <>
+          <p className="mx-auto mt-3 max-w-md text-center text-sm leading-relaxed text-soft">
+            Share this link with the {responderNoun(event.honoree_role)} to
+            start the game. {pronoun} answers will be kept secret until the{" "}
+            {guesser}&apos;s big reveal.
+          </p>
+
+          <div className="mx-auto mt-8 max-w-lg">
+            <p className="label-caps text-[10px] text-soft">
+              Direct share link — text it to {event.honoree_name}
             </p>
-            <div className="mt-1.5 flex items-center gap-2">
-              <code className="min-w-0 flex-1 truncate rounded-xl border border-line bg-bg px-3 py-2 text-xs">
+            <div className="mt-2 flex items-center gap-2 border-b border-line pb-2">
+              <span className="min-w-0 flex-1 truncate font-display text-base text-primary">
                 {respondUrl}
-              </code>
-              <CopyButton text={respondUrl} label="Copy link" />
+              </span>
+              <CopyButton text={respondUrl} label="Copy" />
             </div>
-          </div>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-soft">
-              Or copy a ready-made text message
-            </p>
-            <div className="mt-1.5 flex items-start gap-2">
-              <p className="min-w-0 flex-1 rounded-xl border border-line bg-bg px-3 py-2 text-xs leading-relaxed text-soft">
-                {funnyText}
+
+            <div className="keyline letterpress mt-8 p-5">
+              <p className="label-caps text-[10px] text-soft">Suggested text</p>
+              <p className="mt-3 font-serif text-sm italic leading-relaxed text-ink">
+                &ldquo;{funnyText}&rdquo;
               </p>
-              <CopyButton text={funnyText} label="Copy text" />
+              <CopyMessageButton text={funnyText} />
             </div>
-          </div>
-          {(event.status === "ready" || event.status === "completed") && (
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-soft">
-                Party link — open on the TV at the party
-              </p>
-              <div className="mt-1.5 flex items-center gap-2">
-                <code className="min-w-0 flex-1 truncate rounded-xl border border-line bg-bg px-3 py-2 text-xs">
-                  {watchUrl}
-                </code>
-                <CopyButton text={watchUrl} label="Copy link" />
+
+            {(event.status === "ready" || event.status === "completed") && (
+              <div className="mt-8">
+                <p className="label-caps text-[10px] text-soft">
+                  Party link — open on the TV at the party
+                </p>
+                <div className="mt-2 flex items-center gap-2 border-b border-line pb-2">
+                  <span className="min-w-0 flex-1 truncate font-display text-base text-primary">
+                    {watchUrl}
+                  </span>
+                  <CopyButton text={watchUrl} label="Copy" />
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+
+            <div className="engraved-divider mt-9" />
+            <p className="mt-5 text-center text-sm italic text-soft">
+              ✉ We&apos;ll email you the moment{" "}
+              {event.honoree_role === "bride" ? "he" : "she"} finishes.
+            </p>
+          </div>
+        </>
       )}
       {error && (
-        <p className="mt-4 rounded-xl bg-accent px-4 py-2.5 text-sm font-medium">
+        <p className="mx-auto mt-5 max-w-lg border border-line bg-raised px-4 py-2.5 text-sm">
           {error}
         </p>
       )}
     </section>
+  );
+}
+
+function CopyMessageButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      onClick={async () => {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      }}
+      className="label-caps mt-4 w-full bg-primary py-3 text-[11px] text-on-primary transition hover:bg-primary-deep"
+    >
+      {copied ? "Copied ✓" : "🗨 Copy message"}
+    </button>
   );
 }

@@ -23,6 +23,7 @@ export interface EventRow {
   playback_token: string;
   is_premium: boolean;
   stripe_payment_id: string | null;
+  greeting_video_uid: string | null;
   videos_deleted_at: string | null;
   reminder_sent_at: string | null;
   deletion_warning_sent_at: string | null;

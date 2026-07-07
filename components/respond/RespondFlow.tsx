@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import type { EventRow, QuestionWithResponse } from "@/lib/db/types";
 import { partyNoun } from "@/lib/theme";
 import { PreCheck } from "@/components/respond/PreCheck";
 import { QuestionRecorder } from "@/components/respond/QuestionRecorder";
+import { StreamPlayer } from "@/components/video/StreamPlayer";
 
 type Step = "intro" | "precheck" | "questions" | "review" | "done";
 
@@ -25,6 +26,8 @@ export function RespondFlow({
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [locked, setLocked] = useState(event.status === "ready");
+  // Bumped on every successful upload to (re)trigger the saved toast.
+  const [savedAt, setSavedAt] = useState(0);
 
   const isReady = (q: QuestionWithResponse) =>
     q.responses.some((r) => r.status === "ready");
@@ -35,6 +38,7 @@ export function RespondFlow({
     locked && !q.needs_redo;
 
   function markSaved(questionId: string, uid: string, duration: number) {
+    setSavedAt(Date.now());
     setQuestions((prev) =>
       prev.map((q) =>
         q.id === questionId
@@ -95,7 +99,7 @@ export function RespondFlow({
     const already = readyCount > 0;
     return (
       <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-10 text-center">
-        <p className="font-script text-5xl leading-tight text-primary animate-rise">
+        <p className="font-display text-5xl italic leading-tight text-primary animate-rise">
           You have homework
         </p>
         <p className="mt-6 text-base leading-relaxed">
@@ -108,8 +112,17 @@ export function RespondFlow({
           {partyNoun(event.honoree_role)}.
         </p>
         <p className="mt-4 font-semibold">
-          Be funny. Be honest. Be brave. 🍾
+          Be funny. Be honest. Be brave. ✨
         </p>
+
+        {event.greeting_video_uid && (
+          <GreetingMessage
+            uid={event.greeting_video_uid}
+            hostName={hostName}
+            respondToken={respondToken}
+          />
+        )}
+
         <ul className="mx-auto mt-6 max-w-xs space-y-1.5 text-left text-sm text-soft">
           <li>• 60 seconds max per answer</li>
           <li>• You can re-record any of them</li>
@@ -122,7 +135,7 @@ export function RespondFlow({
             else if (already || locked) setStep("questions");
             else setStep("precheck");
           }}
-          className="mt-8 rounded-full bg-primary px-8 py-4 text-base font-bold text-on-primary shadow-lg animate-pop"
+          className="label-caps mt-8 bg-primary px-8 py-4 text-xs text-on-primary shadow-lg animate-pop"
         >
           {locked && redoCount > 0
             ? `Fix ${redoCount} redo${redoCount === 1 ? "" : "s"} 😅`
@@ -153,8 +166,10 @@ export function RespondFlow({
   if (step === "done") {
     return (
       <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center px-6 text-center">
-        <p className="text-6xl animate-pop">🍾</p>
-        <p className="mt-4 font-script text-5xl text-primary">Locked in!</p>
+        <p className="text-6xl animate-pop">🎉</p>
+        <p className="mt-4 font-display text-5xl italic text-primary">
+          Locked in!
+        </p>
         <p className="mt-4 text-soft">
           All {questions.length} answers are in.{" "}
           {hostName ?? "The host"} just got the good news. Your only job now
@@ -176,9 +191,7 @@ export function RespondFlow({
   if (step === "review") {
     return (
       <div className="mx-auto min-h-screen max-w-md px-5 py-8">
-        <h1 className="text-xl font-extrabold tracking-tight">
-          One last look
-        </h1>
+        <h1 className="font-display text-3xl text-primary">One last look</h1>
         <p className="mt-1 text-sm text-soft">
           Happy with everything? Then lock it in and you&apos;re done.
         </p>
@@ -186,7 +199,7 @@ export function RespondFlow({
           {questions.map((q, i) => (
             <li
               key={q.id}
-              className="flex items-center gap-3 rounded-2xl border border-line bg-surface p-3"
+              className="keyline flex items-center gap-3 p-3"
             >
               <ResponseThumb
                 uid={q.responses[0]?.stream_video_uid ?? null}
@@ -224,7 +237,7 @@ export function RespondFlow({
         <button
           onClick={() => void submit()}
           disabled={!allReady || submitting}
-          className="mt-6 w-full rounded-full bg-primary px-6 py-4 text-base font-bold text-on-primary disabled:opacity-50"
+          className="label-caps mt-6 w-full bg-primary px-6 py-4 text-xs text-on-primary disabled:opacity-50"
         >
           {submitting ? "Locking in…" : "Submit & lock in 🔒"}
         </button>
@@ -267,7 +280,7 @@ export function RespondFlow({
                 : q.needs_redo
                   ? "bg-accent"
                   : isReady(q)
-                    ? "bg-primary/20 text-primary-deep"
+                    ? "bg-primary/20 text-primary"
                     : "bg-raised text-soft"
             }`}
           >
@@ -288,7 +301,7 @@ export function RespondFlow({
         </div>
       )}
 
-      <h1 className="mt-4 text-2xl font-extrabold leading-snug tracking-tight">
+      <h1 className="mt-4 font-display text-2xl italic leading-snug text-ink">
         {active.text}
       </h1>
 
@@ -337,6 +350,112 @@ export function RespondFlow({
           All answered — review &amp; submit 🎉
         </button>
       )}
+
+      <SavedToast trigger={savedAt} />
+    </div>
+  );
+}
+
+/** Bottom-center "Response saved!" toast; auto-dismisses after a beat. */
+function SavedToast({ trigger }: { trigger: number }) {
+  // Visible while the latest trigger hasn't been dismissed yet.
+  const [dismissed, setDismissed] = useState(0);
+
+  useEffect(() => {
+    if (!trigger) return;
+    const t = setTimeout(() => setDismissed(trigger), 2800);
+    return () => clearTimeout(t);
+  }, [trigger]);
+
+  if (!trigger || dismissed >= trigger) return null;
+  return (
+    <div
+      className="pointer-events-none fixed inset-x-0 bottom-6 z-50 flex justify-center px-5"
+      role="status"
+      aria-live="polite"
+    >
+      <div
+        key={trigger}
+        className="double-keyline animate-pop flex items-center gap-3.5 px-5 py-3.5 shadow-xl"
+      >
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-base text-primary">
+          ✓
+        </span>
+        <div className="text-left">
+          <p className="font-display text-lg italic leading-tight text-primary">
+            Response saved!
+          </p>
+          <p className="mt-0.5 text-xs text-soft">
+            Your answer is safely tucked away.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** The host's recorded hello, shown on the intro before the questions. */
+function GreetingMessage({
+  uid,
+  hostName,
+  respondToken,
+}: {
+  uid: string;
+  hostName: string | null;
+  respondToken: string;
+}) {
+  const [src, setSrc] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function play() {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/stream/playback-token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uid, respond_token: respondToken }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError("Couldn't load the video — try again in a moment.");
+        return;
+      }
+      setSrc(data.urls.hls);
+    } catch {
+      setError("Couldn't load the video — try again in a moment.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="double-keyline animate-rise mt-6 p-4">
+      <p className="label-caps text-[10px] text-primary">
+        ✉ A message from {hostName ?? "your host"}
+      </p>
+      {src ? (
+        <StreamPlayer
+          src={src}
+          autoPlay
+          className="mt-3 aspect-video w-full bg-black"
+        />
+      ) : (
+        <button
+          onClick={() => void play()}
+          disabled={loading}
+          className="mt-3 flex aspect-video w-full flex-col items-center justify-center gap-2 bg-raised transition hover:bg-accent disabled:opacity-60"
+        >
+          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-xl text-on-primary">
+            ▶
+          </span>
+          <span className="font-display text-base italic text-primary">
+            {loading ? "One sec…" : "Press play before you start"}
+          </span>
+        </button>
+      )}
+      {error && <p className="mt-2 text-xs text-soft">{error}</p>}
     </div>
   );
 }

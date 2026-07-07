@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guess the Groom - End Game</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Literata:ital,wght@0,200..900;1,200..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .ticking-stripe {
+            background-color: #ffffff;
+            background-image: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 48px,
+                #cfe4ff 48px,
+                #cfe4ff 50px
+            );
+        }
+        .double-keyline {
+            border: 1px solid #3e5e7f;
+            padding: 4px;
+            position: relative;
+        }
+        .double-keyline::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 0.5px solid #3e5e7f;
+            pointer-events: none;
+        }
+        .scallop-edge {
+            mask-image: radial-gradient(circle at 10px 100%, transparent 10px, white 10.5px);
+            mask-size: 20px 100%;
+        }
+        .engraved-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #3e5e7f 20%, #3e5e7f 80%, transparent);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .engraved-line::after {
+            content: '⬥';
+            color: #3e5e7f;
+            font-size: 12px;
+            background: #ffffff;
+            padding: 0 8px;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f7f9ff",
+                        "on-secondary-fixed-variant": "#474743",
+                        "secondary-fixed-dim": "#c9c6c1",
+                        "surface-container-low": "#edf4ff",
+                        "secondary": "#5f5e5a",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#d3e5f2",
+                        "surface-container-highest": "#d2e4fa",
+                        "primary-fixed": "#cfe4ff",
+                        "tertiary": "#4d5e69",
+                        "on-secondary-fixed": "#1c1c18",
+                        "on-primary-fixed": "#001d34",
+                        "on-surface": "#0b1d2d",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#667782",
+                        "surface-bright": "#f7f9ff",
+                        "primary-fixed-dim": "#a9caef",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#3e5e7f",
+                        "surface-variant": "#d2e4fa",
+                        "on-secondary-container": "#656460",
+                        "inverse-surface": "#213242",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#0b1d2d",
+                        "primary-container": "#577799",
+                        "on-surface-variant": "#43474d",
+                        "surface-container-high": "#d9eaff",
+                        "secondary-container": "#e5e2dc",
+                        "on-tertiary-container": "#fbfcff",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#a9caef",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#e5e2dc",
+                        "outline-variant": "#c3c7ce",
+                        "outline": "#73777e",
+                        "on-tertiary-fixed": "#0c1d27",
+                        "surface-dim": "#cadcf1",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#fdfcff",
+                        "inverse-on-surface": "#e8f2ff",
+                        "tertiary-fixed-dim": "#b7c9d6",
+                        "surface-tint": "#416182",
+                        "on-tertiary-fixed-variant": "#384953",
+                        "on-primary-fixed-variant": "#284968",
+                        "on-error": "#ffffff",
+                        "surface-container": "#e3efff",
+                        "background": "#f7f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-padding": "32px",
+                        "unit": "8px",
+                        "keyline-gap": "4px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["EB Garamond"],
+                        "body-md": ["Literata"],
+                        "headline-xl": ["EB Garamond"],
+                        "body-lg": ["Literata"],
+                        "display-italic": ["EB Garamond"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface overflow-hidden h-screen w-screen flex flex-col items-center justify-center">
+<!-- Background Layer -->
+<div class="fixed inset-0 ticking-stripe opacity-40 pointer-events-none"></div>
+<!-- Main 16:9 Canvas -->
+<div class="relative w-full aspect-video max-h-screen flex flex-col items-center justify-between p-12 bg-white/60 backdrop-blur-sm">
+<!-- Top: Decorative Bunting Garland -->
+<div class="absolute top-0 left-0 w-full h-32 flex justify-center pointer-events-none overflow-hidden">
+<div class="w-full h-full flex justify-around items-start opacity-80 pt-4">
+<!-- SVG Garland Mockup -->
+<svg fill="none" height="80" preserveaspectratio="none" viewbox="0 0 1000 80" width="100%" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 10 Q 50 60 100 10 Q 150 60 200 10 Q 250 60 300 10 Q 350 60 400 10 Q 450 60 500 10 Q 550 60 600 10 Q 650 60 700 10 Q 750 60 800 10 Q 850 60 900 10 Q 950 60 1000 10" fill="none" stroke="#3e5e7f" stroke-width="1"></path>
+<!-- Small Ticking Stripe Flags -->
+<path d="M45 35 L55 35 L50 50 Z" fill="#3e5e7f"></path>
+<path d="M145 35 L155 35 L150 50 Z" fill="#3e5e7f"></path>
+<path d="M245 35 L255 35 L250 50 Z" fill="#3e5e7f"></path>
+<path d="M345 35 L355 35 L350 50 Z" fill="#3e5e7f"></path>
+<path d="M445 35 L455 35 L450 50 Z" fill="#3e5e7f"></path>
+<path d="M545 35 L555 35 L550 50 Z" fill="#3e5e7f"></path>
+<path d="M645 35 L655 35 L650 50 Z" fill="#3e5e7f"></path>
+<path d="M745 35 L755 35 L750 50 Z" fill="#3e5e7f"></path>
+<path d="M845 35 L855 35 L850 50 Z" fill="#3e5e7f"></path>
+<path d="M945 35 L955 35 L950 50 Z" fill="#3e5e7f"></path>
+</svg>
+</div>
+</div>
+<!-- Headline -->
+<header class="z-10 mt-12 text-center">
+<h1 class="font-headline-xl text-headline-xl text-primary tracking-tight">That's a wrap</h1>
+<div class="engraved-line w-48 mx-auto mt-4 opacity-60"></div>
+</header>
+<!-- Center: Tally Card -->
+<main class="z-10 flex flex-col items-center gap-8">
+<div class="double-keyline bg-surface-container-lowest">
+<div class="bg-surface-container-lowest px-16 py-12 flex flex-col items-center justify-center min-w-[400px]">
+<div class="font-label-sm text-label-sm text-outline tracking-widest uppercase mb-6">Final Tally</div>
+<div class="flex items-baseline gap-4">
+<span class="font-headline-xl text-headline-xl text-primary">8</span>
+<span class="font-display-italic text-display-italic text-primary-container italic">right</span>
+<span class="text-primary text-headline-lg mx-4">·</span>
+<span class="font-headline-xl text-headline-xl text-primary">4</span>
+<span class="font-display-italic text-display-italic text-primary-container italic">drinks</span>
+</div>
+</div>
+</div>
+<!-- Sub-headline -->
+<div class="text-center">
+<p class="font-display-italic text-display-italic text-primary italic text-4xl">Congratulations, Amelia &amp; Mike</p>
+</div>
+</main>
+<!-- Bottom: Brand & Identity -->
+<footer class="z-10 w-full flex flex-col items-center gap-4 mb-8">
+<!-- Wax Seal and Logo -->
+<div class="flex items-center gap-6">
+<div class="relative w-16 h-16 flex items-center justify-center">
+<!-- Wax Seal Badge -->
+<div class="absolute inset-0 bg-primary opacity-90 rounded-full shadow-inner" style="clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);"></div>
+<div class="z-20 text-on-primary font-display-italic text-lg">A&amp;M</div>
+<!-- Outer Engraved Ring -->
+<div class="absolute inset-0 border-[0.5px] border-primary rounded-full scale-125 opacity-40"></div>
+</div>
+<div class="flex flex-col">
+<span class="font-display-italic text-display-italic text-primary text-2xl leading-none">Guess the Groom</span>
+<span class="font-label-sm text-label-sm text-primary tracking-widest mt-1">GUESSTHEGROOM.COM</span>
+</div>
+</div>
+<div class="flex items-center gap-2 opacity-50">
+<span class="material-symbols-outlined text-primary text-sm">favorite</span>
+<span class="font-label-sm text-label-sm text-primary">CAPE COD · 2024</span>
+</div>
+</footer>
+<!-- Bottom Scalloped Border -->
+<div class="absolute bottom-0 left-0 w-full h-4 bg-primary-fixed-dim scallop-edge opacity-30"></div>
+</div>
+<!-- Interaction Script -->
+<script>
+        // Subtle floating animation for the tally card
+        document.addEventListener('DOMContentLoaded', () => {
+            const card = document.querySelector('.double-keyline');
+            let angle = 0;
+            
+            function animate() {
+                angle += 0.02;
+                const yOffset = Math.sin(angle) * 5;
+                card.style.transform = `translateY(${yOffset}px)`;
+                requestAnimationFrame(animate);
+            }
+            animate();
+        });
+    </script>
+</body></html>

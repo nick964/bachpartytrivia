@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guess the Groom | A Modern Heirloom Experience</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,700;1,400&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#a8c9f4",
+                    "surface-container-low": "#f4f3f7",
+                    "on-secondary-fixed-variant": "#474744",
+                    "on-secondary-fixed": "#1b1c19",
+                    "tertiary-fixed-dim": "#edbf7b",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#43474e",
+                    "sky-blue": "#A9C5E3",
+                    "primary-container": "#56779d",
+                    "surface-container-highest": "#e3e2e5",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#936e32",
+                    "secondary-fixed": "#e4e2dd",
+                    "background": "#faf9fc",
+                    "champagne-gold": "#D4AF37",
+                    "inverse-on-surface": "#f1f0f4",
+                    "on-background": "#1a1c1e",
+                    "surface-dim": "#dadadd",
+                    "outline-variant": "#c3c6cf",
+                    "outline": "#73777f",
+                    "surface-container": "#eeedf1",
+                    "error": "#ba1a1a",
+                    "primary": "#3d5e83",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#26496d",
+                    "surface-variant": "#e3e2e5",
+                    "secondary": "#5e5e5b",
+                    "on-primary-container": "#fdfcff",
+                    "on-surface": "#1a1c1e",
+                    "on-tertiary-fixed": "#281800",
+                    "on-tertiary-fixed-variant": "#604106",
+                    "surface-tint": "#3f6186",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#001d36",
+                    "surface-bright": "#faf9fc",
+                    "tertiary-fixed": "#ffddaf",
+                    "inverse-surface": "#2f3033",
+                    "deep-slate": "#2C3E50",
+                    "secondary-container": "#e1dfdb",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#63635f",
+                    "secondary-fixed-dim": "#c8c6c2",
+                    "tertiary": "#78561c",
+                    "surface-container-high": "#e8e8eb",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-container": "#fffbff",
+                    "primary-fixed": "#d1e4ff",
+                    "surface": "#faf9fc",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#a8c9f4"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "1.5rem",
+                    "stack-md": "1rem",
+                    "stack-lg": "2.5rem",
+                    "stack-sm": "0.5rem",
+                    "margin-mobile": "1.25rem",
+                    "margin-page": "2rem"
+            },
+            "fontFamily": {
+                    "label-caps": ["DM Sans"],
+                    "body-lg": ["DM Sans"],
+                    "headline-lg": ["Playfair Display"],
+                    "headline-md": ["Playfair Display"],
+                    "headline-lg-mobile": ["Playfair Display"],
+                    "headline-xl": ["Playfair Display"],
+                    "body-md": ["DM Sans"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #FBF9F4;
+            background-image: radial-gradient(#2C3E50 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+            background-attachment: fixed;
+            color: #2C3E50;
+        }
+
+        .scalloped-edge {
+            mask-image: url("data:image/svg+xml,%3Csvg width='40' height='20' viewBox='0 0 40 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20c4.418 0 8-3.582 8-8s3.582-8 8-8 8 3.582 8 8 3.582 8 8 8 8-3.582 8-8V0H0v20z' fill='%23000'/%3E%3C/svg%3E");
+            mask-repeat: repeat-x;
+            mask-size: 40px 20px;
+            mask-position: top;
+        }
+
+        .scalloped-frame {
+            position: relative;
+            padding-top: 40px;
+        }
+        
+        .scalloped-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='20' viewBox='0 0 40 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='20' fill='%23FBF9F4'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            background-position: top;
+            transform: translateY(-50%);
+        }
+
+        .letterpress-inset {
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.05), inset -1px -1px 2px rgba(255,255,255,0.8);
+        }
+
+        .double-keyline {
+            border: 1px solid #c3c6cf;
+            padding: 2px;
+            position: relative;
+        }
+        .double-keyline::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            border: 1px solid rgba(195, 198, 207, 0.4);
+            pointer-events: none;
+        }
+
+        .wax-seal {
+            background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2), inset 1px 1px 2px rgba(255,255,255,0.3);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased overflow-x-hidden">
+<!-- Top Navigation Shell -->
+<header class="bg-background/80 backdrop-blur-md sticky top-0 z-50 border-b border-outline-variant/30 px-margin-page py-4">
+<div class="max-w-7xl mx-auto flex justify-between items-center">
+<div class="flex items-center gap-4">
+<img alt="Guess the Groom Logo" class="h-10 w-10 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLuGXRkD5Hh_UttePoZQMb5pMbBu22F4cC3zCnK0SbnZANr5FODdiL0vkiAKfP1-4Zq2_L7IWONwtFNSAxV_jOh_Iu-OqY90y7R_9-iDKSSEYCJzPOM5hirCJpnCT3IdMSwpenNpF2tF40Fx62uBo9dcVUEIB6npnXA-RPjBVvJCiq1uVTQi8AdhyBYXu0uMXjH4vKZKKOiG6iAiCvNrbMF6P6Q-Oks0cLQi-L2aNE5KKmyyX21OtiIlzMs"/>
+<span class="font-headline-md text-headline-md text-primary tracking-tight">Guess the Groom</span>
+</div>
+<nav class="hidden md:flex items-center gap-stack-lg">
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-primary py-1" href="#">Dashboard</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors py-1" href="#">How It Works</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors py-1" href="#">Pricing</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary transition-colors">notifications</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A soft, professional studio portrait of a smiling woman with styled hair, set against an airy white background with warm natural lighting, reflecting a premium bachelorette aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAh9xVVoJMhVD_TvkJJSc6CdTIoLGgwJPAqxVbbDfZxDz41VsUAdYJfcdU00XlwhOGqVCO5JodvIUukxfVthjEMXf1rRECCSpCx1Y2K3rLZs2tTgd_IsJqf492VObxIBu4wx52Jj9xWEr8V1xkFXDGq7G-049JLkc8HQkwAX8z5QWMBOxhEOuAD9BUuME7fmj1VONxNlb5PMzdjkOpHN0358Fu9al20ObCAb3FOw1-LBz9L3rm-dCo9B7r8t5DlaaFVn0lveuBvu9c"/>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-margin-page pb-stack-lg">
+<!-- Hero Section -->
+<section class="mt-16 mb-24 relative">
+<div class="max-w-4xl mx-auto text-center space-y-stack-md">
+<p class="font-headline-md text-headline-md italic text-primary opacity-80 tracking-wide">
+                    The bachelorette game she'll never forget
+                </p>
+<div class="scalloped-frame bg-surface-container-lowest double-keyline p-12 md:p-20">
+<h1 class="font-headline-xl text-headline-xl text-deep-slate mb-8">
+                        What did the groom <span class="italic font-normal">*say?*</span>
+</h1>
+<button class="bg-[#5E7FA6] hover:bg-[#4A6D94] text-white font-label-caps text-label-caps px-10 py-4 transition-all duration-300 shadow-sm active:opacity-90">
+                        CREATE YOUR GAME
+                    </button>
+</div>
+<!-- Floating Decorative Accents -->
+<div class="absolute -top-10 -left-10 opacity-20 pointer-events-none hidden lg:block">
+<span class="material-symbols-outlined text-[80px] text-deep-slate" style="font-variation-settings: 'FILL' 0;">auto_awesome</span>
+</div>
+<div class="absolute -bottom-10 -right-10 opacity-20 pointer-events-none hidden lg:block">
+<span class="material-symbols-outlined text-[100px] text-deep-slate" style="font-variation-settings: 'FILL' 0;">celebration</span>
+</div>
+</div>
+</section>
+<!-- How It Works Section -->
+<section class="py-stack-lg">
+<div class="flex items-center justify-center gap-4 mb-16">
+<div class="h-px w-20 bg-outline-variant/30"></div>
+<h2 class="font-label-caps text-label-caps text-primary tracking-[0.3em] uppercase">How It Works</h2>
+<div class="h-px w-20 bg-outline-variant/30"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest double-keyline p-8 flex flex-col items-center text-center transition-transform hover:-translate-y-1">
+<div class="mb-6 h-16 w-16 flex items-center justify-center">
+<span class="material-symbols-outlined text-deep-slate text-4xl" style="font-variation-settings: 'wght' 200;">edit_note</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-deep-slate mb-3">Write questions</h3>
+<p class="font-body-md text-body-md text-secondary">Choose from our curated templates or craft your own personalized riddles about their love story.</p>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest double-keyline p-8 flex flex-col items-center text-center transition-transform hover:-translate-y-1">
+<div class="mb-6 h-16 w-16 flex items-center justify-center">
+<span class="material-symbols-outlined text-deep-slate text-4xl" style="font-variation-settings: 'wght' 200;">videocam</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-deep-slate mb-3">He records</h3>
+<p class="font-body-md text-body-md text-secondary">Send a magic link to the groom. He records his hilarious and heartfelt answers directly from his phone.</p>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest double-keyline p-8 flex flex-col items-center text-center transition-transform hover:-translate-y-1">
+<div class="mb-6 h-16 w-16 flex items-center justify-center">
+<span class="material-symbols-outlined text-deep-slate text-4xl" style="font-variation-settings: 'wght' 200;">liquor</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-deep-slate mb-3">Play at the party</h3>
+<p class="font-body-md text-body-md text-secondary">Screen the video live. The bride guesses his answers. Everyone toasts to the perfect match.</p>
+</div>
+</div>
+</section>
+<!-- Pricing Section -->
+<section class="py-stack-lg bg-surface-container/30 -mx-margin-page px-margin-page">
+<div class="max-w-4xl mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-deep-slate mb-4">Choose Your Experience</h2>
+<p class="font-body-lg text-body-lg text-secondary">From intimate gatherings to the grandest galas.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-lg items-start">
+<!-- Free Card -->
+<div class="bg-surface-container-lowest double-keyline p-10 flex flex-col h-full">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-headline-md text-headline-md text-deep-slate">Free</h3>
+<p class="font-label-caps text-label-caps text-secondary">BASIC KIT</p>
+</div>
+<span class="font-headline-lg text-headline-lg text-deep-slate">$0</span>
+</div>
+<ul class="space-y-4 mb-10 flex-grow">
+<li class="flex items-center gap-3 text-secondary">
+<span class="material-symbols-outlined text-sky-blue text-sm">check_circle</span>
+                                3 custom questions
+                            </li>
+<li class="flex items-center gap-3 text-secondary">
+<span class="material-symbols-outlined text-sky-blue text-sm">check_circle</span>
+                                Mobile recording link
+                            </li>
+<li class="flex items-center gap-3 text-secondary">
+<span class="material-symbols-outlined text-sky-blue text-sm">check_circle</span>
+                                Standard web player
+                            </li>
+</ul>
+<button class="w-full border-2 border-[#5E7FA6] text-[#5E7FA6] font-label-caps text-label-caps py-4 hover:bg-surface-container-low transition-colors">
+                            START FREE
+                        </button>
+</div>
+<!-- Premium Card -->
+<div class="bg-surface-container-lowest double-keyline p-10 flex flex-col h-full relative border-primary ring-1 ring-primary/20">
+<div class="absolute -top-6 -right-6 h-20 w-20 wax-seal rounded-full flex items-center justify-center text-white z-10 rotate-12">
+<span class="font-headline-md text-headline-md">G</span>
+</div>
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Premium</h3>
+<p class="font-label-caps text-label-caps text-champagne-gold">THE HEIRLOOM</p>
+</div>
+<span class="font-headline-lg text-headline-lg text-primary">$20</span>
+</div>
+<ul class="space-y-4 mb-10 flex-grow">
+<li class="flex items-center gap-3 text-deep-slate font-bold">
+<span class="material-symbols-outlined text-champagne-gold text-sm">check_circle</span>
+                                Unlimited questions
+                            </li>
+<li class="flex items-center gap-3 text-secondary">
+<span class="material-symbols-outlined text-champagne-gold text-sm">check_circle</span>
+                                High-res video downloads
+                            </li>
+<li class="flex items-center gap-3 text-secondary">
+<span class="material-symbols-outlined text-champagne-gold text-sm">check_circle</span>
+                                Printable keepsakes
+                            </li>
+<li class="flex items-center gap-3 text-secondary">
+<span class="material-symbols-outlined text-champagne-gold text-sm">check_circle</span>
+                                Ad-free experience
+                            </li>
+</ul>
+<button class="w-full bg-[#5E7FA6] text-white font-label-caps text-label-caps py-4 hover:shadow-lg transition-all active:scale-[0.98]">
+                            GET PREMIUM
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonial / Mood Section -->
+<section class="mt-24">
+<div class="bg-surface-container-lowest double-keyline overflow-hidden flex flex-col md:flex-row items-stretch">
+<div class="md:w-1/2 min-h-[400px]">
+<div class="w-full h-full bg-cover bg-center" data-alt="A candid, high-end photography shot of a group of bridesmaids laughing and celebrating with champagne in an elegant Parisian-style apartment. The lighting is soft and golden, with a focus on artisanal details like calligraphy invitations and crystal glassware. The overall mood is sophisticated, warm, and joyful." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCEP6kKalSMXiKr5PB_k72AVJX9UDowJEv-qYWUYfXllXYxqy1MyZD7XjAlz_Aw47rqztIxsxNTwLF0kVMTY89LZmQRJkF-il1tgIl4M488WLbsN4Z19rBpElkP5GJDgyE1OhzgC0C4r5K3vINdesvyXatwn6F8H1zbCaHx7QkF-MP-IZcGuyU3xESRCAZom-KR9VOmIYb89BRe7WdwZxmvXE8mHZErYYeaRrhqK7fGF0e7zaBqG0YdcvMs4j7pTDOgNChEges3G4k')"></div>
+</div>
+<div class="md:w-1/2 p-12 md:p-20 flex flex-col justify-center">
+<span class="material-symbols-outlined text-sky-blue text-5xl mb-6">format_quote</span>
+<p class="font-headline-md text-headline-md text-deep-slate italic mb-8 leading-relaxed">
+                        "The highlight of the entire weekend. We laughed, we cried, and Sarah has a video of her groom she'll treasure forever."
+                    </p>
+<p class="font-label-caps text-label-caps text-primary">— CATHERINE, MAID OF HONOR</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-background border-t border-outline-variant/10 py-stack-lg mt-stack-lg">
+<div class="max-w-7xl mx-auto px-margin-page flex flex-col items-center gap-stack-md">
+<div class="flex items-center gap-2 mb-4">
+<img alt="Logo Small" class="h-6 w-6" src="https://lh3.googleusercontent.com/aida/AP1WRLuGXRkD5Hh_UttePoZQMb5pMbBu22F4cC3zCnK0SbnZANr5FODdiL0vkiAKfP1-4Zq2_L7IWONwtFNSAxV_jOh_Iu-OqY90y7R_9-iDKSSEYCJzPOM5hirCJpnCT3IdMSwpenNpF2tF40Fx62uBo9dcVUEIB6npnXA-RPjBVvJCiq1uVTQi8AdhyBYXu0uMXjH4vKZKKOiG6iAiCvNrbMF6P6Q-Oks0cLQi-L2aNE5KKmyyX21OtiIlzMs"/>
+<span class="font-headline-md text-headline-md text-primary">Guess the Groom</span>
+</div>
+<div class="flex flex-wrap justify-center gap-8 mb-8">
+<a class="font-label-caps text-label-caps text-secondary hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-caps text-label-caps text-secondary hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-caps text-label-caps text-secondary hover:text-primary transition-colors" href="#">Contact Us</a>
+</div>
+<p class="font-body-md text-body-md text-secondary opacity-60">
+                © 2024 Guess the Groom. A Modern Heirloom Experience.
+            </p>
+</div>
+</footer>
+<!-- Subtle Floating Micro-interaction Script -->
+<script>
+        document.querySelectorAll('.double-keyline').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.querySelector('.material-symbols-outlined')?.classList.add('scale-110');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.querySelector('.material-symbols-outlined')?.classList.remove('scale-110');
+            });
+        });
+
+        // Add class to top bar on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-sm');
+            } else {
+                header.classList.remove('shadow-sm');
+            }
+        });
+    </script>
+</body></html>

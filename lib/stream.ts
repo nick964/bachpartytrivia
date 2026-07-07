@@ -43,7 +43,9 @@ async function streamFetch<T>(
  */
 export async function createDirectUpload(meta: {
   eventId: string;
-  questionId: string;
+  questionId?: string;
+  /** Non-question uploads (e.g. the host greeting) label themselves here. */
+  label?: string;
 }): Promise<{ uploadURL: string; uid: string }> {
   return streamFetch<{ uploadURL: string; uid: string }>(
     "/stream/direct_upload",
@@ -53,7 +55,9 @@ export async function createDirectUpload(meta: {
         maxDurationSeconds: 65, // belt-and-suspenders on the 60s UI cap
         requireSignedURLs: true,
         meta: {
-          name: `event:${meta.eventId} question:${meta.questionId}`,
+          name: meta.questionId
+            ? `event:${meta.eventId} question:${meta.questionId}`
+            : `event:${meta.eventId} ${meta.label ?? "video"}`,
         },
       }),
     }
@@ -151,10 +155,17 @@ export function playbackUrls(token: string) {
 /** Delete every Stream video attached to an event (event deletion + expiry cron). */
 export async function deleteEventVideos(eventId: string): Promise<number> {
   const db = supabaseAdmin();
-  const { data: questions } = await db
-    .from("questions")
-    .select("id, responses(stream_video_uid)")
-    .eq("event_id", eventId);
+  const [{ data: questions }, { data: eventRow }] = await Promise.all([
+    db
+      .from("questions")
+      .select("id, responses(stream_video_uid)")
+      .eq("event_id", eventId),
+    db
+      .from("events")
+      .select("greeting_video_uid")
+      .eq("id", eventId)
+      .maybeSingle(),
+  ]);
   const uids = (questions ?? [])
     .flatMap(
       (q: {
@@ -166,8 +177,27 @@ export async function deleteEventVideos(eventId: string): Promise<number> {
     )
     .map((r) => r.stream_video_uid)
     .filter((u): u is string => !!u);
+  const greetingUid = (eventRow as { greeting_video_uid: string | null } | null)
+    ?.greeting_video_uid;
+  if (greetingUid) uids.push(greetingUid);
+  // One stubborn video must not strand the rest; retry once each.
+  let deleted = 0;
   for (const uid of uids) {
-    await deleteVideo(uid);
+    try {
+      await deleteVideo(uid);
+      deleted += 1;
+    } catch {
+      await deleteVideo(uid)
+        .then(() => {
+          deleted += 1;
+        })
+        .catch(() => {});
+    }
   }
-  return uids.length;
+  if (deleted < uids.length) {
+    throw new StreamError(
+      `Deleted ${deleted} of ${uids.length} videos — retry later.`
+    );
+  }
+  return deleted;
 }

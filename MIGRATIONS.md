@@ -31,3 +31,20 @@ Why:
 - `questions.redo_note` — "Request redo" offers an optional short note.
 - `events.reminder_sent_at` / `deletion_warning_sent_at` — both cron emails
   must send exactly once per event.
+
+## 2026-07-07 — host greeting video
+
+Run in the Supabase SQL editor:
+
+```sql
+-- Optional short hello the host records; shown to the responder before
+-- the questions. One Cloudflare Stream video UID per event.
+alter table events
+  add column if not exists greeting_video_uid text;
+```
+
+Why:
+
+- `events.greeting_video_uid` — the MOH/best man can record a greeting the
+  groom/bride watches on the respond page intro. Stored on the event (one
+  per event); deleted with the rest of the event's videos on expiry/delete.

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import type {
   EventRow,
@@ -9,8 +9,7 @@ import type {
 } from "@/lib/db/types";
 import { UpgradeCard } from "@/components/editor/UpgradeCard";
 import { ResponseReview } from "@/components/editor/ResponseReview";
-
-const FREE_LIMIT = 3;
+import { FREE_QUESTION_LIMIT as FREE_LIMIT } from "@/lib/constants";
 
 async function api(path: string, method: string, body?: unknown) {
   const res = await fetch(path, {
@@ -37,21 +36,26 @@ export function QuestionEditor({
   samples: SampleQuestionRow[];
 }) {
   const router = useRouter();
-  const [order, setOrder] = useState(() => questions.map((q) => q.id));
+  // Order lives in state so drags feel instant, but must re-derive when the
+  // server list changes (adds/deletes) — the render-time adjustment pattern.
+  const serverIds = questions.map((q) => q.id).join(",");
+  const [orderState, setOrderState] = useState({
+    key: serverIds,
+    ids: questions.map((q) => q.id),
+  });
+  if (orderState.key !== serverIds) {
+    setOrderState({ key: serverIds, ids: questions.map((q) => q.id) });
+  }
+  const order =
+    orderState.key === serverIds ? orderState.ids : questions.map((q) => q.id);
+  const setOrder = (ids: string[]) => setOrderState({ key: serverIds, ids });
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hitWall, setHitWall] = useState(false);
   const [newText, setNewText] = useState("");
-  const [showSamples, setShowSamples] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editText, setEditText] = useState("");
-
-  const serverIds = questions.map((q) => q.id).join(",");
-  useEffect(() => {
-    setOrder(questions.map((q) => q.id));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [serverIds]);
 
   const byId = useMemo(
     () => new Map(questions.map((q) => [q.id, q])),
@@ -65,6 +69,9 @@ export function QuestionEditor({
   const existingTexts = useMemo(
     () => new Set(questions.map((q) => q.text.trim().toLowerCase())),
     [questions]
+  );
+  const availableSamples = samples.filter(
+    (s) => !existingTexts.has(s.text.trim().toLowerCase())
   );
 
   async function run(fn: () => Promise<void>) {
@@ -138,193 +145,214 @@ export function QuestionEditor({
   }
 
   const inputCls =
-    "w-full rounded-xl border border-line bg-bg px-4 py-2.5 text-sm outline-none transition focus:border-primary";
+    "w-full border-b border-soft/50 bg-transparent px-0.5 py-2 font-serif text-base italic outline-none transition focus:border-b-2 focus:border-primary";
 
   return (
-    <section className="rounded-3xl border border-line bg-surface p-6 sm:p-8">
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h2 className="text-lg font-bold">Questions</h2>
-        <span className="text-xs font-medium text-soft">
-          {questions.length}
-          {event.is_premium ? "" : ` of ${FREE_LIMIT} free`} ·{" "}
-          {event.honoree_name} answers each on video (60s max)
-        </span>
-      </div>
-
-      {ordered.length === 0 ? (
-        <p className="mt-4 rounded-2xl border border-dashed border-line bg-bg px-4 py-6 text-center text-sm text-soft">
-          No questions yet — write one below or grab a few from the library.
+    <section className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
+      {/* Question list */}
+      <div className="min-w-0">
+        <h2 className="font-display text-3xl text-primary">
+          Curate your questions
+        </h2>
+        <p className="mt-1 text-sm italic text-soft">
+          Designing an heirloom of laughter and love — {event.honoree_name}{" "}
+          answers each on video (60s max).
         </p>
-      ) : (
-        <ul className="mt-4 space-y-2">
-          {ordered.map((q, i) => (
-            <li
-              key={q.id}
-              draggable={editingId !== q.id}
-              onDragStart={() => setDragIndex(i)}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={() => {
-                if (dragIndex !== null) move(dragIndex, i);
-                setDragIndex(null);
-              }}
-              className={`rounded-2xl border border-line bg-bg p-4 ${
-                dragIndex === i ? "opacity-50" : ""
-              }`}
-            >
-              <div className="flex items-start gap-3">
-                <span
-                  className="mt-0.5 cursor-grab select-none text-soft"
-                  title="Drag to reorder"
-                >
-                  ⠿
-                </span>
-                <div className="min-w-0 flex-1">
-                  {editingId === q.id ? (
-                    <div className="flex flex-col gap-2 sm:flex-row">
-                      <input
-                        value={editText}
-                        onChange={(e) => setEditText(e.target.value)}
-                        maxLength={300}
-                        autoFocus
-                        className={inputCls}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") saveEdit(q.id);
-                          if (e.key === "Escape") setEditingId(null);
-                        }}
-                      />
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => saveEdit(q.id)}
-                          disabled={busy}
-                          className="rounded-full bg-primary px-4 py-2 text-xs font-bold text-on-primary"
-                        >
-                          Save
-                        </button>
-                        <button
-                          onClick={() => setEditingId(null)}
-                          className="rounded-full px-3 py-2 text-xs font-medium text-soft"
-                        >
-                          Cancel
-                        </button>
+
+        {ordered.length === 0 ? (
+          <p className="mt-6 border border-dashed border-line bg-surface/60 px-4 py-8 text-center text-sm italic text-soft">
+            No questions yet — write one below or add a few from the ideas
+            list.
+          </p>
+        ) : (
+          <ul className="mt-6 space-y-4">
+            {ordered.map((q, i) => (
+              <li
+                key={q.id}
+                draggable={editingId !== q.id}
+                onDragStart={() => setDragIndex(i)}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={() => {
+                  if (dragIndex !== null) move(dragIndex, i);
+                  setDragIndex(null);
+                }}
+                className={`double-keyline p-5 sm:p-6 ${
+                  dragIndex === i ? "opacity-50" : ""
+                }`}
+              >
+                <div className="flex items-start gap-4">
+                  <span
+                    className="mt-1 cursor-grab select-none text-lg leading-none text-soft/70"
+                    title="Drag to reorder"
+                  >
+                    ⠿
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    {editingId === q.id ? (
+                      <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+                        <input
+                          value={editText}
+                          onChange={(e) => setEditText(e.target.value)}
+                          maxLength={300}
+                          autoFocus
+                          className={inputCls}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") saveEdit(q.id);
+                            if (e.key === "Escape") setEditingId(null);
+                          }}
+                        />
+                        <div className="flex shrink-0 gap-2">
+                          <button
+                            onClick={() => saveEdit(q.id)}
+                            disabled={busy}
+                            className="label-caps bg-primary px-4 py-2 text-[10px] text-on-primary"
+                          >
+                            Save
+                          </button>
+                          <button
+                            onClick={() => setEditingId(null)}
+                            className="label-caps px-3 py-2 text-[10px] text-soft"
+                          >
+                            Cancel
+                          </button>
+                        </div>
                       </div>
+                    ) : (
+                      <>
+                        <p className="label-caps text-[10px] tracking-[0.2em] text-primary">
+                          Question {i + 1}
+                        </p>
+                        <p className="mt-1.5 font-display text-xl italic leading-snug text-ink">
+                          {q.text}
+                        </p>
+                        <ResponseReview event={event} question={q} />
+                      </>
+                    )}
+                  </div>
+                  {editingId !== q.id && (
+                    <div className="flex shrink-0 items-center gap-1 text-soft">
+                      <button
+                        onClick={() => move(i, i - 1)}
+                        disabled={i === 0 || busy}
+                        className="p-1 hover:text-primary disabled:opacity-30"
+                        aria-label="Move up"
+                      >
+                        ↑
+                      </button>
+                      <button
+                        onClick={() => move(i, i + 1)}
+                        disabled={i === ordered.length - 1 || busy}
+                        className="p-1 hover:text-primary disabled:opacity-30"
+                        aria-label="Move down"
+                      >
+                        ↓
+                      </button>
+                      <button
+                        onClick={() => {
+                          setEditingId(q.id);
+                          setEditText(q.text);
+                        }}
+                        className="p-1 text-xs hover:text-primary"
+                        aria-label="Edit"
+                      >
+                        ✏️
+                      </button>
+                      <button
+                        onClick={() => remove(q.id)}
+                        disabled={busy}
+                        className="p-1 text-xs hover:text-primary"
+                        aria-label="Delete"
+                      >
+                        🗑
+                      </button>
                     </div>
-                  ) : (
-                    <>
-                      <p className="text-sm font-medium leading-snug">
-                        <span className="mr-1.5 text-soft">{i + 1}.</span>
-                        {q.text}
-                      </p>
-                      <ResponseReview event={event} question={q} />
-                    </>
                   )}
                 </div>
-                {editingId !== q.id && (
-                  <div className="flex shrink-0 items-center gap-1 text-soft">
-                    <button
-                      onClick={() => move(i, i - 1)}
-                      disabled={i === 0 || busy}
-                      className="rounded p-1 hover:text-ink disabled:opacity-30"
-                      aria-label="Move up"
-                    >
-                      ↑
-                    </button>
-                    <button
-                      onClick={() => move(i, i + 1)}
-                      disabled={i === ordered.length - 1 || busy}
-                      className="rounded p-1 hover:text-ink disabled:opacity-30"
-                      aria-label="Move down"
-                    >
-                      ↓
-                    </button>
-                    <button
-                      onClick={() => {
-                        setEditingId(q.id);
-                        setEditText(q.text);
-                      }}
-                      className="rounded p-1 text-xs hover:text-ink"
-                      aria-label="Edit"
-                    >
-                      ✏️
-                    </button>
-                    <button
-                      onClick={() => remove(q.id)}
-                      disabled={busy}
-                      className="rounded p-1 text-xs hover:text-ink"
-                      aria-label="Delete"
-                    >
-                      🗑
-                    </button>
-                  </div>
-                )}
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+              </li>
+            ))}
+          </ul>
+        )}
 
-      {error && (
-        <p className="mt-4 rounded-xl bg-accent px-4 py-2.5 text-sm font-medium">
-          {error}
-        </p>
-      )}
+        {error && (
+          <p className="mt-5 border border-line bg-raised px-4 py-2.5 text-sm">
+            {error}
+          </p>
+        )}
 
-      {(hitWall || atFreeLimit) && !event.is_premium ? (
-        <UpgradeCard eventId={event.id} />
-      ) : (
-        <div className="mt-5 space-y-4">
+        {(hitWall || atFreeLimit) && !event.is_premium ? (
+          <UpgradeCard eventId={event.id} />
+        ) : (
           <form
             onSubmit={(e) => {
               e.preventDefault();
               addQuestion(newText, "custom");
             }}
-            className="flex flex-col gap-2 sm:flex-row"
+            className="mt-6 border border-dashed border-soft/50 bg-surface/60 p-6 text-center transition focus-within:border-primary"
           >
-            <input
-              value={newText}
-              onChange={(e) => setNewText(e.target.value)}
-              maxLength={300}
-              placeholder={`e.g. What's ${event.honoree_name}'s most useless talent?`}
-              className={inputCls}
-            />
-            <button
-              type="submit"
-              disabled={busy || !newText.trim()}
-              className="shrink-0 rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-on-primary transition hover:bg-primary-deep disabled:opacity-50"
-            >
-              Add question
-            </button>
+            <p className="label-caps text-[11px] text-soft">
+              ⊕ Create custom question
+            </p>
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
+              <input
+                value={newText}
+                onChange={(e) => setNewText(e.target.value)}
+                maxLength={300}
+                placeholder={`e.g. What's ${event.honoree_name}'s most useless talent?`}
+                className={inputCls}
+              />
+              <button
+                type="submit"
+                disabled={busy || !newText.trim()}
+                className="label-caps shrink-0 bg-primary px-6 py-3 text-[10px] text-on-primary transition hover:bg-primary-deep disabled:opacity-50"
+              >
+                Add question
+              </button>
+            </div>
           </form>
+        )}
 
-          <div>
-            <button
-              onClick={() => setShowSamples((s) => !s)}
-              className="text-sm font-semibold text-primary hover:text-primary-deep"
-            >
-              {showSamples ? "Hide" : "Browse"} the question library{" "}
-              {showSamples ? "▴" : "▾"}
-            </button>
-            {showSamples && (
-              <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-                {samples
-                  .filter(
-                    (s) => !existingTexts.has(s.text.trim().toLowerCase())
-                  )
-                  .map((s) => (
-                    <li key={s.id}>
-                      <button
-                        onClick={() => addQuestion(s.text, "sample")}
-                        disabled={busy}
-                        className="w-full rounded-xl border border-line bg-bg px-3 py-2.5 text-left text-sm transition hover:border-primary/50"
-                      >
-                        <span className="mr-1 text-primary">+</span> {s.text}
-                      </button>
-                    </li>
-                  ))}
-              </ul>
-            )}
-          </div>
+        <p className="mt-4 text-xs italic text-soft">
+          {event.is_premium ? (
+            <>✨ Premium event — unlimited questions.</>
+          ) : (
+            <>
+              You have {questions.length} / {FREE_LIMIT} questions used in the
+              free tier.
+            </>
+          )}
+        </p>
+      </div>
+
+      {/* Question ideas */}
+      <aside className="lg:pt-2">
+        <div className="keyline p-6">
+          <h3 className="font-display text-xl text-primary">Question Ideas</h3>
+          {availableSamples.length === 0 ? (
+            <p className="mt-3 text-sm italic text-soft">
+              You&apos;ve used every idea in the library — impressive.
+            </p>
+          ) : (
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {availableSamples.map((s) => (
+                <li key={s.id}>
+                  <button
+                    onClick={() => addQuestion(s.text, "sample")}
+                    disabled={busy}
+                    className="rounded-full border border-accent bg-raised px-3.5 py-2 text-left font-display text-sm italic text-primary transition hover:border-primary hover:bg-accent disabled:opacity-50"
+                  >
+                    <span className="mr-1 not-italic">+</span>
+                    {s.text}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+          <div className="engraved-divider my-5" />
+          <p className="text-center text-xs italic text-soft">
+            Questions added here will appear at the bottom of your active list.
+          </p>
         </div>
-      )}
+      </aside>
     </section>
   );
 }

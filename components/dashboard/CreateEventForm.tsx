@@ -50,41 +50,43 @@ export function CreateEventForm() {
   }
 
   const inputCls =
-    "w-full rounded-xl border border-line bg-bg px-4 py-2.5 text-sm outline-none transition focus:border-primary";
+    "w-full border-b border-soft/50 bg-transparent px-0.5 py-2 font-serif text-base outline-none transition focus:border-b-2 focus:border-primary";
+  const labelCls = "label-caps block text-[10px] text-soft";
 
   return (
     <form
+      id="create"
       onSubmit={onSubmit}
-      className="rounded-3xl border border-line bg-surface p-6 sm:p-8"
+      className="double-keyline scroll-mt-8 p-6 sm:p-10"
     >
-      <h2 className="text-lg font-bold">Create an event</h2>
-      <p className="mt-1 text-sm text-soft">
+      <h2 className="font-display text-3xl text-primary">Create an event</h2>
+      <p className="mt-2 text-sm italic text-soft">
         One event per party. You can change everything later.
       </p>
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-2">
-        <label className="block text-sm font-medium">
-          Event name
+      <div className="mt-8 grid gap-7 sm:grid-cols-2">
+        <label className="block">
+          <span className={labelCls}>Event name</span>
           <input
             name="title"
             required
             maxLength={120}
             placeholder="Sarah's Bachelorette"
-            className={`mt-1.5 ${inputCls}`}
+            className={`mt-2 ${inputCls}`}
           />
         </label>
-        <label className="block text-sm font-medium">
-          Party date
+        <label className="block">
+          <span className={labelCls}>Party date</span>
           <input
             name="party_date"
             type="date"
             required
-            className={`mt-1.5 ${inputCls}`}
+            className={`mt-2 ${inputCls}`}
           />
         </label>
-        <div className="text-sm font-medium">
-          Who&apos;s the guest of honor?
-          <div className="mt-1.5 grid grid-cols-2 gap-2">
+        <div>
+          <span className={labelCls}>Who&apos;s the guest of honor?</span>
+          <div className="mt-2 grid grid-cols-2 gap-2">
             {(
               [
                 ["bride", "Bride 👰 (groom records)"],
@@ -95,10 +97,10 @@ export function CreateEventForm() {
                 key={value}
                 type="button"
                 onClick={() => pickRole(value)}
-                className={`rounded-xl border px-3 py-2.5 text-sm transition ${
+                className={`border px-3 py-2.5 text-sm transition ${
                   role === value
-                    ? "border-primary bg-accent font-semibold"
-                    : "border-line bg-bg hover:border-primary/50"
+                    ? "border-primary bg-raised font-semibold text-primary"
+                    : "border-line bg-surface hover:border-primary/50"
                 }`}
               >
                 {label}
@@ -106,19 +108,21 @@ export function CreateEventForm() {
             ))}
           </div>
         </div>
-        <label className="block text-sm font-medium">
-          {role === "bride" ? "Groom's" : "Bride's"} first name
+        <label className="block">
+          <span className={labelCls}>
+            {role === "bride" ? "Groom's" : "Bride's"} first name
+          </span>
           <input
             name="honoree_name"
             required
             maxLength={60}
             placeholder={role === "bride" ? "Mike" : "Sarah"}
-            className={`mt-1.5 ${inputCls}`}
+            className={`mt-2 ${inputCls}`}
           />
         </label>
-        <div className="text-sm font-medium sm:col-span-2">
-          Theme
-          <div className="mt-1.5 grid grid-cols-2 gap-2">
+        <div className="sm:col-span-2">
+          <span className={labelCls}>Theme</span>
+          <div className="mt-2 grid grid-cols-2 gap-2">
             {(Object.keys(THEMES) as ThemeName[]).map((t) => (
               <button
                 key={t}
@@ -127,14 +131,16 @@ export function CreateEventForm() {
                   setTheme(t);
                   setThemeTouched(true);
                 }}
-                className={`rounded-xl border px-3 py-2.5 text-left text-sm transition ${
+                className={`border px-3 py-2.5 text-left text-sm transition ${
                   theme === t
-                    ? "border-primary bg-accent font-semibold"
-                    : "border-line bg-bg hover:border-primary/50"
+                    ? "border-primary bg-raised font-semibold text-primary"
+                    : "border-line bg-surface hover:border-primary/50"
                 }`}
               >
-                <span className="block">{THEMES[t].label}</span>
-                <span className="block text-xs font-normal text-soft">
+                <span className="block font-display text-base">
+                  {THEMES[t].label}
+                </span>
+                <span className="block text-xs font-normal italic text-soft">
                   {THEMES[t].description}
                 </span>
               </button>
@@ -144,7 +150,7 @@ export function CreateEventForm() {
       </div>
 
       {error && (
-        <p className="mt-4 rounded-xl bg-accent px-4 py-2.5 text-sm font-medium">
+        <p className="mt-5 border border-line bg-raised px-4 py-2.5 text-sm">
           {error}
         </p>
       )}
@@ -152,7 +158,7 @@ export function CreateEventForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="mt-6 w-full rounded-full bg-primary px-6 py-3 text-sm font-bold text-on-primary transition hover:bg-primary-deep disabled:opacity-60 sm:w-auto"
+        className="label-caps mt-8 w-full bg-primary px-8 py-3.5 text-[11px] text-on-primary transition hover:bg-primary-deep disabled:opacity-60 sm:w-auto"
       >
         {submitting ? "Creating…" : "Create event"}
       </button>

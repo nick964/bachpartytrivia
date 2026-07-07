@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guess the Groom - Reveal Slide</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Literata:ital,wght@0,200..900;1,200..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#f7f9ff",
+                    "on-secondary-fixed-variant": "#474743",
+                    "secondary-fixed-dim": "#c9c6c1",
+                    "surface-container-low": "#edf4ff",
+                    "secondary": "#5f5e5a",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed": "#d3e5f2",
+                    "surface-container-highest": "#d2e4fa",
+                    "primary-fixed": "#cfe4ff",
+                    "tertiary": "#4d5e69",
+                    "on-secondary-fixed": "#1c1c18",
+                    "on-primary-fixed": "#001d34",
+                    "on-surface": "#0b1d2d",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#667782",
+                    "surface-bright": "#f7f9ff",
+                    "primary-fixed-dim": "#a9caef",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#3e5e7f",
+                    "surface-variant": "#d2e4fa",
+                    "on-secondary-container": "#656460",
+                    "inverse-surface": "#213242",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#0b1d2d",
+                    "primary-container": "#577799",
+                    "on-surface-variant": "#43474d",
+                    "surface-container-high": "#d9eaff",
+                    "secondary-container": "#e5e2dc",
+                    "on-tertiary-container": "#fbfcff",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#a9caef",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed": "#e5e2dc",
+                    "outline-variant": "#c3c7ce",
+                    "outline": "#73777e",
+                    "on-tertiary-fixed": "#0c1d27",
+                    "surface-dim": "#cadcf1",
+                    "error-container": "#ffdad6",
+                    "on-primary-container": "#fdfcff",
+                    "inverse-on-surface": "#e8f2ff",
+                    "tertiary-fixed-dim": "#b7c9d6",
+                    "surface-tint": "#416182",
+                    "on-tertiary-fixed-variant": "#384953",
+                    "on-primary-fixed-variant": "#284968",
+                    "on-error": "#ffffff",
+                    "surface-container": "#e3efff",
+                    "background": "#f7f9ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-padding": "32px",
+                    "unit": "8px",
+                    "keyline-gap": "4px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "headline-lg": ["EB Garamond"],
+                    "headline-lg-mobile": ["EB Garamond"],
+                    "body-md": ["Literata"],
+                    "headline-xl": ["EB Garamond"],
+                    "body-lg": ["Literata"],
+                    "display-italic": ["EB Garamond"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-italic": ["32px", {"lineHeight": "1.2", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #fcfbf7;
+            /* Ivory Ticking Stripe Background */
+            background-image: repeating-linear-gradient(90deg, transparent, transparent 40px, #eef2f8 40px, #eef2f8 42px);
+            overflow: hidden;
+        }
+
+        .double-keyline {
+            padding: 4px;
+            border: 1px solid #3e5e7f;
+            position: relative;
+        }
+        .double-keyline::after {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 0.5px solid #3e5e7f;
+            pointer-events: none;
+        }
+
+        .scalloped-bottom {
+            background-image: radial-gradient(circle at 10px 100%, transparent 10px, white 10px);
+            background-size: 20px 20px;
+            background-repeat: repeat-x;
+            background-position: bottom;
+            padding-bottom: 20px;
+        }
+
+        .wax-seal {
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.15));
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: scale(0) rotate(-15deg);
+        }
+
+        .wax-seal.reveal {
+            transform: scale(1) rotate(-5deg);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .video-overlay {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .video-overlay.active {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-gutter font-body-md text-on-surface">
+<!-- Top Navigation Anchor (Shared Component Mockup) -->
+<header class="fixed top-0 w-full px-container-padding py-unit flex justify-between items-center bg-surface border-b border-primary z-50">
+<div class="font-display-italic text-display-italic text-primary">Guess the Groom</div>
+<div class="flex gap-gutter items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Round 4 of 12</span>
+<button class="material-symbols-outlined text-primary" data-icon="volume_up">volume_up</button>
+<button class="material-symbols-outlined text-primary" data-icon="settings">settings</button>
+</div>
+</header>
+<!-- Main Reveal Canvas (16:9 Aspect Ratio Container) -->
+<main class="relative w-full max-w-[1280px] aspect-video flex flex-col items-center justify-center mt-12">
+<!-- Question Text Heading -->
+<div class="mb-unit text-center z-10">
+<p class="font-label-sm text-label-sm text-secondary uppercase tracking-[0.2em] mb-2">The Ultimate Reveal</p>
+<h1 class="font-headline-lg text-headline-lg text-primary italic">"Where was his favorite first date spot?"</h1>
+</div>
+<!-- Video Player Frame with Double Keyline Styling -->
+<div class="relative w-[85%] h-[75%] bg-surface-container-lowest double-keyline flex items-center justify-center group overflow-hidden">
+<!-- Video Placeholder Content -->
+<div class="w-full h-full relative overflow-hidden bg-surface-dim">
+<img class="w-full h-full object-cover opacity-80" data-alt="A cinematic, high-definition video frame captured in a sun-drenched coastal garden during a wedding celebration. The lighting is golden and warm, casting soft glows on elegant floral arrangements. The aesthetic is coastal heirloom with French blue and ivory accents, evoking a sense of refined joy and timeless celebration. The focus is sharp, capturing the movement of a gentle sea breeze through linen drapery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWbMne7Sc627jOfpLFTm84kEf0cWqbU54PltOT1eGhpqk2yiAts5qn5sOt5u5CSQrOoGf680h2rATf9gxeFwwM1XjtJyARTrE8Zb2k-Lao8eZl_YfeBrRF9pmGwY8CHiOehi9as75XCrtTAasOreD_f_-J73SuHrlKCihBHP7xzb2iZhrNFti1yq3Ij-8guo1E_CuRqjSH0CqgNmHI3i3YM6zAOnd3uo549Un79h3VqSrj_T89E9vXk0slWOLXVvTmLied7UDoLv8"/>
+<!-- Play Button / Visual Playback Indicator -->
+<div class="absolute inset-0 flex items-center justify-center cursor-pointer z-20 group-hover:scale-110 transition-transform" id="play-trigger">
+<div class="w-20 h-20 rounded-full bg-primary/20 backdrop-blur-md border border-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container text-4xl" data-icon="play_arrow">play_arrow</span>
+</div>
+</div>
+<!-- After Video Overlay: Reveal State -->
+<div class="video-overlay absolute inset-0 z-30 flex items-center justify-center gap-12" id="reveal-overlay">
+<!-- Wax Seal Stamp: She Got It -->
+<div class="wax-seal flex flex-col items-center" id="seal-success">
+<div class="w-48 h-48 rounded-full bg-[#3e5e7f] border-[6px] border-[#2d455d] flex items-center justify-center text-white relative overflow-hidden shadow-inner">
+<!-- Inner circular texture/pattern -->
+<div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at center, #fff 1px, transparent 1px); background-size: 8px 8px;"></div>
+<div class="text-center">
+<span class="material-symbols-outlined text-6xl mb-1" data-icon="check_circle">check_circle</span>
+<p class="font-display-italic text-2xl">She got it</p>
+</div>
+<!-- "Drip" effect -->
+<div class="absolute -bottom-2 -right-2 w-12 h-12 bg-[#3e5e7f] rounded-full blur-sm"></div>
+</div>
+</div>
+<!-- Wax Seal Stamp: Drink! -->
+<div class="wax-seal flex flex-col items-center" id="seal-drink">
+<div class="w-48 h-48 rounded-full bg-[#c2514d] border-[6px] border-[#913b38] flex items-center justify-center text-white relative overflow-hidden shadow-inner">
+<div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at center, #fff 1px, transparent 1px); background-size: 8px 8px;"></div>
+<div class="text-center">
+<span class="material-symbols-outlined text-6xl mb-1" data-icon="local_bar">local_bar</span>
+<p class="font-display-italic text-2xl">Drink! 🍹</p>
+</div>
+<div class="absolute -bottom-1 -left-1 w-10 h-10 bg-[#c2514d] rounded-full blur-sm"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card Decoration: Engraved Flourish Corners -->
+<div class="absolute top-8 left-8 text-primary/30 pointer-events-none">
+<span class="material-symbols-outlined text-4xl" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="absolute bottom-8 right-8 text-primary/30 pointer-events-none scale-x-[-1]">
+<span class="material-symbols-outlined text-4xl" data-icon="auto_awesome">auto_awesome</span>
+</div>
+</div>
+<!-- Decorative Engraved Line with Shell Icon -->
+<div class="mt-gutter flex items-center justify-center w-full max-w-md">
+<div class="h-[1px] flex-grow bg-primary/40"></div>
+<div class="mx-4 text-primary opacity-60">
+<span class="material-symbols-outlined" data-icon="sailing">sailing</span>
+</div>
+<div class="h-[1px] flex-grow bg-primary/40"></div>
+</div>
+<!-- Player List Floating Cards (Side Navigation Mockup Concept) -->
+<div class="absolute right-gutter top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-4">
+<div class="bg-surface-container-lowest double-keyline p-4 w-48 animate-float">
+<div class="font-label-sm text-secondary uppercase mb-2">Top Scorers</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between border-b border-primary-fixed-dim pb-1 italic">
+<span>Chloe</span><span>240 pts</span>
+</div>
+<div class="flex justify-between border-b border-primary-fixed-dim pb-1 italic">
+<span>Sarah</span><span>215 pts</span>
+</div>
+<div class="flex justify-between border-b border-primary-fixed-dim pb-1 italic">
+<span>Megan</span><span>190 pts</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 bg-surface-container-lowest shadow-lg border-t border-primary rounded-t-full">
+<div class="flex flex-col items-center justify-center text-on-secondary-container p-3 hover:bg-primary-fixed-dim transition-colors cursor-pointer rounded-full group">
+<span class="material-symbols-outlined" data-icon="ads_click">ads_click</span>
+<span class="font-label-sm text-label-sm">Buzz In</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-secondary-container p-3 hover:bg-primary-fixed-dim transition-colors cursor-pointer rounded-full">
+<span class="material-symbols-outlined" data-icon="lightbulb">lightbulb</span>
+<span class="font-label-sm text-label-sm">Hint</span>
+</div>
+<!-- Active Tab Logic: Home/Current state -->
+<div class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-full p-4 scale-110 shadow-md">
+<span class="material-symbols-outlined" data-icon="videogame_asset">videogame_asset</span>
+<span class="font-label-sm text-label-sm">Reveal</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-secondary-container p-3 hover:bg-primary-fixed-dim transition-colors cursor-pointer rounded-full">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-sm text-label-sm">Players</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-secondary-container p-3 hover:bg-primary-fixed-dim transition-colors cursor-pointer rounded-full">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+<span class="font-label-sm text-label-sm">Menu</span>
+</div>
+</nav>
+<!-- Interactions Script -->
+<script>
+        const playBtn = document.getElementById('play-trigger');
+        const overlay = document.getElementById('reveal-overlay');
+        const successSeal = document.getElementById('seal-success');
+        const drinkSeal = document.getElementById('seal-drink');
+
+        playBtn.addEventListener('click', () => {
+            // Hide play button
+            playBtn.style.display = 'none';
+            
+            // Simulate video finishing (2 second delay for effect)
+            setTimeout(() => {
+                overlay.classList.add('active');
+                
+                // Staggered seal reveal
+                setTimeout(() => {
+                    successSeal.classList.add('reveal');
+                }, 400);
+
+                setTimeout(() => {
+                    drinkSeal.classList.add('reveal');
+                }, 900);
+            }, 500);
+        });
+
+        // Re-trigger micro-interaction on seal click
+        [successSeal, drinkSeal].forEach(seal => {
+            seal.addEventListener('mousedown', () => {
+                seal.style.transform = 'scale(0.9) rotate(-5deg)';
+            });
+            seal.addEventListener('mouseup', () => {
+                seal.style.transform = 'scale(1.1) rotate(-8deg)';
+                setTimeout(() => {
+                    seal.style.transform = 'scale(1) rotate(-5deg)';
+                }, 150);
+            });
+        });
+    </script>
+</body></html>

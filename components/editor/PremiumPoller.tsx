@@ -41,7 +41,7 @@ export function PremiumPoller({ eventId }: { eventId: string }) {
     <p className="rounded-2xl bg-accent px-4 py-3 text-sm font-semibold">
       {timedOut
         ? "Payment is taking a moment to confirm — refresh in a minute, or contact us if it doesn't appear."
-        : "Confirming your payment… 🥂 (this usually takes a few seconds)"}
+        : "Confirming your payment… ✨ (this usually takes a few seconds)"}
     </p>
   );
 }

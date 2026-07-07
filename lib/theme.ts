@@ -5,12 +5,12 @@ export const THEMES: Record<
   { label: string; description: string }
 > = {
   blush: {
-    label: "Blush & Rose Gold",
-    description: "Bachelorette classic — cream, blush, rose gold.",
+    label: "Something Blue",
+    description: "Bachelorette classic — ivory, french blue, champagne.",
   },
   navy: {
     label: "Navy & Gold",
-    description: "Bachelor edition — navy, gold, charcoal.",
+    description: "Bachelor edition — deep navy, gold, slate.",
   },
 };
 

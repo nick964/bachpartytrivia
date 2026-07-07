@@ -2,7 +2,7 @@
 
 The bachelorette (and bachelor) party game: the groom answers questions on
 video before the party; at the party the bride guesses each answer out loud,
-then his video plays on the TV. Wrong guess = drink.
+then his video plays on the TV — how well does she really know him?
 
 ## How it's put together
 
@@ -27,7 +27,7 @@ Key flows:
   remote (next / reveal / right-wrong tally).
 
 Slide model: `current_question_index` 0 = title slide, 1..N = visible
-questions, N+1 = end slide with the drink tally.
+questions, N+1 = end slide with the final right/missed tally.
 
 ## Local development
 

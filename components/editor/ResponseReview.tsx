@@ -90,7 +90,7 @@ export function ResponseReview({
     <div className="mt-1.5">
       <div className="flex flex-wrap items-center gap-1.5">
         {isReady ? (
-          <span className={`${chip} bg-primary/15 text-primary-deep`}>
+          <span className={`${chip} bg-primary/15 text-primary`}>
             ✓ Answered
           </span>
         ) : response?.status === "uploading" ? (

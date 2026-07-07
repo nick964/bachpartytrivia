@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
 /*
- * Theme tokens. Two palettes ("blush" bride edition, "navy" groom edition)
- * are scoped by [data-theme] so any subtree can switch editions. Tailwind
- * utilities (bg-bg, text-ink, border-line, text-primary, font-script, …)
- * resolve through these vars.
+ * Coastal Heirloom theme tokens. Two palettes ("blush" bride edition — ivory
+ * & french blue, "navy" groom edition — deep slate & gold) are scoped by
+ * [data-theme] so any subtree can switch editions. Tailwind utilities
+ * (bg-bg, text-ink, border-line, text-primary, font-display, …) resolve
+ * through these vars.
  */
 @theme inline {
   --color-bg: var(--th-bg);
@@ -17,22 +18,26 @@
   --color-on-primary: var(--th-on-primary);
   --color-accent: var(--th-accent);
   --color-line: var(--th-line);
-  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  --font-script: var(--font-script-var), cursive;
+  --color-gold: var(--th-gold);
+  --font-sans: var(--font-label-var), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-body-var), Georgia, serif;
+  --font-display: var(--font-display-var), Georgia, serif;
 }
 
 :root,
 [data-theme="blush"] {
-  --th-bg: #fbf6f2;
+  --th-bg: #f7f9ff;
   --th-surface: #ffffff;
-  --th-raised: #fdf1ee;
-  --th-ink: #43303a;
-  --th-soft: #97808b;
-  --th-primary: #b76e79;
-  --th-primary-deep: #9d5560;
+  --th-raised: #edf4ff;
+  --th-ink: #23364a;
+  --th-soft: #5b6b7d;
+  --th-primary: #3e5e7f;
+  --th-primary-deep: #284968;
   --th-on-primary: #ffffff;
-  --th-accent: #f2d3d8;
-  --th-line: #eedde0;
+  --th-accent: #d2e4fa;
+  --th-line: #c9d8ea;
+  --th-gold: #c9a227;
+  --th-stripe: rgba(62, 94, 127, 0.1);
 }
 
 [data-theme="navy"] {
@@ -45,13 +50,125 @@
   --th-primary-deep: #b08a35;
   --th-on-primary: #1a1508;
   --th-accent: #22334f;
-  --th-line: #263a5c;
+  --th-line: #2c4166;
+  --th-gold: #c9a24b;
+  --th-stripe: rgba(201, 162, 75, 0.07);
+}
+
+/* Smooth in-page scrolling for anchor nav (landing header, dashboard #create) */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
   background: var(--th-bg);
   color: var(--th-ink);
-  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-body-var), Georgia, serif;
+}
+
+/*
+ * Re-compute the inherited text color at every theme boundary. Without this,
+ * text inside a [data-theme="navy"] scope inherits the dark ink computed on
+ * <body> (blush palette) and becomes unreadable on navy surfaces.
+ */
+[data-theme] {
+  color: var(--th-ink);
+}
+
+/* Vertical "ticking stripe" background — vintage textile texture */
+.bg-ticking {
+  background-color: var(--th-bg);
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 48px,
+    var(--th-stripe) 48px,
+    var(--th-stripe) 49px,
+    transparent 49px,
+    transparent 54px,
+    var(--th-stripe) 54px,
+    var(--th-stripe) 55px
+  );
+}
+
+/* Signature framed "heirloom" border: 1px line, 4px gap, hairline inner */
+.double-keyline {
+  position: relative;
+  border: 1px solid var(--th-primary);
+  background: var(--th-surface);
+}
+.double-keyline::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 1px solid color-mix(in srgb, var(--th-primary) 25%, transparent);
+  pointer-events: none;
+}
+
+/* Softer variant for grids of cards */
+.keyline {
+  border: 1px solid color-mix(in srgb, var(--th-primary) 35%, transparent);
+  background: var(--th-surface);
+}
+
+/* Scalloped edges — repeating semi-circles, like vintage paper trim */
+.scallop-bottom {
+  mask-image: radial-gradient(circle at 10px 100%, transparent 10px, #000 10.5px);
+  mask-size: 20px 100%;
+}
+.scallop-top {
+  mask-image: radial-gradient(circle at 10px 0, transparent 10px, #000 10.5px);
+  mask-size: 20px 100%;
+}
+
+/* Engraved divider — hairline with a centered diamond flourish */
+.engraved-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--th-primary) 55%, transparent) 20%,
+    color-mix(in srgb, var(--th-primary) 55%, transparent) 80%,
+    transparent
+  );
+  position: relative;
+}
+.engraved-divider::after {
+  content: "⬥";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--th-surface);
+  padding: 0 10px;
+  color: var(--th-primary);
+  font-size: 10px;
+  line-height: 1;
+}
+
+/* Champagne-gold wax seal badge */
+.wax-seal {
+  background: radial-gradient(circle at 30% 30%, #f3e5ab 0%, #d4af37 60%, #b8860b 100%);
+  box-shadow:
+    inset 0 0 10px rgba(0, 0, 0, 0.2),
+    2px 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Letterpress-style inset, instead of drop shadows */
+.letterpress {
+  box-shadow:
+    inset 2px 2px 5px rgba(24, 45, 66, 0.06),
+    inset -1px -1px 3px rgba(255, 255, 255, 0.7);
+}
+
+/* Uppercase functional label (buttons, tags, nav) */
+.label-caps {
+  font-family: var(--font-label-var), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 /* Tasteful micro-animation for reveal moments */
@@ -86,4 +203,18 @@ body {
 
 .animate-pop {
   animation: pop-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
+
+.animate-float {
+  animation: float-soft 6s ease-in-out infinite;
 }

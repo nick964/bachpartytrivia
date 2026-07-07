@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guess the Groom - Share Link</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Literata:ital,wght@0,200..900;1,200..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Ticking Stripe Background */
+        .bg-ticking-stripe {
+            background-color: #f7f9ff;
+            background-image: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 39px,
+                #d2e4fa 40px
+            );
+            background-size: 40px 100%;
+        }
+
+        /* Scalloped Edge Effect */
+        .scalloped-top {
+            position: relative;
+            background: #ffffff; /* Ivory / surface-container-lowest */
+        }
+        .scalloped-top::before {
+            content: "";
+            position: absolute;
+            top: -16px;
+            left: 0;
+            width: 100%;
+            height: 16px;
+            background: radial-gradient(circle at 10px -4px, transparent 12px, #ffffff 13px);
+            background-size: 20px 20px;
+        }
+
+        /* Double Keyline Border */
+        .double-keyline {
+            border: 1px solid #3e5e7f;
+            padding: 4px;
+            position: relative;
+        }
+        .double-keyline::after {
+            content: "";
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            right: 4px;
+            bottom: 4px;
+            border: 0.5px solid #3e5e7f;
+            pointer-events: none;
+        }
+
+        /* Custom Engraved Line */
+        .engraved-divider {
+            height: 1px;
+            background: #d2e4fa;
+            position: relative;
+            width: 100%;
+            margin: 24px 0;
+        }
+        .engraved-divider::after {
+            content: "✦";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ffffff;
+            padding: 0 8px;
+            color: #3e5e7f;
+            font-size: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline": "#73777e",
+                      "on-background": "#0b1d2d",
+                      "on-primary-container": "#fdfcff",
+                      "inverse-primary": "#a9caef",
+                      "surface-bright": "#f7f9ff",
+                      "error-container": "#ffdad6",
+                      "secondary": "#5f5e5a",
+                      "surface-container-high": "#d9eaff",
+                      "on-surface-variant": "#43474d",
+                      "primary-container": "#577799",
+                      "secondary-fixed": "#e5e2dc",
+                      "on-primary-fixed-variant": "#284968",
+                      "on-secondary-fixed-variant": "#474743",
+                      "surface-container": "#e3efff",
+                      "tertiary-fixed": "#d3e5f2",
+                      "on-error-container": "#93000a",
+                      "surface": "#f7f9ff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-surface": "#0b1d2d",
+                      "on-primary-fixed": "#001d34",
+                      "secondary-fixed-dim": "#c9c6c1",
+                      "secondary-container": "#e5e2dc",
+                      "surface-container-highest": "#d2e4fa",
+                      "on-tertiary-fixed-variant": "#384953",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed-dim": "#b7c9d6",
+                      "primary": "#3e5e7f",
+                      "tertiary-container": "#667782",
+                      "outline-variant": "#c3c7ce",
+                      "surface-tint": "#416182",
+                      "background": "#f7f9ff",
+                      "surface-variant": "#d2e4fa",
+                      "on-tertiary-container": "#fbfcff",
+                      "inverse-surface": "#213242",
+                      "on-secondary-fixed": "#1c1c18",
+                      "on-tertiary-fixed": "#0c1d27",
+                      "on-error": "#ffffff",
+                      "surface-dim": "#cadcf1",
+                      "surface-container-low": "#edf4ff",
+                      "inverse-on-surface": "#e8f2ff",
+                      "on-secondary-container": "#656460",
+                      "on-primary": "#ffffff",
+                      "primary-fixed-dim": "#a9caef",
+                      "error": "#ba1a1a",
+                      "primary-fixed": "#cfe4ff",
+                      "tertiary": "#4d5e69",
+                      "on-secondary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "unit": "8px",
+                      "keyline-gap": "4px",
+                      "container-padding": "32px"
+              },
+              "fontFamily": {
+                      "headline-xl": ["EB Garamond"],
+                      "headline-lg-mobile": ["EB Garamond"],
+                      "body-lg": ["Literata"],
+                      "headline-lg": ["EB Garamond"],
+                      "display-italic": ["EB Garamond"],
+                      "label-sm": ["Plus Jakarta Sans"],
+                      "body-md": ["Literata"]
+              },
+              "fontSize": {
+                      "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                      "display-italic": ["32px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-ticking-stripe min-h-screen flex items-center justify-center p-gutter font-body-md text-on-background">
+<!-- Top Navigation (Hidden in Modal View context usually, but included as per Shared Components instruction for Top Level) -->
+<header class="fixed top-0 left-0 w-full z-50 bg-background/80 backdrop-blur-sm border-b border-outline-variant/30 px-margin-page py-4 flex justify-between items-center max-w-7xl mx-auto left-1/2 -translate-x-1/2">
+<div class="font-headline-md text-headline-md text-primary tracking-tight font-bold">Guess the Groom</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-caps text-label-caps" href="#">Dashboard</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-caps text-label-caps" href="#">How It Works</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-caps text-label-caps" href="#">Pricing</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer">notifications</span>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-primary/20">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a stylish woman in her late 20s, smiling warmly. She has soft, natural makeup and is wearing a classic ivory silk blouse. The background is a clean, minimal studio grey with soft Rembrandt lighting, matching a high-end luxury brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdTYTNrugY8Xpt5kw_BGgpAv3lrzjBohMUxmVCYV8P3rfUzzr-s3dnNApanRPJFaKqC5jzJmhfVhsFD7Xy7mb0ZSXmYJIJtSxl19amK1II58Ry3IpZXRaljI46NHbO6NXBX7oqLSra9IdrsMpyhEHwn5zTdKrunDP2ETqoq7Qyc27H1edj9vF9CgX0vEhQSoV47CBVRxv-ScUwzhwG9ZiquF1dxQkfhHtY1fvv6C8BBK3pWia8luuySgcuI5Ph-XIZrBEleafF9MI"/>
+</div>
+</div>
+</header>
+<!-- Modal Overlay -->
+<div class="fixed inset-0 bg-on-background/20 backdrop-blur-[2px] z-40 flex items-center justify-center p-gutter overflow-y-auto pt-24 pb-12">
+<!-- Modal Card Container -->
+<div class="relative w-full max-w-xl animate-in fade-in zoom-in duration-300">
+<!-- Scalloped Card Body -->
+<div class="scalloped-top shadow-2xl rounded-b-lg overflow-hidden">
+<!-- Inner Double Keyline Content Wrapper -->
+<div class="p-8 md:p-12">
+<!-- Header Section -->
+<div class="text-center mb-10">
+<div class="flex flex-col items-center gap-2">
+<!-- Bunting Flourish -->
+<div class="w-24 h-6 mb-2 opacity-60">
+<svg class="w-full h-full stroke-primary fill-none" viewbox="0 0 100 20">
+<path d="M0,5 Q25,15 50,5 Q75,-5 100,5" stroke-width="0.5"></path>
+<circle class="fill-primary" cx="10" cy="8" r="1.5"></circle>
+<circle class="fill-primary" cx="30" cy="11" r="1.5"></circle>
+<circle class="fill-primary" cx="50" cy="5" r="1.5"></circle>
+<circle class="fill-primary" cx="70" cy="2" r="1.5"></circle>
+<circle class="fill-primary" cx="90" cy="6" r="1.5"></circle>
+</svg>
+</div>
+<h2 class="font-display-italic text-display-italic italic text-primary leading-tight">
+                                It's in his hands now
+                            </h2>
+</div>
+<p class="mt-4 font-body-md text-secondary max-w-sm mx-auto">
+                            Share this link with the Groom to start the game. His answers will be kept secret until Amelia's big reveal.
+                        </p>
+</div>
+<!-- Link Copy Field -->
+<div class="space-y-2 mb-8">
+<label class="font-label-sm text-label-sm text-secondary block uppercase">Direct Share Link</label>
+<div class="flex items-center gap-2 border-b border-outline-variant focus-within:border-primary transition-all duration-300 py-2">
+<input class="bg-transparent border-none focus:ring-0 w-full text-primary font-body-md" id="share-link" readonly="" type="text" value="https://guessthegroom.com/game/bachelorette-349-groom"/>
+<button class="flex items-center gap-1 text-primary hover:bg-surface-container-high px-3 py-1 rounded-full transition-colors font-label-sm text-label-sm" onclick="copyToClipboard('share-link')">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+                                COPY
+                            </button>
+</div>
+</div>
+<!-- Suggested Text Card -->
+<div class="double-keyline bg-surface-container-low/30 rounded-lg">
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<label class="font-label-sm text-label-sm text-secondary uppercase">Suggested Text</label>
+<span class="text-[10px] text-primary/40 font-bold">SMART COPY</span>
+</div>
+<div class="bg-white/60 p-4 rounded border border-surface-container-highest">
+<p class="font-body-md italic text-on-surface leading-relaxed" id="suggested-text">
+                                    "Hey Mike, time to spill the tea for Amelia's bachelorette! Click the link and answer 15 questions about your relationship. Don't worry, we've kept the 'embarrassing meter' at a moderate 7. 😉"
+                                </p>
+</div>
+<button class="mt-4 w-full bg-primary text-on-primary font-label-sm text-label-sm py-3 rounded-full hover:bg-primary/90 transition-all active:scale-95 flex justify-center items-center gap-2 shadow-sm" onclick="copyToClipboard('suggested-text', true)">
+<span class="material-symbols-outlined text-[18px]">chat_bubble</span>
+                                COPY MESSAGE
+                            </button>
+</div>
+</div>
+<!-- Engraved Divider -->
+<div class="engraved-divider"></div>
+<!-- Footer Note -->
+<div class="flex items-center justify-center gap-3 text-secondary/70">
+<span class="material-symbols-outlined text-[20px]">mark_email_read</span>
+<p class="font-body-md text-[14px]">
+                            We'll email you the moment he finishes.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Close Action (Absolute Positioned for UI focus) -->
+<button class="absolute -top-12 right-0 text-white hover:text-primary-fixed-dim transition-colors flex items-center gap-2 font-label-sm uppercase tracking-widest" onclick="this.closest('.fixed').remove()">
+<span>Close</span>
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+<!-- Notification Toast (Hidden by default) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-on-background text-white px-6 py-3 rounded-full font-label-sm text-label-sm translate-y-20 opacity-0 transition-all duration-500 z-[100] shadow-xl flex items-center gap-2" id="toast">
+<span class="material-symbols-outlined text-green-400">check_circle</span>
+<span id="toast-message">Copied to clipboard</span>
+</div>
+<!-- Footer (Shared Component) -->
+<footer class="fixed bottom-0 left-0 w-full flex flex-col items-center gap-stack-md px-margin-page py-6 border-t border-outline-variant/10 bg-background/50 backdrop-blur-sm">
+<div class="flex gap-8">
+<a class="text-secondary hover:text-primary transition-colors font-label-caps text-label-caps" href="#">Privacy Policy</a>
+<a class="text-secondary hover:text-primary transition-colors font-label-caps text-label-caps" href="#">Terms of Service</a>
+<a class="text-secondary hover:text-primary transition-colors font-label-caps text-label-caps" href="#">Contact Us</a>
+</div>
+<p class="font-body-md text-body-md text-secondary/60">© 2024 Guess the Groom. A Modern Heirloom Experience.</p>
+</footer>
+<script>
+        function copyToClipboard(elementId, isText = false) {
+            let content;
+            if (isText) {
+                content = document.getElementById(elementId).innerText;
+            } else {
+                content = document.getElementById(elementId).value;
+            }
+
+            navigator.clipboard.writeText(content).then(() => {
+                showToast(isText ? "Message copied!" : "Link copied!");
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.innerText = message;
+            
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 3000);
+        }
+
+        // Simple interactive flourish: subtle parallax or hover on card
+        document.addEventListener('mousemove', (e) => {
+            const card = document.querySelector('.scalloped-top');
+            if(!card) return;
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            
+            card.style.transform = `perspective(1000px) rotateX(${y * 2}deg) rotateY(${x * 2}deg)`;
+        });
+    </script>
+</body></html>

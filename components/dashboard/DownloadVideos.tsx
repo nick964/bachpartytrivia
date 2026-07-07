@@ -43,17 +43,19 @@ export function DownloadVideos({ eventId }: { eventId: string }) {
   const anyPreparing = items?.some((i) => i.status === "preparing");
 
   return (
-    <section className="rounded-3xl border border-line bg-surface p-6 sm:p-8">
-      <h2 className="text-lg font-bold">Download all videos</h2>
-      <p className="mt-1 text-sm text-soft">
-        Venue wifi can't be trusted. Download the MP4s beforehand and play
+    <section className="keyline p-6 sm:p-8">
+      <h2 className="font-display text-2xl text-primary">
+        Download all videos
+      </h2>
+      <p className="mt-1 text-sm italic text-soft">
+        Venue wifi can&apos;t be trusted. Download the MP4s beforehand and play
         them from your laptop if the stream stutters.
       </p>
 
       <button
         onClick={() => void prepare()}
         disabled={busy}
-        className="mt-4 rounded-full border border-line bg-bg px-5 py-2.5 text-sm font-bold transition hover:border-primary disabled:opacity-50"
+        className="label-caps mt-4 border border-primary px-6 py-3 text-[10px] text-primary transition hover:bg-primary hover:text-on-primary disabled:opacity-50"
       >
         {busy
           ? "Preparing…"
@@ -75,7 +77,7 @@ export function DownloadVideos({ eventId }: { eventId: string }) {
           {items.map((item, i) => (
             <li
               key={i}
-              className="flex items-center justify-between gap-3 rounded-xl border border-line bg-bg px-4 py-2.5 text-sm"
+              className="flex items-center justify-between gap-3 border-b border-line px-1 py-2.5 text-sm last:border-b-0"
             >
               <span className="min-w-0 flex-1 truncate">{item.question}</span>
               {item.status === "ready" && item.url ? (

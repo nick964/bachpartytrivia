@@ -68,15 +68,15 @@ export function EventSettings({ event }: { event: EventRow }) {
   }
 
   const inputCls =
-    "w-full rounded-xl border border-line bg-bg px-4 py-2.5 text-sm outline-none transition focus:border-primary";
+    "w-full border-b border-soft/50 bg-transparent px-0.5 py-2 font-serif text-base outline-none transition focus:border-b-2 focus:border-primary";
 
   return (
-    <section className="rounded-3xl border border-line bg-surface p-6 sm:p-8">
+    <section className="keyline p-6 sm:p-8">
       <button
         onClick={() => setOpen((o) => !o)}
         className="flex w-full items-center justify-between text-left"
       >
-        <h2 className="text-lg font-bold">Event settings</h2>
+        <h2 className="font-display text-2xl text-primary">Event settings</h2>
         <span className="text-soft">{open ? "▴" : "▾"}</span>
       </button>
 
@@ -126,10 +126,10 @@ export function EventSettings({ event }: { event: EventRow }) {
                     key={value}
                     type="button"
                     onClick={() => setRole(value)}
-                    className={`rounded-xl border px-3 py-2.5 text-sm transition ${
+                    className={`border px-3 py-2.5 text-sm transition ${
                       role === value
-                        ? "border-primary bg-accent font-semibold"
-                        : "border-line bg-bg hover:border-primary/50"
+                        ? "border-primary bg-raised font-semibold text-primary"
+                        : "border-line bg-surface hover:border-primary/50"
                     }`}
                   >
                     {label}
@@ -145,10 +145,10 @@ export function EventSettings({ event }: { event: EventRow }) {
                     key={t}
                     type="button"
                     onClick={() => setTheme(t)}
-                    className={`rounded-xl border px-3 py-2.5 text-left text-sm transition ${
+                    className={`border px-3 py-2.5 text-left text-sm transition ${
                       theme === t
-                        ? "border-primary bg-accent font-semibold"
-                        : "border-line bg-bg hover:border-primary/50"
+                        ? "border-primary bg-raised font-semibold text-primary"
+                        : "border-line bg-surface hover:border-primary/50"
                     }`}
                   >
                     {THEMES[t].label}
@@ -168,7 +168,7 @@ export function EventSettings({ event }: { event: EventRow }) {
             <button
               type="submit"
               disabled={busy}
-              className="rounded-full bg-primary px-6 py-2.5 text-sm font-bold text-on-primary transition hover:bg-primary-deep disabled:opacity-60"
+              className="label-caps bg-primary px-7 py-3 text-[11px] text-on-primary transition hover:bg-primary-deep disabled:opacity-60"
             >
               {busy ? "Saving…" : "Save settings"}
             </button>

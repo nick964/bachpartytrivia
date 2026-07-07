@@ -19,22 +19,33 @@ export function PreCheck({
   onPass: () => void;
   onSkip: () => void;
 }) {
-  const rec = useRecorder(5);
+  const {
+    phase,
+    error: recError,
+    secondsLeft,
+    playbackUrl,
+    attachPreview,
+    startCamera,
+    beginRecording,
+    discardTake,
+    stopCamera,
+  } = useRecorder(5);
   const [testDone, setTestDone] = useState(false);
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col px-5 py-8">
-      <h1 className="text-xl font-extrabold tracking-tight">
+      <h1 className="font-display text-3xl text-primary">
         Quick camera check
       </h1>
-      <p className="mt-1 text-sm text-soft">
+      <p className="mt-1 text-sm italic text-soft">
         30 seconds now saves a &quot;wait, was my mic off?&quot; later.
       </p>
 
       <div className="relative mt-5 aspect-[3/4] w-full overflow-hidden rounded-3xl bg-black">
-        {rec.phase === "reviewing" && rec.playbackUrl ? (
+        {phase === "reviewing" && playbackUrl ? (
           <video
-            src={rec.playbackUrl}
+            key="playback"
+            src={playbackUrl}
             controls
             autoPlay
             playsInline
@@ -44,29 +55,30 @@ export function PreCheck({
           />
         ) : (
           <video
-            ref={rec.attachPreview}
+            key="preview"
+            ref={attachPreview}
             muted
             playsInline
             autoPlay
             className="h-full w-full scale-x-[-1] object-cover"
           />
         )}
-        {rec.phase === "recording" && (
+        {phase === "recording" && (
           <span className="absolute left-4 top-4 rounded-full bg-black/60 px-3 py-1 text-sm font-bold text-white">
-            ● {rec.secondsLeft}s
+            ● {secondsLeft}s
           </span>
         )}
-        {rec.phase === "idle" && !rec.error && (
+        {phase === "idle" && !recError && (
           <div className="absolute inset-0 flex items-center justify-center p-6 text-center text-sm text-white/70">
             Camera preview appears here
           </div>
         )}
       </div>
 
-      {rec.error && (
+      {recError && (
         <div className="mt-4 rounded-2xl bg-accent p-4 text-sm">
-          <p className="font-bold">{rec.error.message}</p>
-          {rec.error.kind === "denied" && (
+          <p className="font-bold">{recError.message}</p>
+          {recError.kind === "denied" && (
             <div className="mt-2 space-y-2 text-soft">
               {isIOS() ? (
                 <p>
@@ -94,47 +106,47 @@ export function PreCheck({
       )}
 
       <div className="mt-5 space-y-3">
-        {rec.phase === "idle" && (
+        {phase === "idle" && (
           <button
-            onClick={() => void rec.startCamera()}
+            onClick={() => void startCamera()}
             className="w-full rounded-full bg-primary px-6 py-3.5 font-bold text-on-primary"
           >
             Enable camera &amp; mic
           </button>
         )}
-        {rec.phase === "starting" && (
+        {phase === "starting" && (
           <p className="text-center text-sm text-soft">
             Waiting for permission… (tap Allow)
           </p>
         )}
-        {rec.phase === "live" && (
+        {phase === "live" && (
           <button
-            onClick={() => rec.beginRecording(5)}
+            onClick={() => beginRecording(5)}
             className="w-full rounded-full bg-primary px-6 py-3.5 font-bold text-on-primary"
           >
             Record a 5-second test
           </button>
         )}
-        {rec.phase === "recording" && (
+        {phase === "recording" && (
           <p className="text-center text-sm font-semibold">
             Say something! Anything. &quot;Test test, I look great.&quot;
           </p>
         )}
-        {rec.phase === "reviewing" && (
+        {phase === "reviewing" && (
           <>
             <p className="text-center text-sm font-semibold">
               Play it back — could you hear yourself clearly?
             </p>
             <div className="grid grid-cols-2 gap-2">
               <button
-                onClick={rec.discardTake}
+                onClick={discardTake}
                 className="rounded-full border border-line bg-surface px-4 py-3 text-sm font-bold"
               >
                 Try again
               </button>
               <button
                 onClick={() => {
-                  rec.stopCamera();
+                  stopCamera();
                   onPass();
                 }}
                 disabled={!testDone}
@@ -147,7 +159,7 @@ export function PreCheck({
         )}
         <button
           onClick={() => {
-            rec.stopCamera();
+            stopCamera();
             onSkip();
           }}
           className="w-full py-2 text-center text-xs font-medium text-soft"

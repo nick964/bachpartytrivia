@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guess the Groom | A Modern Heirloom Experience</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,700;1,400&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "secondary": "#5e5e5b",
+                    "secondary-container": "#e1dfdb",
+                    "on-primary-fixed": "#001d36",
+                    "surface-container-highest": "#e3e2e5",
+                    "on-tertiary-fixed-variant": "#604106",
+                    "on-error-container": "#93000a",
+                    "surface-container-low": "#f4f3f7",
+                    "tertiary-fixed-dim": "#edbf7b",
+                    "outline": "#73777f",
+                    "on-tertiary-container": "#fffbff",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed": "#e4e2dd",
+                    "primary-fixed": "#d1e4ff",
+                    "error": "#ba1a1a",
+                    "sky-blue": "#A9C5E3",
+                    "on-primary-container": "#fdfcff",
+                    "on-error": "#ffffff",
+                    "tertiary": "#78561c",
+                    "on-primary-fixed-variant": "#26496d",
+                    "on-background": "#1a1c1e",
+                    "tertiary-fixed": "#ffddaf",
+                    "surface-container": "#eeedf1",
+                    "surface-variant": "#e3e2e5",
+                    "primary": "#3d5e83",
+                    "inverse-primary": "#a8c9f4",
+                    "on-surface": "#1a1c1e",
+                    "on-secondary-container": "#63635f",
+                    "inverse-on-surface": "#f1f0f4",
+                    "primary-container": "#56779d",
+                    "on-tertiary-fixed": "#281800",
+                    "inverse-surface": "#2f3033",
+                    "secondary-fixed-dim": "#c8c6c2",
+                    "outline-variant": "#c3c6cf",
+                    "on-primary": "#ffffff",
+                    "background": "#faf9fc",
+                    "on-secondary-fixed-variant": "#474744",
+                    "tertiary-container": "#936e32",
+                    "surface": "#faf9fc",
+                    "surface-dim": "#dadadd",
+                    "primary-fixed-dim": "#a8c9f4",
+                    "surface-tint": "#3f6186",
+                    "deep-slate": "#2C3E50",
+                    "surface-container-high": "#e8e8eb",
+                    "on-secondary-fixed": "#1b1c19",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-bright": "#faf9fc",
+                    "on-surface-variant": "#43474e",
+                    "champagne-gold": "#D4AF37"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-md": "1rem",
+                    "margin-page": "2rem",
+                    "gutter": "1.5rem",
+                    "stack-lg": "2.5rem",
+                    "margin-mobile": "1.25rem",
+                    "stack-sm": "0.5rem"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Playfair Display"],
+                    "headline-lg": ["Playfair Display"],
+                    "headline-xl": ["Playfair Display"],
+                    "body-md": ["DM Sans"],
+                    "body-lg": ["DM Sans"],
+                    "headline-md": ["Playfair Display"],
+                    "label-caps": ["DM Sans"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #faf9fc;
+            background-image: linear-gradient(90deg, rgba(61, 94, 131, 0.03) 1px, transparent 1px);
+            background-size: 40px 100%;
+            background-attachment: fixed;
+            color: #2C3E50;
+        }
+
+        .scalloped-edge {
+            mask-image: url("data:image/svg+xml,%3Csvg width='40' height='20' viewBox='0 0 40 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20c4.418 0 8-3.582 8-8s3.582-8 8-8 8 3.582 8 8 3.582 8 8 8 8-3.582 8-8V0H0v20z' fill='%23000'/%3E%3C/svg%3E");
+            mask-repeat: repeat-x;
+            mask-size: 40px 20px;
+            mask-position: top;
+        }
+
+        .scalloped-frame {
+            position: relative;
+            padding-top: 40px;
+        }
+        
+        .scalloped-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='20' viewBox='0 0 40 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='20' fill='%23faf9fc'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            background-position: top;
+            transform: translateY(-50%);
+        }
+
+        .letterpress-inset {
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.05), inset -1px -1px 2px rgba(255,255,255,0.8);
+        }
+
+        .double-keyline {
+            border: 1px solid #3d5e83;
+            padding: 4px;
+            position: relative;
+        }
+        .double-keyline::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            right: 3px;
+            bottom: 3px;
+            border: 1px solid rgba(61, 94, 131, 0.2);
+            pointer-events: none;
+        }
+
+        .wax-seal {
+            background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2), inset 1px 1px 2px rgba(255,255,255,0.3);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased overflow-x-hidden">
+<!-- Top Navigation Shell -->
+<header class="bg-background/80 backdrop-blur-md sticky top-0 z-50 border-b border-primary/10 px-margin-page py-4">
+<div class="max-w-7xl mx-auto flex justify-between items-center">
+<div class="flex items-center gap-4">
+<img alt="Guess the Groom Logo" class="h-10 w-10 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLuGXRkD5Hh_UttePoZQMb5pMbBu22F4cC3zCnK0SbnZANr5FODdiL0vkiAKfP1-4Zq2_L7IWONwtFNSAxV_jOh_Iu-OqY90y7R_9-iDKSSEYCJzPOM5hirCJpnCT3IdMSwpenNpF2tF40Fx62uBo9dcVUEIB6npnXA-RPjBVvJCiq1uVTQi8AdhyBYXu0uMXjH4vKZKKOiG6iAiCvNrbMF6P6Q-Oks0cLQi-L2aNE5KKmyyX21OtiIlzMs"/>
+<span class="font-headline-md text-headline-md text-primary tracking-tight">Guess the Groom</span>
+</div>
+<nav class="hidden md:flex items-center gap-stack-lg">
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-primary py-1" href="#">Dashboard</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors py-1" href="#">How It Works</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors py-1" href="#">Pricing</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary transition-colors">notifications</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden border border-outline-variant">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAh9xVVoJMhVD_TvkJJSc6CdTIoLGgwJPAqxVbbDfZxDz41VsUAdYJfcdU00XlwhOGqVCO5JodvIUukxfVthjEMXf1rRECCSpCx1Y2K3rLZs2tTgd_IsJqf492VObxIBu4wx52Jj9xWEr8V1xkFXDGq7G-049JLkc8HQkwAX8z5QWMBOxhEOuAD9BUuME7fmj1VONxNlb5PMzdjkOpHN0358Fu9al20ObCAb3FOw1-LBz9L3rm-dCo9B7r8t5DlaaFVn0lveuBvu9c"/>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-margin-page pb-stack-lg">
+<!-- Hero Section -->
+<section class="mt-16 mb-24 relative"><div class="absolute inset-0 pointer-events-none overflow-hidden"><span class="material-symbols-outlined absolute top-1/4 left-1/4 text-champagne-gold opacity-40 animate-bounce" style="font-size: 24px;">sparkles</span><span class="material-symbols-outlined absolute top-1/3 right-1/4 text-sky-blue opacity-40 animate-pulse" style="font-size: 20px;">sparkles</span><span class="material-symbols-outlined absolute bottom-1/4 left-1/3 text-champagne-gold opacity-40 animate-bounce" style="font-size: 18px;">sparkles</span></div>
+<div class="max-w-4xl mx-auto text-center space-y-stack-md">
+<p class="font-headline-md text-headline-md italic text-primary opacity-90 tracking-widest uppercase text-sm font-bold">
+                A Lively Bachelorette Experience
+            </p>
+<div class="scalloped-frame bg-surface-container-lowest double-keyline p-12 md:p-20 shadow-xl bg-gradient-to-br from-surface-container-lowest via-champagne-gold/5 to-surface-container-lowest animate-pulse">
+<h1 class="font-headline-xl text-headline-xl text-primary mb-8 leading-tight">
+                    What did the groom <span class="italic font-normal text-sky-blue underline decoration-champagne-gold/30">*say?*</span>
+</h1>
+<button class="bg-primary hover:bg-primary-container text-white font-label-caps text-label-caps px-12 py-5 transition-all duration-300 shadow-md active:scale-95 tracking-[0.2em]">
+                    CREATE YOUR GAME
+                </button>
+</div>
+<!-- Floating Decorative Accents -->
+<div class="absolute -top-12 -left-12 opacity-30 pointer-events-none hidden lg:block rotate-12">
+<span class="material-symbols-outlined text-[90px] text-sky-blue" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="absolute -bottom-12 -right-12 opacity-30 pointer-events-none hidden lg:block -rotate-12">
+<span class="material-symbols-outlined text-[110px] text-champagne-gold" style="font-variation-settings: 'FILL' 1;">celebration</span>
+</div>
+</div>
+</section><section class="mb-24 px-margin-page"><div class="max-w-7xl mx-auto bg-surface-container-lowest double-keyline p-4 shadow-lg"><div class="relative aspect-video overflow-hidden rounded-xl"><img alt="Joyful bachelorette party playing Guess the Groom" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnGsk_da2ELfUbrdBlotUuxPNAZa96Jt2NV2CTuw9ZH628tiJU9VoInZZ2QCifOB26mdVJ43SLLk79kuT5L_B2Tu4Fx7ksTE_5txw8Oc-scslEdom0AH8RAgxnEnu9CNV9FCMJP7855CtedmJ3mojRgEGCS7eX8BXOB-0_8CxF8MGF1nbiQWjXI9wEedXmtaWpDbz7gMhKsRT-N2PtQdMK_bccue6AV66XZaZYv4EVzIn0AR9L84Un5SKPehnRRPe6FOY4Cr0vS0E"/></div><div class="mt-8 text-center max-w-2xl mx-auto"><h2 class="font-headline-lg text-headline-lg text-primary mb-4">The Ultimate Party Highlight</h2><p class="font-body-lg text-body-lg text-secondary italic">"There's nothing like the energy of the room when the bride hears his answers for the first time. It's the heart of the celebration."</p></div></div></section>
+<!-- How It Works Section -->
+<section class="py-stack-lg">
+<div class="flex items-center justify-center gap-6 mb-16">
+<div class="h-[2px] w-12 bg-sky-blue/40"></div>
+<h2 class="font-label-caps text-label-caps text-primary tracking-[0.4em] uppercase text-sm">The Celebration Plan</h2>
+<div class="h-[2px] w-12 bg-sky-blue/40"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest double-keyline p-8 flex flex-col items-center text-center transition-all hover:-translate-y-2 hover:shadow-lg">
+<div class="mb-6 h-16 w-16 flex items-center justify-center rounded-full bg-sky-blue/10">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'wght' 300;">edit_note</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">Write questions</h3>
+<p class="font-body-md text-body-md text-secondary">Choose from our curated templates or craft your own personalized riddles about their love story.</p>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest double-keyline p-8 flex flex-col items-center text-center transition-all hover:-translate-y-2 hover:shadow-lg">
+<div class="mb-6 h-16 w-16 flex items-center justify-center rounded-full bg-champagne-gold/10">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'wght' 300;">videocam</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">He records</h3>
+<p class="font-body-md text-body-md text-secondary">Send a magic link to the groom. He records his hilarious and heartfelt answers directly from his phone.</p>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest double-keyline p-8 flex flex-col items-center text-center transition-all hover:-translate-y-2 hover:shadow-lg">
+<div class="mb-6 h-16 w-16 flex items-center justify-center rounded-full bg-primary/10">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'wght' 300;">liquor</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">Play at the party</h3>
+<p class="font-body-md text-body-md text-secondary">Screen the video live. The bride guesses his answers. Everyone toasts to the perfect match.</p>
+</div>
+</div>
+</section>
+<!-- Pricing Section -->
+<section class="py-stack-lg bg-primary/5 -mx-margin-page px-margin-page rounded-[4rem] my-24">
+<div class="max-w-4xl mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">Choose Your Experience</h2>
+<p class="font-body-lg text-body-lg text-secondary">From coastal gatherings to the grandest galas.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch">
+<!-- Free Card -->
+<div class="bg-surface-container-lowest double-keyline p-10 flex flex-col h-full hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Free</h3>
+<p class="font-label-caps text-label-caps text-secondary opacity-70">ESSENTIAL KIT</p>
+</div>
+<span class="font-headline-lg text-headline-lg text-primary">$0</span>
+</div>
+<ul class="space-y-4 mb-10 flex-grow">
+<li class="flex items-center gap-3 text-secondary">
+<span class="material-symbols-outlined text-sky-blue text-sm">check_circle</span>
+                            3 custom questions
+                        </li>
+<li class="flex items-center gap-3 text-secondary">
+<span class="material-symbols-outlined text-sky-blue text-sm">check_circle</span>
+                            Mobile recording link
+                        </li>
+<li class="flex items-center gap-3 text-secondary">
+<span class="material-symbols-outlined text-sky-blue text-sm">check_circle</span>
+                            Standard web player
+                        </li>
+</ul>
+<button class="w-full border-2 border-primary text-primary font-label-caps text-label-caps py-4 hover:bg-primary hover:text-white transition-all">
+                        START FREE
+                    </button>
+</div>
+<!-- Premium Card -->
+<div class="bg-surface-container-lowest double-keyline p-10 flex flex-col h-full relative border-primary shadow-xl scale-105 z-10">
+<div class="absolute -top-8 -right-8 h-24 w-24 wax-seal rounded-full flex items-center justify-center text-white z-20 rotate-12">
+<span class="font-headline-md text-headline-md">G</span>
+</div>
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Premium</h3>
+<p class="font-label-caps text-label-caps text-champagne-gold">CAPE COD EDITION</p>
+</div>
+<span class="font-headline-lg text-headline-lg text-primary">$20</span>
+</div>
+<ul class="space-y-4 mb-10 flex-grow">
+<li class="flex items-center gap-3 text-deep-slate font-bold">
+<span class="material-symbols-outlined text-champagne-gold text-sm">check_circle</span>
+                            Unlimited questions
+                        </li>
+<li class="flex items-center gap-3 text-secondary">
+<span class="material-symbols-outlined text-champagne-gold text-sm">check_circle</span>
+                            High-res video downloads
+                        </li>
+<li class="flex items-center gap-3 text-secondary">
+<span class="material-symbols-outlined text-champagne-gold text-sm">check_circle</span>
+                            Printable keepsake cards
+                        </li>
+<li class="flex items-center gap-3 text-secondary">
+<span class="material-symbols-outlined text-champagne-gold text-sm">check_circle</span>
+                            Lively, ad-free experience
+                        </li>
+</ul>
+<button class="w-full bg-primary text-white font-label-caps text-label-caps py-4 hover:bg-primary-container hover:shadow-lg transition-all active:scale-[0.98]">
+                        GET PREMIUM
+                    </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonial Section -->
+<section class="mt-24">
+<div class="bg-surface-container-lowest double-keyline overflow-hidden flex flex-col md:flex-row items-stretch shadow-lg">
+<div class="md:w-1/2 min-h-[450px]">
+<div class="w-full h-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCEP6kKalSMXiKr5PB_k72AVJX9UDowJEv-qYWUYfXllXYxqy1MyZD7XjAlz_Aw47rqztIxsxNTwLF0kVMTY89LZmQRJkF-il1tgIl4M488WLbsN4Z19rBpElkP5GJDgyE1OhzgC0C4r5K3vINdesvyXatwn6F8H1zbCaHx7QkF-MP-IZcGuyU3xESRCAZom-KR9VOmIYb89BRe7WdwZxmvXE8mHZErYYeaRrhqK7fGF0e7zaBqG0YdcvMs4j7pTDOgNChEges3G4k')"></div>
+</div>
+<div class="md:w-1/2 p-12 md:p-20 flex flex-col justify-center bg-white/40 backdrop-blur-sm">
+<span class="material-symbols-outlined text-sky-blue text-6xl mb-8 opacity-60">format_quote</span>
+<p class="font-headline-md text-headline-md text-primary italic mb-10 leading-relaxed">
+                    "The highlight of our coastal bachelorette weekend. Lively, fun, and Sarah now has a video she'll treasure as a modern heirloom."
+                </p>
+<div class="flex items-center gap-4">
+<div class="h-px w-8 bg-champagne-gold"></div>
+<p class="font-label-caps text-label-caps text-primary tracking-widest">— CATHERINE, MAID OF HONOR</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-background border-t border-primary/5 py-stack-lg mt-stack-lg">
+<div class="max-w-7xl mx-auto px-margin-page flex flex-col items-center gap-stack-md">
+<div class="flex items-center gap-3 mb-6">
+<img alt="Logo Small" class="h-8 w-8" src="https://lh3.googleusercontent.com/aida/AP1WRLuGXRkD5Hh_UttePoZQMb5pMbBu22F4cC3zCnK0SbnZANr5FODdiL0vkiAKfP1-4Zq2_L7IWONwtFNSAxV_jOh_Iu-OqY90y7R_9-iDKSSEYCJzPOM5hirCJpnCT3IdMSwpenNpF2tF40Fx62uBo9dcVUEIB6npnXA-RPjBVvJCiq1uVTQi8AdhyBYXu0uMXjH4vKZKKOiG6iAiCvNrbMF6P6Q-Oks0cLQi-L2aNE5KKmyyX21OtiIlzMs"/>
+<span class="font-headline-md text-headline-md text-primary tracking-tight">Guess the Groom</span>
+</div>
+<div class="flex flex-wrap justify-center gap-10 mb-10">
+<a class="font-label-caps text-label-caps text-secondary hover:text-primary transition-colors tracking-widest" href="#">Privacy Policy</a>
+<a class="font-label-caps text-label-caps text-secondary hover:text-primary transition-colors tracking-widest" href="#">Terms of Service</a>
+<a class="font-label-caps text-label-caps text-secondary hover:text-primary transition-colors tracking-widest" href="#">Contact Us</a>
+</div>
+<p class="font-body-md text-body-md text-secondary opacity-50 text-sm">
+            © 2024 Guess the Groom. A Lively Modern Heirloom Experience.
+        </p>
+</div>
+</footer>
+<!-- Subtle Floating Micro-interaction Script -->
+<script>
+    document.querySelectorAll('.double-keyline').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            const icon = card.querySelector('.material-symbols-outlined');
+            if (icon) {
+                icon.style.transform = 'scale(1.1) rotate(5deg)';
+                icon.style.transition = 'transform 0.3s ease';
+            }
+        });
+        card.addEventListener('mouseleave', () => {
+            const icon = card.querySelector('.material-symbols-outlined');
+            if (icon) {
+                icon.style.transform = 'scale(1) rotate(0deg)';
+            }
+        });
+    });
+
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        if (window.scrollY > 20) {
+            header.classList.add('shadow-md');
+        } else {
+            header.classList.remove('shadow-md');
+        }
+    });
+</script>
+</body></html>

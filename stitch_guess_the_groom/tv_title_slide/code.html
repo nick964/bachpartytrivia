@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guess the Groom - TV Title Slide</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&amp;family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .ticking-stripe {
+            background-color: #f7f9ff;
+            background-image: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 48px,
+                #cfe4ff 48px,
+                #cfe4ff 49px,
+                transparent 49px,
+                transparent 54px,
+                #cfe4ff 54px,
+                #cfe4ff 55px
+            );
+        }
+
+        .double-keyline {
+            border: 1px solid #3e5e7f;
+            padding: 4px;
+            position: relative;
+        }
+        .double-keyline::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            right: 4px;
+            bottom: 4px;
+            border: 0.5px solid #3e5e7f;
+            pointer-events: none;
+        }
+
+        .scalloped-border {
+            --mask: radial-gradient(20px at 20px 0,#0000 98%,#000) 50% -20px/40px 100% repeat-x;
+            -webkit-mask: var(--mask);
+            mask: var(--mask);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .gold-seal {
+            background: radial-gradient(circle at 30% 30%, #f3e5ab 0%, #d4af37 60%, #b8860b 100%);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.15);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f7f9ff",
+                        "on-secondary-fixed-variant": "#474743",
+                        "secondary-fixed-dim": "#c9c6c1",
+                        "surface-container-low": "#edf4ff",
+                        "secondary": "#5f5e5a",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#d3e5f2",
+                        "surface-container-highest": "#d2e4fa",
+                        "primary-fixed": "#cfe4ff",
+                        "tertiary": "#4d5e69",
+                        "on-secondary-fixed": "#1c1c18",
+                        "on-primary-fixed": "#001d34",
+                        "on-surface": "#0b1d2d",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#667782",
+                        "surface-bright": "#f7f9ff",
+                        "primary-fixed-dim": "#a9caef",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#3e5e7f",
+                        "surface-variant": "#d2e4fa",
+                        "on-secondary-container": "#656460",
+                        "inverse-surface": "#213242",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#0b1d2d",
+                        "primary-container": "#577799",
+                        "on-surface-variant": "#43474d",
+                        "surface-container-high": "#d9eaff",
+                        "secondary-container": "#e5e2dc",
+                        "on-tertiary-container": "#fbfcff",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#a9caef",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#e5e2dc",
+                        "outline-variant": "#c3c7ce",
+                        "outline": "#73777e",
+                        "on-tertiary-fixed": "#0c1d27",
+                        "surface-dim": "#cadcf1",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#fdfcff",
+                        "inverse-on-surface": "#e8f2ff",
+                        "tertiary-fixed-dim": "#b7c9d6",
+                        "surface-tint": "#416182",
+                        "on-tertiary-fixed-variant": "#384953",
+                        "on-primary-fixed-variant": "#284968",
+                        "on-error": "#ffffff",
+                        "surface-container": "#e3efff",
+                        "background": "#f7f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-padding": "32px",
+                        "unit": "8px",
+                        "keyline-gap": "4px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["EB Garamond"],
+                        "body-md": ["Literata"],
+                        "headline-xl": ["EB Garamond"],
+                        "body-lg": ["Literata"],
+                        "display-italic": ["EB Garamond"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface ticking-stripe min-h-screen flex items-center justify-center p-gutter overflow-hidden select-none">
+<!-- Top Navigation (Contextual Suppression Logic: Hidden for focused TV Title Slide) -->
+<!-- Main Content Canvas -->
+<main class="relative w-full max-w-[1280px] aspect-video flex items-center justify-center">
+<!-- Background Illustrations (Asymmetric Layout) -->
+<div class="absolute top-12 left-12 opacity-40 pointer-events-none">
+<span class="material-symbols-outlined text-[80px] text-primary" style="font-variation-settings: 'FILL' 0;">auto_awesome</span>
+</div>
+<div class="absolute bottom-12 right-12 opacity-40 pointer-events-none">
+<span class="material-symbols-outlined text-[100px] text-primary rotate-12" style="font-variation-settings: 'FILL' 0;">card_giftcard</span>
+</div>
+<!-- The Central Stationery Card -->
+<div class="relative w-4/5 max-w-4xl bg-surface-container-lowest animate-float shadow-2xl overflow-visible">
+<!-- Double Keyline Frame -->
+<div class="double-keyline h-full w-full flex flex-col items-center justify-center py-20 px-12 relative">
+<!-- Corner Flourishes (Engraved Style) -->
+<div class="absolute top-8 left-8">
+<span class="material-symbols-outlined text-primary-fixed-dim text-4xl">celebration</span>
+</div>
+<div class="absolute top-8 right-8">
+<span class="material-symbols-outlined text-primary-fixed-dim text-4xl">flare</span>
+</div>
+<!-- Content Header -->
+<div class="mb-6">
+<h3 class="font-body-md text-primary tracking-[0.2em] uppercase text-center text-lg">
+                        Amelia's Bachelorette
+                    </h3>
+<div class="w-16 h-[1px] bg-primary-fixed-dim mx-auto mt-4 relative">
+<div class="absolute -top-1.5 left-1/2 -translate-x-1/2 text-[10px] text-primary">✦</div>
+</div>
+</div>
+<!-- Massive Headline -->
+<h1 class="font-headline-xl text-primary text-8xl md:text-9xl text-center leading-tight mb-12 italic">
+                    What did the <br/>
+<span class="font-display-italic">groom say?</span>
+</h1>
+<!-- Large "Start Game" Action -->
+<button class="group relative px-12 py-4 bg-primary text-on-primary rounded-full transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg overflow-hidden">
+<span class="relative z-10 font-label-sm text-2xl tracking-widest uppercase">Start Game</span>
+<div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</button>
+<!-- Scalloped Edge Detail (Simulated via overlay) -->
+<div class="absolute -bottom-6 left-0 w-full h-8 flex overflow-hidden">
+<!-- Decorative bottom edge simulation -->
+<div class="w-full border-b-2 border-dotted border-primary-fixed-dim opacity-30"></div>
+</div>
+</div>
+<!-- Gold Wax Seal Badge (Overlaid on corner) -->
+<div class="absolute -top-10 -right-10 w-32 h-32 gold-seal rounded-full flex items-center justify-center transform rotate-12 z-20 border-2 border-white/20">
+<div class="w-24 h-24 border border-black/10 rounded-full flex flex-col items-center justify-center text-on-primary-fixed">
+<span class="font-display-italic text-4xl">G</span>
+<div class="h-[0.5px] w-8 bg-black/20 my-1"></div>
+<span class="font-label-sm text-[10px] tracking-widest uppercase">Official</span>
+</div>
+</div>
+<!-- Illustration: Ribbon Bow (Fine-line) -->
+<div class="absolute -bottom-16 -left-12 w-48 h-48 pointer-events-none opacity-90">
+<img class="w-full h-full object-contain" data-alt="A delicate fine-line engraved illustration of a silk ribbon bow tied in a classic loop. The illustration is in a deep navy blue with subtle hatching details for depth, maintaining a high-end stationery aesthetic on an ivory background. The style is coastal heirloom, elegant, and minimalist." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg0EeovqAURbDkaAwUaIei1NDskCMKjpNCJgSt4gUzuHrBy4aYFd-t-JSg5Y4XxIFCWF_HB_5M66oz3IAFeQ4WyWwej22eOP0GizYKlWO653BVvYkyr7gLXC3Tgey8dUmZUJO1XCdIPIcShqng97H7eqcu4EdoDY2Vs8bc1PVKNjisD65nt74H_hyw_y8xEovywHSY1YRHYW5cCnuucLF0c9l1sTupPmSMd5euBSojHM9gbjxZuObiNph_W_KRShI1EjoHje5c6OA"/>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Shell (Contextual Suppression for TV Slide) -->
+<!-- Micro-interaction Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.querySelector('button');
+            
+            // Hover sound or visual ripple effect
+            button.addEventListener('mouseenter', () => {
+                // Potential for subtle audio cue
+            });
+
+            // Keyboard shortcut for 'Start'
+            document.addEventListener('keydown', (e) => {
+                if (e.code === 'Space' || e.code === 'Enter') {
+                    button.classList.add('scale-95');
+                    setTimeout(() => {
+                        button.classList.remove('scale-95');
+                        alert('Game Starting...');
+                    }, 150);
+                }
+            });
+        });
+
+        // Ticking stripe background parallax mouse effect
+        document.addEventListener('mousemove', (e) => {
+            const amount = 5;
+            const x = (e.clientX / window.innerWidth - 0.5) * amount;
+            const y = (e.clientY / window.innerHeight - 0.5) * amount;
+            document.body.style.backgroundPosition = `${x}px ${y}px`;
+        });
+    </script>
+</body></html>

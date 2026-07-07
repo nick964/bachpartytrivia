@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/db/server";
 import { createQuestionSchema } from "@/lib/validation";
 import { getOwnedEvent, jsonError, requireUser } from "@/lib/api/guards";
-
-export const FREE_QUESTION_LIMIT = 3;
+import { FREE_QUESTION_LIMIT } from "@/lib/constants";
 
 export async function POST(request: NextRequest) {
   const user = await requireUser();

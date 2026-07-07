@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
   if ("error" in owned) return owned.error;
   const event = owned.event;
   if (event.is_premium) {
-    return jsonError("This event is already premium. 🥂", 400);
+    return jsonError("This event is already premium. ✨", 400);
   }
 
   const price = process.env.STRIPE_PRICE_ID_PREMIUM;

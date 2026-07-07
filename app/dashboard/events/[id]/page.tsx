@@ -9,10 +9,9 @@ import {
   type ResponseRow,
   type SampleQuestionRow,
 } from "@/lib/db/types";
-import { normalizeTheme } from "@/lib/theme";
-import { ThemeScope } from "@/components/theme/ThemeContext";
 import { EventStatusBadge } from "@/components/dashboard/EventStatusBadge";
 import { QuestionEditor } from "@/components/editor/QuestionEditor";
+import { GreetingCard } from "@/components/editor/GreetingCard";
 import { SendCard } from "@/components/editor/SendCard";
 import { EventSettings } from "@/components/editor/EventSettings";
 import { PremiumPoller } from "@/components/editor/PremiumPoller";
@@ -60,18 +59,20 @@ export default async function EventPage({
   }));
   const samples = (sampleRows ?? []) as SampleQuestionRow[];
 
+  // The event's theme (navy/blush) styles the guest-facing screens only —
+  // the dashboard editor always uses the light site palette.
   return (
-    <ThemeScope theme={normalizeTheme(event.theme)} className="min-h-full">
-      <div className="space-y-8">
+    <div className="min-h-full">
+      <div className="space-y-10">
         <div>
           <Link
             href="/dashboard"
-            className="text-sm font-medium text-soft hover:text-ink"
+            className="label-caps text-[10px] text-soft transition hover:text-primary"
           >
-            ← All events
+            ← All games
           </Link>
-          <div className="mt-2 flex flex-wrap items-center gap-3">
-            <h1 className="text-2xl font-extrabold tracking-tight">
+          <div className="mt-3 flex flex-wrap items-center gap-4">
+            <h1 className="font-display text-4xl text-primary">
               {event.title}
             </h1>
             <EventStatusBadge
@@ -81,9 +82,10 @@ export default async function EventPage({
                 .filter((q) => q.responses.some((r) => r.status === "ready"))
                 .map((q) => q.id)}
               eventId={event.id}
+              honoreeRole={event.honoree_role}
             />
           </div>
-          <p className="mt-1 text-sm text-soft">
+          <p className="mt-1.5 text-sm italic text-soft">
             {event.honoree_name} records ·{" "}
             {new Date(event.party_date + "T00:00:00").toLocaleDateString(
               undefined,
@@ -96,12 +98,17 @@ export default async function EventPage({
           <PremiumPoller eventId={event.id} />
         )}
         {event.is_premium && (
-          <p className="rounded-2xl bg-accent px-4 py-3 text-sm font-semibold">
-            ✨ Premium event — unlimited questions.
+          <p className="border border-gold/40 bg-raised px-4 py-3 text-sm">
+            <span className="label-caps mr-2 text-[10px] text-gold">
+              Premium
+            </span>
+            Unlimited questions unlocked for this event. ✨
           </p>
         )}
 
         <QuestionEditor event={event} questions={questions} samples={samples} />
+
+        <GreetingCard event={event} />
 
         <SendCard event={event} questionCount={questions.length} />
 
@@ -112,10 +119,10 @@ export default async function EventPage({
 
         <EventSettings event={event} />
 
-        <p className="pb-4 text-center text-xs text-soft">
+        <p className="pb-4 text-center text-xs italic text-soft">
           Videos are automatically deleted 30 days after the party.
         </p>
       </div>
-    </ThemeScope>
+    </div>
   );
 }

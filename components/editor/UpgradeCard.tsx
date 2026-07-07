@@ -29,22 +29,33 @@ export function UpgradeCard({ eventId }: { eventId: string }) {
   }
 
   return (
-    <div className="mt-5 rounded-2xl border-2 border-primary bg-raised p-5 text-center">
-      <p className="font-script text-3xl text-primary">
-        That&apos;s the free three!
-      </p>
-      <p className="mx-auto mt-1 max-w-sm text-sm text-soft">
-        Unlock unlimited questions for this event — one-time $20, no
-        subscription. The good questions are all still ahead of you. 😏
-      </p>
-      <button
-        onClick={checkout}
-        disabled={busy}
-        className="mt-4 rounded-full bg-primary px-6 py-2.5 text-sm font-bold text-on-primary transition hover:bg-primary-deep disabled:opacity-60"
-      >
-        {busy ? "Opening checkout…" : "Upgrade for $20"}
-      </button>
-      {error && <p className="mt-3 text-sm font-medium">{error}</p>}
+    <div className="mt-6 bg-raised p-6 sm:p-8">
+      <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:text-left">
+        <span className="wax-seal flex h-16 w-16 shrink-0 items-center justify-center rounded-full text-2xl text-white">
+          ★
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="font-display text-xl italic text-primary">
+            That&apos;s the free five — unlock unlimited questions
+          </p>
+          <p className="mt-1 text-sm text-soft">
+            Capture every precious detail for a one-time $20 — no subscription.
+            The good questions are all still ahead of you. 😏
+          </p>
+        </div>
+        <button
+          onClick={checkout}
+          disabled={busy}
+          className="label-caps shrink-0 bg-primary-deep px-7 py-3.5 text-[11px] text-on-primary transition hover:bg-primary disabled:opacity-60"
+        >
+          {busy ? "Opening checkout…" : "Go premium"}
+        </button>
+      </div>
+      {error && (
+        <p className="mt-4 text-center text-sm font-medium sm:text-left">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

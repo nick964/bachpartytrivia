@@ -219,7 +219,6 @@ export function useRecorder(maxSeconds: number) {
     blob,
     playbackUrl,
     durationSeconds,
-    mimeType: mimeRef.current,
     attachPreview,
     startCamera,
     beginRecording,

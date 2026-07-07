@@ -16,7 +16,7 @@ export function stripe(): Stripe {
  * Webhook signature verification is pure crypto and must work even if the
  * API key isn't set (the placeholder key is never used for API calls).
  */
-export function stripeWebhooks(): Stripe.Webhooks {
+export function stripeWebhooks(): Stripe["webhooks"] {
   return new Stripe(process.env.STRIPE_SECRET_KEY || "sk_placeholder")
     .webhooks;
 }

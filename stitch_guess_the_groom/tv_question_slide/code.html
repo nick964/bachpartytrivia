@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guess the Groom - Question Slide</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Literata:ital,wght@0,200..900;1,200..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#f7f9ff",
+                    "on-secondary-fixed-variant": "#474743",
+                    "secondary-fixed-dim": "#c9c6c1",
+                    "surface-container-low": "#edf4ff",
+                    "secondary": "#5f5e5a",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed": "#d3e5f2",
+                    "surface-container-highest": "#d2e4fa",
+                    "primary-fixed": "#cfe4ff",
+                    "tertiary": "#4d5e69",
+                    "on-secondary-fixed": "#1c1c18",
+                    "on-primary-fixed": "#001d34",
+                    "on-surface": "#0b1d2d",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#667782",
+                    "surface-bright": "#f7f9ff",
+                    "primary-fixed-dim": "#a9caef",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#3e5e7f",
+                    "surface-variant": "#d2e4fa",
+                    "on-secondary-container": "#656460",
+                    "inverse-surface": "#213242",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#0b1d2d",
+                    "primary-container": "#577799",
+                    "on-surface-variant": "#43474d",
+                    "surface-container-high": "#d9eaff",
+                    "secondary-container": "#e5e2dc",
+                    "on-tertiary-container": "#fbfcff",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#a9caef",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed": "#e5e2dc",
+                    "outline-variant": "#c3c7ce",
+                    "outline": "#73777e",
+                    "on-tertiary-fixed": "#0c1d27",
+                    "surface-dim": "#cadcf1",
+                    "error-container": "#ffdad6",
+                    "on-primary-container": "#fdfcff",
+                    "inverse-on-surface": "#e8f2ff",
+                    "tertiary-fixed-dim": "#b7c9d6",
+                    "surface-tint": "#416182",
+                    "on-tertiary-fixed-variant": "#384953",
+                    "on-primary-fixed-variant": "#284968",
+                    "on-error": "#ffffff",
+                    "surface-container": "#e3efff",
+                    "background": "#f7f9ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-padding": "32px",
+                    "unit": "8px",
+                    "keyline-gap": "4px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "headline-lg": ["EB Garamond"],
+                    "headline-lg-mobile": ["EB Garamond"],
+                    "body-md": ["Literata"],
+                    "headline-xl": ["EB Garamond"],
+                    "body-lg": ["Literata"],
+                    "display-italic": ["EB Garamond"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-italic": ["32px", {"lineHeight": "1.2", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #fcfbf7;
+            /* Ticking Stripe Background */
+            background-image: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 48px,
+                #e5e2dc 48px,
+                #e5e2dc 49px,
+                transparent 49px,
+                transparent 54px,
+                #e5e2dc 54px,
+                #e5e2dc 55px
+            );
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .scallop-top {
+            position: relative;
+            background: #ffffff;
+        }
+        .scallop-top::before {
+            content: "";
+            position: absolute;
+            top: -16px;
+            left: 0;
+            width: 100%;
+            height: 16px;
+            background: radial-gradient(circle at 10px -7px, transparent 20px, #ffffff 21px);
+            background-size: 40px 40px;
+        }
+
+        .double-keyline {
+            position: relative;
+            border: 1px solid #3e5e7f;
+            padding: 4px;
+        }
+        .double-keyline::after {
+            content: "";
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            right: 4px;
+            bottom: 4px;
+            border: 0.5px solid #3e5e7f;
+            pointer-events: none;
+        }
+
+        .pulse-text {
+            animation: pulse-opacity 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse-opacity {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .engraved-divider {
+            height: 1px;
+            background: #a9caef;
+            position: relative;
+            width: 100%;
+            margin: 24px 0;
+        }
+        .engraved-divider::after {
+            content: "◆";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: #ffffff;
+            padding: 0 12px;
+            color: #3e5e7f;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+<!-- Top Navigation Bar (JSON Anchor) -->
+<header class="w-full top-0 px-gutter py-unit flex justify-between items-center w-full px-container-padding max-w-full border-b border-primary">
+<div class="flex items-center gap-4">
+<span class="font-display-italic text-display-italic text-primary">Guess the Groom</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-label-sm hover:text-primary-container transition-colors uppercase" href="#">How to Play</a>
+<a class="text-on-surface-variant font-label-sm hover:text-primary-container transition-colors uppercase" href="#">Results</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 0;">volume_up</span>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 0;">settings</span>
+<button class="bg-primary text-on-primary font-label-sm px-6 py-2 rounded-full hover:bg-primary-container transition-all active:opacity-80 uppercase">
+                End Game
+            </button>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center justify-center p-gutter relative">
+<!-- Scoreboard Tally Chip (Top Right Floating) -->
+<div class="absolute top-8 right-12 z-20">
+<div class="double-keyline bg-surface-container-lowest flex items-center gap-3 px-4 py-2">
+<span class="font-label-sm text-primary uppercase">Right 2</span>
+<span class="text-primary-fixed-dim">•</span>
+<span class="font-label-sm text-on-surface-variant uppercase">Wrong 1</span>
+<span class="text-lg">🍹</span>
+</div>
+</div>
+<!-- Question Number Header -->
+<div class="mb-12 text-center">
+<h2 class="font-display-italic text-display-italic text-primary italic">Question 3</h2>
+<div class="w-16 h-[1px] bg-primary mx-auto mt-2"></div>
+</div>
+<!-- Main Question Card -->
+<div class="w-full max-w-4xl aspect-[16/9] md:aspect-auto flex flex-col items-center justify-center">
+<div class="scallop-top double-keyline w-full p-12 md:p-20 flex flex-col items-center text-center shadow-sm">
+<!-- Etched Icon -->
+<span class="material-symbols-outlined text-primary mb-8 text-4xl" style="font-variation-settings: 'FILL' 0;">favorite</span>
+<h1 class="font-headline-xl text-headline-xl text-on-surface max-w-2xl leading-tight">
+                    "Who said I love you first?"
+                </h1>
+<div class="engraved-divider"></div>
+<p class="font-body-lg text-body-lg text-secondary italic pulse-text">
+                    Lock in your guess!
+                </p>
+<!-- Decorative Corner Accents (Engraved feel) -->
+<div class="absolute bottom-6 left-6 opacity-20">
+<span class="material-symbols-outlined text-primary text-3xl">filter_vintage</span>
+</div>
+<div class="absolute bottom-6 right-6 opacity-20">
+<span class="material-symbols-outlined text-primary text-3xl">filter_vintage</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Side Navigation Shell (Game Master Controls - Desktop Only) -->
+<aside class="hidden xl:flex fixed left-0 top-0 h-screen w-64 border-r-2 border-primary bg-surface-container-lowest flex-col py-gutter z-50">
+<div class="px-6 mb-12">
+<div class="w-12 h-12 rounded-full border border-primary flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary">token</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-primary leading-tight">Game Master</h3>
+<p class="font-label-sm text-on-surface-variant uppercase tracking-widest mt-1">Remote Control Active</p>
+</div>
+<nav class="flex-grow flex flex-col gap-2">
+<div class="text-secondary hover:bg-secondary-container rounded-full mx-2 my-1 flex items-center gap-4 px-4 py-3 cursor-pointer transition-all active:scale-95 duration-150">
+<span class="material-symbols-outlined">videogame_asset</span>
+<span class="font-body-md">Current Round</span>
+</div>
+<div class="text-secondary hover:bg-secondary-container rounded-full mx-2 my-1 flex items-center gap-4 px-4 py-3 cursor-pointer transition-all active:scale-95 duration-150">
+<span class="material-symbols-outlined">group</span>
+<span class="font-body-md">Player List</span>
+</div>
+<div class="text-secondary hover:bg-secondary-container rounded-full mx-2 my-1 flex items-center gap-4 px-4 py-3 cursor-pointer transition-all active:scale-95 duration-150">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-body-md">Scoreboard</span>
+</div>
+<div class="bg-primary-container text-on-primary-container rounded-full mx-2 my-1 flex items-center gap-4 px-4 py-3 cursor-pointer transition-all active:scale-95 duration-150">
+<span class="material-symbols-outlined">tune</span>
+<span class="font-body-md">Game Controls</span>
+</div>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary text-on-primary py-4 rounded-full font-label-sm uppercase tracking-widest hover:bg-primary-container transition-all">
+                Next Question
+            </button>
+</div>
+</aside>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 bg-surface-container-lowest border-t border-primary shadow-lg rounded-t-full">
+<div class="flex flex-col items-center justify-center text-on-secondary-container p-3 hover:bg-primary-fixed-dim transition-colors active:scale-90 duration-100">
+<span class="material-symbols-outlined">ads_click</span>
+<span class="font-label-sm text-label-sm uppercase mt-1">Buzz In</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-full p-3 active:scale-90 duration-100">
+<span class="material-symbols-outlined">lightbulb</span>
+<span class="font-label-sm text-label-sm uppercase mt-1">Hint</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-secondary-container p-3 hover:bg-primary-fixed-dim transition-colors active:scale-90 duration-100">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-sm text-label-sm uppercase mt-1">Players</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-secondary-container p-3 hover:bg-primary-fixed-dim transition-colors active:scale-90 duration-100">
+<span class="material-symbols-outlined">menu</span>
+<span class="font-label-sm text-label-sm uppercase mt-1">Menu</span>
+</div>
+</nav>
+<!-- Atmosphere Micro-interaction script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Simple subtle parallax or hover effect for the stationery card
+            const card = document.querySelector('.scallop-top');
+            
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 50;
+                const rotateY = (centerX - x) / 50;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+            });
+        });
+    </script>
+</body></html>

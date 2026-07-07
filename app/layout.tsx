@@ -1,26 +1,32 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Great_Vibes } from "next/font/google";
+import { EB_Garamond, Literata, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const body = Plus_Jakarta_Sans({
-  variable: "--font-body",
+const display = EB_Garamond({
+  variable: "--font-display-var",
   subsets: ["latin"],
+  style: ["normal", "italic"],
 });
 
-const script = Great_Vibes({
-  variable: "--font-script-var",
+const body = Literata({
+  variable: "--font-body-var",
   subsets: ["latin"],
-  weight: "400",
+  style: ["normal", "italic"],
+});
+
+const label = Plus_Jakarta_Sans({
+  variable: "--font-label-var",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Guess the Groom — the bachelorette party game",
-    template: "%s · Guess the Groom",
+    default: "Bach Party Trivia — the bachelorette & bachelor party game",
+    template: "%s · Bach Party Trivia",
   },
   description:
-    "He answers on video before the party. She guesses live. Wrong guess = drink. The easiest bachelorette game you'll ever run.",
+    "You may now quiz the bride: he answers on video before the party, she guesses live at the bachelorette. The easiest party game you'll ever run.",
 };
 
 export default function RootLayout({
@@ -32,7 +38,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme="blush"
-      className={`${body.variable} ${script.variable} h-full antialiased`}
+      className={`${display.variable} ${body.variable} ${label.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <ClerkProvider>{children}</ClerkProvider>

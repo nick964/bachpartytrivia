@@ -36,9 +36,7 @@ function emailShell(event: EventRow, heading: string, body: string): string {
   return `<!doctype html>
 <html><body style="margin:0;padding:32px 16px;background:${bg};font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">
   <div style="max-width:520px;margin:0 auto;background:${surface};border-radius:24px;padding:32px;color:${ink};">
-    <p style="margin:0;font-size:26px;color:${primary};font-style:italic;font-weight:600;">Guess the ${
-      event.honoree_role === "bride" ? "Groom" : "Bride"
-    }</p>
+    <p style="margin:0;font-size:26px;color:${primary};font-style:italic;font-weight:600;">Bach Party Trivia</p>
     <h1 style="font-size:22px;margin:20px 0 0;">${heading}</h1>
     ${body}
     <p style="margin:28px 0 0;font-size:12px;color:${soft};">Videos are automatically deleted 30 days after the party.</p>
@@ -50,8 +48,9 @@ function button(href: string, label: string, primary: string): string {
   return `<p style="margin:24px 0 0;"><a href="${href}" style="display:inline-block;background:${primary};color:#ffffff;text-decoration:none;font-weight:700;font-size:14px;padding:12px 28px;border-radius:999px;">${label}</a></p>`;
 }
 
-const FROM = () => process.env.EMAIL_FROM ?? "Guess the Groom <hello@guessthegroom.com>";
-const APP = () => process.env.NEXT_PUBLIC_APP_URL ?? "https://guessthegroom.com";
+const FROM = () =>
+  process.env.EMAIL_FROM ?? "Bach Party Trivia <hello@bachpartytrivia.com>";
+const APP = () => process.env.NEXT_PUBLIC_APP_URL ?? "https://bachpartytrivia.com";
 
 /** "He did it" — sent when the honoree submits their answers. */
 export async function sendCompletionEmail(event: EventRow): Promise<void> {
