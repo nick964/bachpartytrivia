@@ -23,7 +23,11 @@ export async function POST(
 
   let upload: { uploadURL: string; uid: string };
   try {
-    upload = await createDirectUpload({ eventId: id, label: "greeting" });
+    upload = await createDirectUpload({
+      eventId: id,
+      label: "greeting",
+      name: `${owned.event.honoree_name} · ${owned.event.title} · host greeting`,
+    });
   } catch {
     return jsonError(
       "Couldn't get an upload spot — give it a second and try again.",

@@ -12,7 +12,7 @@ import { RespondFlow } from "@/components/respond/RespondFlow";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "You have homework ✨",
+  title: "Record Your Responses ✨",
   robots: { index: false },
 };
 

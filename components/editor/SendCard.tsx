@@ -116,6 +116,9 @@ export function SendCard({
                   : `Get ${event.honoree_name}'s link`}
             </button>
           </div>
+          <div className="mx-auto mt-8 max-w-lg">
+            <NoteEditor event={event} />
+          </div>
         </>
       ) : (
         <>
@@ -158,6 +161,10 @@ export function SendCard({
               </div>
             )}
 
+            <div className="mt-8">
+              <NoteEditor event={event} />
+            </div>
+
             <div className="engraved-divider mt-9" />
             <p className="mt-5 text-center text-sm italic text-soft">
               ✉ We&apos;ll email you the moment{" "}
@@ -172,6 +179,70 @@ export function SendCard({
         </p>
       )}
     </section>
+  );
+}
+
+/** Optional written note the honoree reads when they open their link. */
+function NoteEditor({ event }: { event: EventRow }) {
+  const [note, setNote] = useState(event.respond_message ?? "");
+  const [saved, setSaved] = useState<string>(event.respond_message ?? "");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const dirty = note.trim() !== saved.trim();
+
+  async function save() {
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/events/${event.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ respond_message: note.trim() || null }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(data.error ?? "Couldn't save the note.");
+        return;
+      }
+      setSaved(note);
+    } catch {
+      setError("Network hiccup — try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="text-left">
+      <p className="label-caps text-[10px] text-soft">
+        ✎ A note {event.honoree_name} reads when the link opens (optional)
+      </p>
+      <textarea
+        value={note}
+        onChange={(e) => setNote(e.target.value)}
+        maxLength={500}
+        rows={3}
+        placeholder={`e.g. No overthinking, ${event.honoree_name} — first answer that comes to mind. We love you. Mostly.`}
+        className="mt-2 w-full resize-none border border-line bg-surface p-3 font-serif text-sm italic leading-relaxed outline-none transition focus:border-primary"
+      />
+      <div className="mt-1 flex items-center justify-between gap-3">
+        <span className="text-[11px] text-soft">{note.length}/500</span>
+        {dirty ? (
+          <button
+            onClick={() => void save()}
+            disabled={busy}
+            className="label-caps bg-primary px-4 py-2 text-[10px] text-on-primary transition hover:bg-primary-deep disabled:opacity-50"
+          >
+            {busy ? "Saving…" : "Save note"}
+          </button>
+        ) : (
+          saved.trim() && (
+            <span className="text-[11px] italic text-soft">Saved ✓</span>
+          )
+        )}
+      </div>
+      {error && <p className="mt-1 text-xs text-soft">{error}</p>}
+    </div>
   );
 }
 

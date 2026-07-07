@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
   const db = supabaseAdmin();
   const { data: question } = await db
     .from("questions")
-    .select("id, event_id, responses(*)")
+    .select("id, event_id, text, responses(*)")
     .eq("id", question_id)
     .eq("event_id", event.id)
     .maybeSingle();
@@ -42,6 +42,7 @@ export async function POST(request: NextRequest) {
     upload = await createDirectUpload({
       eventId: event.id,
       questionId: question_id,
+      name: `${event.honoree_name} · ${event.title} · “${question.text as string}”`,
     });
   } catch {
     return jsonError(

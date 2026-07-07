@@ -8,7 +8,9 @@ export const createEventSchema = z.object({
   theme: z.enum(["blush", "navy"]),
 });
 
-export const updateEventSchema = createEventSchema.partial();
+export const updateEventSchema = createEventSchema.partial().extend({
+  respond_message: z.string().trim().max(500).nullable().optional(),
+});
 
 export const createQuestionSchema = z.object({
   event_id: z.string().uuid(),

@@ -5,6 +5,7 @@ import type { EventRow, QuestionWithResponse } from "@/lib/db/types";
 import { partyNoun } from "@/lib/theme";
 import { PreCheck } from "@/components/respond/PreCheck";
 import { QuestionRecorder } from "@/components/respond/QuestionRecorder";
+import { QuestionReveal } from "@/components/respond/QuestionReveal";
 import { StreamPlayer } from "@/components/video/StreamPlayer";
 
 type Step = "intro" | "precheck" | "questions" | "review" | "done";
@@ -28,6 +29,8 @@ export function RespondFlow({
   const [locked, setLocked] = useState(event.status === "ready");
   // Bumped on every successful upload to (re)trigger the saved toast.
   const [savedAt, setSavedAt] = useState(0);
+  // Questions whose wax seal was broken this session (fresh ones start sealed).
+  const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
 
   const isReady = (q: QuestionWithResponse) =>
     q.responses.some((r) => r.status === "ready");
@@ -100,7 +103,7 @@ export function RespondFlow({
     return (
       <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-10 text-center">
         <p className="font-display text-5xl italic leading-tight text-primary animate-rise">
-          You have homework
+          Record Your Responses for {event.title}
         </p>
         <p className="mt-6 text-base leading-relaxed">
           {hostName ?? "Someone who loves chaos"} set up a game for{" "}
@@ -114,6 +117,17 @@ export function RespondFlow({
         <p className="mt-4 font-semibold">
           Be funny. Be honest. Be brave. ✨
         </p>
+
+        {event.respond_message && (
+          <div className="keyline letterpress animate-rise mt-6 p-5 text-left">
+            <p className="label-caps text-[10px] text-primary">
+              ✎ A note from {hostName ?? "your host"}
+            </p>
+            <p className="mt-2 whitespace-pre-line font-serif text-sm italic leading-relaxed text-ink">
+              &ldquo;{event.respond_message}&rdquo;
+            </p>
+          </div>
+        )}
 
         {event.greeting_video_uid && (
           <GreetingMessage
@@ -255,6 +269,13 @@ export function RespondFlow({
   const active = questions[activeIdx];
   if (!active) return null;
   const activeReady = isReady(active);
+  // Only a fresh, never-answered question hides behind the seal — anything
+  // already answered, redo-flagged, or locked has lost the surprise anyway.
+  const activeRevealed =
+    activeReady ||
+    active.needs_redo ||
+    isLockedQuestion(active) ||
+    revealedIds.has(active.id);
 
   return (
     <div className="mx-auto min-h-screen max-w-md px-5 py-6">
@@ -301,19 +322,31 @@ export function RespondFlow({
         </div>
       )}
 
-      <h1 className="mt-4 font-display text-2xl italic leading-snug text-ink">
-        {active.text}
-      </h1>
-
-      <div className="mt-4">
-        <QuestionRecorder
+      {!activeRevealed ? (
+        <QuestionReveal
           key={active.id}
-          question={active}
-          respondToken={respondToken}
-          locked={isLockedQuestion(active)}
-          onSaved={markSaved}
+          index={activeIdx}
+          total={questions.length}
+          onReveal={() =>
+            setRevealedIds((prev) => new Set(prev).add(active.id))
+          }
         />
-      </div>
+      ) : (
+        <div key={active.id} className="animate-rise">
+          <h1 className="mt-4 font-display text-2xl italic leading-snug text-ink">
+            {active.text}
+          </h1>
+
+          <div className="mt-4">
+            <QuestionRecorder
+              question={active}
+              respondToken={respondToken}
+              locked={isLockedQuestion(active)}
+              onSaved={markSaved}
+            />
+          </div>
+        </div>
+      )}
 
       <div className="mt-6 flex items-center justify-between">
         <button

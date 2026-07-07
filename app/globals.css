@@ -205,6 +205,26 @@ body {
   animation: pop-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* Wax seal cracking open — the respond page's question reveal */
+@keyframes seal-break {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  35% {
+    transform: scale(1.18) rotate(-8deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.3) rotate(22deg);
+    opacity: 0;
+  }
+}
+
+.animate-seal-break {
+  animation: seal-break 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 @keyframes float-soft {
   0%,
   100% {

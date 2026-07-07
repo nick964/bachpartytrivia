@@ -44,6 +44,8 @@ export function EventSettings({ event }: { event: EventRow }) {
     }
   }
 
+  const [deleting, setDeleting] = useState(false);
+
   async function onDelete() {
     if (
       !window.confirm(
@@ -53,16 +55,23 @@ export function EventSettings({ event }: { event: EventRow }) {
       return;
     }
     setBusy(true);
+    setDeleting(true);
+    setError(null);
     try {
       const res = await fetch(`/api/events/${event.id}`, { method: "DELETE" });
       if (res.ok) {
+        // Keep the overlay up through the redirect.
         router.push("/dashboard");
         router.refresh();
         return;
       }
       const data = await res.json().catch(() => ({}));
       setError(data.error ?? "Could not delete the event.");
-    } finally {
+      setDeleting(false);
+      setBusy(false);
+    } catch {
+      setError("Network hiccup — try again.");
+      setDeleting(false);
       setBusy(false);
     }
   }
@@ -72,6 +81,26 @@ export function EventSettings({ event }: { event: EventRow }) {
 
   return (
     <section className="keyline p-6 sm:p-8">
+      {deleting && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-bg/80 backdrop-blur-sm"
+          role="status"
+          aria-live="polite"
+        >
+          <div className="double-keyline animate-pop flex flex-col items-center px-10 py-8 text-center shadow-xl">
+            <span
+              className="h-8 w-8 animate-spin rounded-full border-[3px] border-primary border-t-transparent"
+              aria-hidden
+            />
+            <p className="mt-4 font-display text-xl italic text-primary">
+              Deleting the event…
+            </p>
+            <p className="mt-1 text-xs text-soft">
+              Removing the videos too — this can take a few seconds.
+            </p>
+          </div>
+        </div>
+      )}
       <button
         onClick={() => setOpen((o) => !o)}
         className="flex w-full items-center justify-between text-left"
@@ -176,9 +205,15 @@ export function EventSettings({ event }: { event: EventRow }) {
               type="button"
               onClick={onDelete}
               disabled={busy}
-              className="text-sm font-semibold text-soft underline-offset-2 hover:underline"
+              className="flex items-center gap-2 text-sm font-semibold text-soft underline-offset-2 hover:underline disabled:opacity-60"
             >
-              Delete event
+              {deleting && (
+                <span
+                  className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-soft border-t-transparent"
+                  aria-hidden
+                />
+              )}
+              {deleting ? "Deleting…" : "Delete event"}
             </button>
           </div>
         </form>

@@ -46,6 +46,8 @@ export async function createDirectUpload(meta: {
   questionId?: string;
   /** Non-question uploads (e.g. the host greeting) label themselves here. */
   label?: string;
+  /** Human-readable name shown in the Stream dashboard video list. */
+  name?: string;
 }): Promise<{ uploadURL: string; uid: string }> {
   return streamFetch<{ uploadURL: string; uid: string }>(
     "/stream/direct_upload",
@@ -55,9 +57,16 @@ export async function createDirectUpload(meta: {
         maxDurationSeconds: 65, // belt-and-suspenders on the 60s UI cap
         requireSignedURLs: true,
         meta: {
-          name: meta.questionId
-            ? `event:${meta.eventId} question:${meta.questionId}`
-            : `event:${meta.eventId} ${meta.label ?? "video"}`,
+          // Readable name first; the ids stay as their own meta keys so
+          // videos remain machine-matchable to rows regardless of the name.
+          name:
+            meta.name?.replace(/\s+/g, " ").trim().slice(0, 120) ||
+            (meta.questionId
+              ? `event:${meta.eventId} question:${meta.questionId}`
+              : `event:${meta.eventId} ${meta.label ?? "video"}`),
+          event_id: meta.eventId,
+          ...(meta.questionId ? { question_id: meta.questionId } : {}),
+          ...(meta.label ? { label: meta.label } : {}),
         },
       }),
     }
