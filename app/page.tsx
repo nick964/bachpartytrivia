@@ -321,6 +321,25 @@ export default function LandingPage() {
           Party Games For The Bach! · videos auto-delete 30 days after the
           party · made with love ♡
         </p>
+        <div className="mt-6">
+          <p className="label-caps text-[10px] text-soft">Made by Nick</p>
+          <p className="mt-2 space-x-4 text-xs">
+            <a
+              href="mailto:nickr964@gmail.com"
+              className="text-soft underline-offset-2 transition hover:text-primary hover:underline"
+            >
+              ✉ nickr964@gmail.com
+            </a>
+            <a
+              href="https://twitter.com/nicky_robby"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-soft underline-offset-2 transition hover:text-primary hover:underline"
+            >
+              𝕏 @nicky_robby
+            </a>
+          </p>
+        </div>
       </footer>
     </main>
   );
