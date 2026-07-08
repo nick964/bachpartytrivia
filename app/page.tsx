@@ -145,7 +145,7 @@ export default function LandingPage() {
               The bachelorette &amp; bachelor party game
             </p>
             <h1 className="mt-3 font-display text-4xl text-primary sm:text-5xl">
-              The Ultimate Bach Party Highlight
+              Make A Quiz for Your Fiance!
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-base italic leading-relaxed text-soft">
               &ldquo;There&apos;s nothing like the energy of the room when the
