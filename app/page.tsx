@@ -73,9 +73,13 @@ export default function LandingPage() {
       <header className="sticky top-0 z-50 border-b border-primary/10 bg-bg/85 backdrop-blur-md">
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-5 py-3.5">
           <span className="flex items-center gap-3">
-            <span className="wax-seal flex h-9 w-9 items-center justify-center rounded-full font-display text-lg text-white">
-              B
-            </span>
+            <Image
+              src="/bachtrivia_logo.png"
+              alt="Bach Party Trivia logo"
+              width={36}
+              height={36}
+              className="h-9 w-9 rounded-full object-cover"
+            />
             <span className="font-display text-2xl leading-none text-primary">
               Bach Party Trivia
             </span>

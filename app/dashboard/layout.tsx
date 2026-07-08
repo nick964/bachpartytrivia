@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
 
@@ -11,9 +12,13 @@ export default function DashboardLayout({
       {/* Sidebar (desktop) */}
       <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-line bg-surface px-5 py-6 lg:flex">
         <Link href="/dashboard" className="flex items-center gap-3">
-          <span className="wax-seal flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-display text-lg text-white">
-            B
-          </span>
+          <Image
+            src="/bachtrivia_logo.png"
+            alt="Bach Party Trivia logo"
+            width={36}
+            height={36}
+            className="h-9 w-9 shrink-0 rounded-full object-cover"
+          />
           <span className="min-w-0">
             <span className="block font-display text-xl leading-tight text-primary">
               Bach Party Trivia
@@ -57,9 +62,13 @@ export default function DashboardLayout({
         <header className="border-b border-line bg-surface lg:hidden">
           <div className="flex items-center justify-between px-5 py-3">
             <Link href="/dashboard" className="flex items-center gap-2.5">
-              <span className="wax-seal flex h-7 w-7 items-center justify-center rounded-full font-display text-sm text-white">
-                B
-              </span>
+              <Image
+                src="/bachtrivia_logo.png"
+                alt="Bach Party Trivia logo"
+                width={28}
+                height={28}
+                className="h-7 w-7 rounded-full object-cover"
+              />
               <span className="font-display text-xl leading-none text-primary">
                 Bach Party Trivia
               </span>
