@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     template: "%s · Bach Party Trivia",
   },
   description:
-    "You may now quiz the bride: he answers on video before the party, she guesses live at the bachelorette. The easiest party game you'll ever run.",
+    "The bachelorette & bachelor party game: they answer on video before the party, the guest of honor guesses live. The easiest party game you'll ever run.",
   // Link previews (iMessage, Slack, socials) read these — brand-first.
   openGraph: {
     title: "Bach Party Trivia",

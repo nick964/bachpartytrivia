@@ -11,7 +11,7 @@ const steps = [
       </svg>
     ),
     title: "Write the questions",
-    body: "Pick from our library or write your own — “Where was your first date?”, “Who said I love you first?” Send him one magic link.",
+    body: "Pick from our library or write your own — “Where was your first date?”, “Who said I love you first?” Send one magic link.",
   },
   {
     icon: (
@@ -20,8 +20,8 @@ const steps = [
         <path strokeLinecap="round" strokeLinejoin="round" d="m15 10 6-3v10l-6-3" />
       </svg>
     ),
-    title: "He records",
-    body: "He answers each one on video from his phone. No app, no account, 60 seconds max. You get an email when he's done. 👀",
+    title: "They record",
+    body: "The groom or bride answers each one on video from their phone. No app, no account, 60 seconds max. You get an email the moment they finish. 👀",
   },
   {
     icon: (
@@ -30,7 +30,7 @@ const steps = [
       </svg>
     ),
     title: "Play at the party",
-    body: "Put it on the TV and gather everyone around. She guesses out loud, then his video plays — and everyone sees how well she really knows him.",
+    body: "Put it on the TV and gather everyone around. The guest of honor guesses out loud, then the video plays — and everyone sees how well they really know each other.",
   },
 ];
 
@@ -120,65 +120,45 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* Hero */}
-      <section className="relative mx-auto max-w-4xl px-5 pb-20 pt-14 text-center sm:pt-20">
-        <Sparkle className="pointer-events-none absolute left-4 top-10 h-8 w-8 text-gold/50 sm:left-0" />
-        <Sparkle className="pointer-events-none absolute right-6 top-32 h-5 w-5 text-accent" />
-        <Sparkle className="pointer-events-none absolute bottom-10 left-10 h-4 w-4 text-primary/30" />
+      {/* Hero — the party moment itself */}
+      <section className="relative mx-auto max-w-5xl px-5 pb-6 pt-12 sm:pt-16">
+        <Sparkle className="pointer-events-none absolute left-4 top-6 h-8 w-8 text-gold/50 sm:left-0" />
+        <Sparkle className="pointer-events-none absolute right-6 top-24 h-5 w-5 text-accent" />
 
-        <p className="font-display text-2xl italic text-primary sm:text-3xl">
-          You may now quiz the bride
-        </p>
-
-        <div className="double-keyline animate-rise mt-6 px-6 py-14 sm:px-16 sm:py-20">
-          <p className="label-caps text-[11px] text-soft">
-            The bachelorette game she&apos;ll never forget
-          </p>
-          <h1 className="mt-4 font-display text-5xl leading-tight text-primary sm:text-6xl">
-            What did the groom{" "}
-            <em className="text-primary-deep">*say?*</em>
-          </h1>
-          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-soft sm:text-lg">
-            Send the groom a link before the party. He records his answers from
-            his phone — then at the bachelorette, the bride guesses before each
-            video plays on the TV.{" "}
-            <em className="font-display text-primary">
-              How well does she really know him?
-            </em>
-          </p>
-          <div className="mt-9 flex flex-col items-center justify-center gap-4">
-            <AuthCta className="label-caps bg-primary px-10 py-4 text-xs text-on-primary shadow-md transition hover:bg-primary-deep active:scale-95">
-              Create your game
-            </AuthCta>
-            <span className="text-sm italic text-soft">
-              5 questions free · no card needed
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* Party highlight */}
-      <section className="mx-auto max-w-5xl px-5 pb-6">
-        <div className="double-keyline p-3 sm:p-4">
+        <div className="double-keyline animate-rise p-3 sm:p-4">
           <div className="relative aspect-video w-full overflow-hidden">
             <Image
               src="/party-highlight.jpg"
-              alt="A bachelorette party laughing along as the game plays on the TV"
+              alt="A party laughing along as the game plays on the TV"
               fill
               sizes="(min-width: 1024px) 960px, 100vw"
               className="object-cover"
-              priority={false}
+              priority
             />
           </div>
           <div className="mx-auto max-w-2xl px-2 py-8 text-center sm:py-10">
-            <h2 className="font-display text-3xl text-primary sm:text-4xl">
-              The Ultimate Party Highlight
-            </h2>
-            <p className="mt-4 text-base italic leading-relaxed text-soft">
-              &ldquo;There&apos;s nothing like the energy of the room when the
-              bride hears his answers for the first time. It&apos;s the heart
-              of the celebration.&rdquo;
+            <p className="label-caps text-[11px] text-soft">
+              The bachelorette &amp; bachelor party game
             </p>
+            <h1 className="mt-3 font-display text-4xl text-primary sm:text-5xl">
+              The Ultimate Bach Party Highlight
+            </h1>
+            <p className="mx-auto mt-4 max-w-xl text-base italic leading-relaxed text-soft">
+              &ldquo;There&apos;s nothing like the energy of the room when the
+              guest of honor hears those answers for the first time. It&apos;s
+              the heart of the celebration.&rdquo;
+            </p>
+            <div className="mt-8 flex flex-col items-center justify-center gap-4">
+              <AuthCta className="label-caps bg-primary px-10 py-4 text-xs text-on-primary shadow-md transition hover:bg-primary-deep active:scale-95">
+                Create your game
+              </AuthCta>
+              <p className="font-display text-2xl italic text-primary">
+                You may now quiz the bride!
+              </p>
+              <span className="text-sm italic text-soft">
+                5 questions free · no card needed
+              </span>
+            </div>
           </div>
         </div>
       </section>
@@ -188,11 +168,19 @@ export default function LandingPage() {
         id="how-it-works"
         className="mx-auto max-w-5xl scroll-mt-20 px-5 py-14"
       >
-        <div className="mb-12 flex items-center justify-center gap-6">
+        <div className="mb-8 flex items-center justify-center gap-6">
           <div className="h-px w-12 bg-accent" />
           <h2 className="label-caps text-xs text-primary">How it works</h2>
           <div className="h-px w-12 bg-accent" />
         </div>
+        <p className="mx-auto mb-12 max-w-xl text-center text-base leading-relaxed text-soft sm:text-lg">
+          Send the groom or bride a link before the party. They record their
+          answers from their phone — then at the party, the guest of honor
+          guesses before each video plays on the TV.{" "}
+          <em className="font-display text-primary">
+            How well do they really know each other?
+          </em>
+        </p>
         <div className="grid gap-8 sm:grid-cols-3">
           {steps.map((s) => (
             <div
@@ -208,8 +196,8 @@ export default function LandingPage() {
           ))}
         </div>
         <p className="mt-10 text-center text-sm italic text-soft">
-          Planning a bachelor party instead? Flip it — she records, he guesses.
-          Same game, navy &amp; gold.
+          Bachelorette or bachelor party, any couple — you pick who records
+          and who guesses. Two themes: blush or navy &amp; gold.
         </p>
       </section>
 
