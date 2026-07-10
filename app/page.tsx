@@ -256,7 +256,7 @@ export default function LandingPage() {
                     Premium
                   </h3>
                   <p className="label-caps mt-1 text-[10px] text-gold">
-                    The heirloom
+                    Unlimited Questions
                   </p>
                 </div>
                 <span className="font-display text-3xl text-primary">

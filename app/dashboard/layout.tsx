@@ -24,7 +24,7 @@ export default function DashboardLayout({
               Bach Party Trivia
             </span>
             <span className="label-caps block text-[9px] text-soft">
-              Modern heirloom
+              Quiz Game
             </span>
           </span>
         </Link>

@@ -100,7 +100,7 @@ export default async function DashboardPage() {
             href="#create"
             className="label-caps mt-8 inline-block bg-primary px-8 py-3.5 text-[11px] text-on-primary transition hover:bg-primary-deep"
           >
-            Begin your heirloom game
+            Create Your Event
           </Link>
         </div>
       ) : (

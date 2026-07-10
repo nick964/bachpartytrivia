@@ -155,8 +155,8 @@ export function QuestionEditor({
           Curate your questions
         </h2>
         <p className="mt-1 text-sm italic text-soft">
-          Designing an heirloom of laughter and love — {event.honoree_name}{" "}
-          answers each on video (60s max).
+          Build your questions, and have {event.honoree_name}{" "}
+          answer each on video (60s max).
         </p>
 
         {ordered.length === 0 ? (
