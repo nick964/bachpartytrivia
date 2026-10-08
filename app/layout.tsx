@@ -58,7 +58,24 @@ export default function RootLayout({
       className={`${display.variable} ${body.variable} ${label.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ClerkProvider>{children}</ClerkProvider>
+        <ClerkProvider
+          localization={{
+            signUp: {
+              emailCode: {
+                subtitle:
+                  "Enter the verification code sent to your email. Don't see it? Check your spam folder.",
+              },
+              emailLink: {
+                subtitle:
+                  "Use the verification link sent to your email. Don't see it? Check your spam folder.",
+                formSubtitle:
+                  "Use the verification link sent to your email address. Don't see it? Check your spam folder.",
+              },
+            },
+          }}
+        >
+          {children}
+        </ClerkProvider>
       </body>
     </html>
   );

@@ -1,12 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
+import { isAdmin } from "@/lib/api/admin";
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { userId } = await auth();
+  const admin = isAdmin(userId);
   return (
     <div className="flex min-h-screen flex-1">
       {/* Sidebar (desktop) */}
@@ -40,6 +44,18 @@ export default function DashboardLayout({
             </svg>
             My Games
           </Link>
+          {admin && (
+            <Link
+              href="/dashboard/admin/codes"
+              className="flex items-center gap-3 border-l-2 border-transparent px-3 py-2.5 text-sm text-soft transition hover:text-primary"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4.5 w-4.5">
+                <path strokeLinejoin="round" d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 6v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-6Z" />
+                <path strokeLinecap="round" d="M9 9v6M15 9v6" strokeDasharray="1.5 2" />
+              </svg>
+              Promo codes
+            </Link>
+          )}
         </nav>
 
         <div className="mt-auto space-y-4">
@@ -73,7 +89,17 @@ export default function DashboardLayout({
                 Bach Party Trivia
               </span>
             </Link>
-            <UserButton />
+            <div className="flex items-center gap-4">
+              {admin && (
+                <Link
+                  href="/dashboard/admin/codes"
+                  className="label-caps text-[10px] text-soft transition hover:text-primary"
+                >
+                  Promo codes
+                </Link>
+              )}
+              <UserButton />
+            </div>
           </div>
         </header>
         <main className="bg-ticking w-full flex-1">

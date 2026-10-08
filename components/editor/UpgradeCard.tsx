@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PromoCodeRedeem } from "@/components/editor/PromoCodeRedeem";
 
 export function UpgradeCard({ eventId }: { eventId: string }) {
   const [busy, setBusy] = useState(false);
@@ -56,6 +57,9 @@ export function UpgradeCard({ eventId }: { eventId: string }) {
           {error}
         </p>
       )}
+      <div className="mt-5 border-t border-line pt-4">
+        <PromoCodeRedeem eventId={eventId} />
+      </div>
     </div>
   );
 }

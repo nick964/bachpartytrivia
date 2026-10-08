@@ -8,6 +8,7 @@ import type {
   SampleQuestionRow,
 } from "@/lib/db/types";
 import { UpgradeCard } from "@/components/editor/UpgradeCard";
+import { PromoCodeRedeem } from "@/components/editor/PromoCodeRedeem";
 import { ResponseReview } from "@/components/editor/ResponseReview";
 import { FREE_QUESTION_LIMIT as FREE_LIMIT } from "@/lib/constants";
 
@@ -311,16 +312,24 @@ export function QuestionEditor({
           </form>
         )}
 
-        <p className="mt-4 text-xs italic text-soft">
+        <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs italic text-soft">
           {event.is_premium ? (
-            <>✨ Premium event — unlimited questions.</>
+            <p>✨ Premium event — unlimited questions.</p>
           ) : (
             <>
-              You have {questions.length} / {FREE_LIMIT} questions used in the
-              free tier.
+              <p>
+                You have {questions.length} / {FREE_LIMIT} questions used in the
+                free tier.
+              </p>
+              {/* The upgrade card has its own redeem box — don't show two. */}
+              {!(hitWall || atFreeLimit) && (
+                <span className="not-italic">
+                  <PromoCodeRedeem eventId={event.id} />
+                </span>
+              )}
             </>
           )}
-        </p>
+        </div>
       </div>
 
       {/* Question ideas */}

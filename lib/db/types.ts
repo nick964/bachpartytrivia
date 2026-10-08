@@ -87,3 +87,15 @@ export function embeddedRows<T>(value: T | T[] | null | undefined): T[] {
   if (value == null) return [];
   return Array.isArray(value) ? value : [value];
 }
+
+export interface PromoCodeRow {
+  id: string;
+  /** Normalized: uppercase, no dashes. Display with formatPromoCode(). */
+  code: string;
+  note: string | null;
+  created_by_clerk_id: string;
+  created_at: string;
+  redeemed_at: string | null;
+  redeemed_by_clerk_id: string | null;
+  redeemed_event_id: string | null;
+}
